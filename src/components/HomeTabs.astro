@@ -1,0 +1,40 @@
+---
+import { SITE } from "@/config";
+
+const { pathname } = Astro.url;
+const currentPath =
+  pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+const isActive = (path: string) => currentPath === path;
+---
+
+<nav class="flex flex-wrap items-center gap-2 text-sm text-foreground/72">
+  <a
+    href="/"
+    class:list={[
+      "rounded-md border border-border/80 bg-[#fcfaf5] px-3 py-1.5 transition hover:border-accent/40 hover:text-accent dark:bg-[#2a3347]",
+      { "border-accent/45 text-accent": isActive("/") },
+    ]}
+  >
+    首页
+  </a>
+  {SITE.showArchives && (
+    <a
+      href="/archives"
+      class:list={[
+        "rounded-md border border-border/80 bg-[#fcfaf5] px-3 py-1.5 transition hover:border-accent/40 hover:text-accent dark:bg-[#2a3347]",
+        { "border-accent/45 text-accent": isActive("/archives") },
+      ]}
+    >
+      归档
+    </a>
+  )}
+  <a
+    href="/about"
+    class:list={[
+      "rounded-md border border-border/80 bg-[#fcfaf5] px-3 py-1.5 transition hover:border-accent/40 hover:text-accent dark:bg-[#2a3347]",
+      { "border-accent/45 text-accent": isActive("/about") },
+    ]}
+  >
+    关于
+  </a>
+</nav>

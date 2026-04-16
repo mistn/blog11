@@ -66,6 +66,16 @@ html[data-theme="dark"] {
   }
   body {
     @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  html[data-theme="light"] body {
+    background-image: url("/bg-light.avif");
+  }
+  html[data-theme="dark"] body {
+    background-image: url("/bg-dark.avif");
   }
   a,
   button {
