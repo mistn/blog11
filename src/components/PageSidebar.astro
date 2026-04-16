@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Socials from "@/components/Socials.astro";
+import { getPath } from "@/utils/getPath";
+import { SITE } from "@/config";
+
+type Props = {
+  posts: CollectionEntry<"blog">[];
+};
+
+const { posts } = Astro.props;
+const latestPosts = posts.slice(0, 5);
+---
+
+<aside transition:persist class="space-y-5">
+  <section class="rounded-[1.55rem] border border-black/6 bg-background/84 p-6 shadow-[0_10px_28px_rgba(15,23,42,0.04)] dark:border-white/8">
+    <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/45">Contact</div>
+    <div class="mt-5">
+      <Socials />
+    </div>
+  </section>
+
+  <section class="rounded-[1.55rem] border border-black/6 bg-background/84 p-6 shadow-[0_10px_28px_rgba(15,23,42,0.04)] dark:border-white/8">
+    <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/45">Site Status</div>
+    <div class="mt-5 space-y-3 text-[1rem] leading-7">
+      <div class="flex items-center justify-between gap-4 border-b border-border/70 pb-3">
+        <span class="text-foreground/62">Posts</span>
+        <span class="font-semibold">{posts.length}</span>
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <span class="text-foreground/62">Recent</span>
+        <span class="font-semibold">{SITE.postPerIndex}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="rounded-[1.55rem] border border-black/6 bg-[#f2c8d7]/78 p-6 shadow-[0_10px_28px_rgba(15,23,42,0.04)] dark:border-white/8 dark:bg-[#5b4150]/60">
+    <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/50">Latest Titles</div>
+    <ul class="mt-5 space-y-4">
+      {
+        latestPosts.map(post => (
+          <li class="border-b border-black/8 pb-4 last:border-b-0 last:pb-0 dark:border-white/10">
+            <a
+              href={getPath(post.id, post.filePath)}
+              class="block text-[1rem] leading-7 font-medium transition hover:text-accent"
+            >
+              {post.data.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</aside>

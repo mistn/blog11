@@ -3,12 +3,14 @@ import { render, type CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
+import PageSidebar from "@/components/PageSidebar.astro";
 import Tag from "@/components/Tag.astro";
 import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -69,7 +71,9 @@ const layoutProps = {
 
 /* ========== Prev/Next Posts ========== */
 
-const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
+const sortedPosts = getSortedPosts(posts);
+
+const allPosts = sortedPosts.map(({ data: { title }, id, filePath }) => ({
   id,
   title,
   filePath,
@@ -79,86 +83,113 @@ const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
 
 const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 const nextPost =
-  currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+  currentPostIndex !== allPosts.length - 1
+    ? allPosts[currentPostIndex + 1]
+    : null;
 ---
 
 <Layout {...layoutProps}>
   <SiteTopbar />
-  <div transition:name="page-body">
-    <BackButton />
-    <main
-      id="main-content"
-      class:list={["app-layout pb-12", { "mt-8": !SITE.showBackButton }]}
-      data-pagefind-body
-    >
-      <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl">
-        {title}
-      </h1>
-      <div class="my-2 flex items-center gap-2">
-        <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-        <span
-          aria-hidden="true"
-          class:list={[
-            "max-sm:hidden",
-            { hidden: !SITE.editPost.enabled || hideEditPost },
-          ]}>|</span
-        >
-        <EditPost {hideEditPost} {post} class="max-sm:hidden" />
-      </div>
-      <article
-        id="article"
-        class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+  <main id="main-content" class="app-layout pb-6 lg:max-w-7xl lg:pb-8">
+    <section class="relative overflow-hidden bg-[#f7f3eb] dark:bg-[#262b3a]">
+      <div
+        aria-hidden="true"
+        class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(123,167,214,0.18),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,255,255,0.92))] dark:bg-[radial-gradient(circle_at_top,rgba(88,122,170,0.12),transparent_34%),linear-gradient(180deg,rgba(38,43,58,0.88),rgba(38,43,58,0.94))]"
       >
-        <Content />
-      </article>
-
-      <hr class="my-8 border-dashed" />
-
-      <EditPost class="sm:hidden" {hideEditPost} {post} />
-
-      <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
-      </ul>
-
-      <BackToTopButton />
-
-      <ShareLinks />
-
-      <hr class="my-6 border-dashed" />
-
-      <!-- Previous/Next Post Buttons -->
-      <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {
-          prevPost && (
-            <a
-              href={getPath(prevPost.id, prevPost.filePath)}
-              class="flex w-full gap-1 hover:opacity-75"
-            >
-              <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-              <div>
-                <span>Previous Post</span>
-                <div class="text-sm text-accent/85">{prevPost.title}</div>
-              </div>
-            </a>
-          )
-        }
-        {
-          nextPost && (
-            <a
-              href={getPath(nextPost.id, nextPost.filePath)}
-              class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
-            >
-              <div>
-                <span>Next Post</span>
-                <div class="text-sm text-accent/85">{nextPost.title}</div>
-              </div>
-              <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
-            </a>
-          )
-        }
       </div>
-    </main>
-  </div>
+
+      <div class="relative p-5 sm:p-6 lg:p-8">
+        <div class="grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_300px]">
+          <div class="min-w-0">
+            <BackButton inline />
+
+            <article
+              transition:name="page-body"
+              class="relative overflow-hidden rounded-[1.6rem] border border-black/6 bg-[#dce8f8]/88 px-6 py-6 shadow-[0_12px_32px_rgba(15,23,42,0.05)] dark:border-white/8 dark:bg-[#31415d]/58 sm:px-7"
+              data-pagefind-body
+            >
+              <div class="absolute top-5 left-5 h-11 w-11 overflow-hidden rounded-full border border-white/70 shadow-[0_4px_12px_rgba(15,23,42,0.10)]">
+                <img src="/avatar.avif" alt="avatar" class="h-full w-full object-cover" loading="eager" />
+              </div>
+
+              <div class="pl-16">
+                <h1 class="inline-block text-[2rem] leading-tight font-semibold tracking-tight text-foreground sm:text-[2.45rem]">
+                  {title}
+                </h1>
+
+                <div class="my-4 flex flex-wrap items-center gap-2">
+                  <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+                  <span
+                    aria-hidden="true"
+                    class:list={[
+                      "max-sm:hidden",
+                      { hidden: !SITE.editPost.enabled || hideEditPost },
+                    ]}>|</span
+                  >
+                  <EditPost {hideEditPost} {post} class="max-sm:hidden" />
+                </div>
+
+                <div
+                  id="article"
+                  class="app-prose mt-8 w-full max-w-none prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+                >
+                  <Content />
+                </div>
+
+                <hr class="my-8 border-dashed" />
+
+                <EditPost class="sm:hidden" {hideEditPost} {post} />
+
+                <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+                  {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+                </ul>
+
+                <ShareLinks />
+
+                <hr class="my-6 border-dashed" />
+
+                <!-- Previous/Next Post Buttons -->
+                <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {
+                    prevPost && (
+                      <a
+                        href={getPath(prevPost.id, prevPost.filePath)}
+                        class="flex w-full gap-1 hover:opacity-75"
+                      >
+                        <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
+                        <div>
+                          <span>Previous Post</span>
+                          <div class="text-sm text-accent/85">{prevPost.title}</div>
+                        </div>
+                      </a>
+                    )
+                  }
+                  {
+                    nextPost && (
+                      <a
+                        href={getPath(nextPost.id, nextPost.filePath)}
+                        class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+                      >
+                        <div>
+                          <span>Next Post</span>
+                          <div class="text-sm text-accent/85">{nextPost.title}</div>
+                        </div>
+                        <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+                      </a>
+                    )
+                  }
+                </div>
+              </div>
+            </article>
+
+            <BackToTopButton />
+          </div>
+
+          <PageSidebar posts={sortedPosts} />
+        </div>
+      </div>
+    </section>
+  </main>
   <Footer />
 </Layout>
 

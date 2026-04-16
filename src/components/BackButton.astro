@@ -1,16 +1,38 @@
 ---
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
+import type { HTMLAttributes } from "astro/types";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+
+type Props = {
+  inline?: boolean;
+} & HTMLAttributes<"a">;
+
+const {
+  inline = false,
+  class: className,
+  ...attrs
+} = Astro.props;
 ---
 
 {
   SITE.showBackButton && (
-    <div class="app-layout flex items-center justify-start">
+    <div
+      transition:persist
+      class:list={[
+        "flex items-center justify-start",
+        { "app-layout": !inline },
+      ]}
+    >
       <LinkButton
         id="back-button"
         href="/"
-        class="focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"
+        class:list={[
+          "focus-outline -ms-2 hover:text-foreground/75",
+          inline ? "mb-4" : "mt-8 mb-2",
+          className,
+        ]}
+        {...attrs}
       >
         <IconChevronLeft class="inline-block size-6 rtl:rotate-180" />
         <span>Go back</span>

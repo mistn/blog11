@@ -3,8 +3,8 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
-import Socials from "@/components/Socials.astro";
 import Datetime from "@/components/Datetime.astro";
+import PageSidebar from "@/components/PageSidebar.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { SITE } from "@/config";
@@ -14,7 +14,6 @@ const sortedPosts = getSortedPosts(posts);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const leadPost = recentPosts[0];
 const listPosts = recentPosts.slice(1, SITE.postPerIndex + 2);
-const sidebarPosts = recentPosts.slice(0, 5);
 ---
 
 <Layout>
@@ -22,7 +21,6 @@ const sidebarPosts = recentPosts.slice(0, 5);
   <main
     id="main-content"
     data-layout="index"
-    transition:name="page-body"
     class="app-layout pb-6 lg:max-w-7xl lg:pb-8"
   >
     <section class="relative overflow-hidden bg-[#f7f3eb] dark:bg-[#262b3a]">
@@ -34,7 +32,7 @@ const sidebarPosts = recentPosts.slice(0, 5);
 
       <div class="relative p-5 sm:p-6 lg:p-8">
         <div class="grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_300px]">
-          <div class="space-y-5">
+          <div transition:name="page-body" class="space-y-5 min-w-0">
             {
               leadPost && (
                 <article class="relative overflow-hidden rounded-[1.6rem] border border-black/6 bg-[#dce8f8]/88 px-6 py-6 shadow-[0_12px_32px_rgba(15,23,42,0.05)] dark:border-white/8 dark:bg-[#31415d]/58 sm:px-7">
@@ -88,46 +86,7 @@ const sidebarPosts = recentPosts.slice(0, 5);
             }
           </div>
 
-          <aside class="space-y-5">
-            <section class="rounded-[1.55rem] border border-black/6 bg-background/84 p-6 shadow-[0_10px_28px_rgba(15,23,42,0.04)] dark:border-white/8">
-              <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/45">Contact</div>
-              <div class="mt-5">
-                <Socials />
-              </div>
-            </section>
-
-            <section class="rounded-[1.55rem] border border-black/6 bg-background/84 p-6 shadow-[0_10px_28px_rgba(15,23,42,0.04)] dark:border-white/8">
-              <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/45">Site Status</div>
-              <div class="mt-5 space-y-3 text-[1rem] leading-7">
-                <div class="flex items-center justify-between gap-4 border-b border-border/70 pb-3">
-                  <span class="text-foreground/62">Posts</span>
-                  <span class="font-semibold">{sortedPosts.length}</span>
-                </div>
-                <div class="flex items-center justify-between gap-4">
-                  <span class="text-foreground/62">Recent</span>
-                  <span class="font-semibold">{SITE.postPerIndex}</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="rounded-[1.55rem] border border-black/6 bg-[#f2c8d7]/78 p-6 shadow-[0_10px_28px_rgba(15,23,42,0.04)] dark:border-white/8 dark:bg-[#5b4150]/60">
-              <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/50">Latest Titles</div>
-              <ul class="mt-5 space-y-4">
-                {
-                  sidebarPosts.map(post => (
-                    <li class="border-b border-black/8 pb-4 last:border-b-0 last:pb-0 dark:border-white/10">
-                      <a
-                        href={getPath(post.id, post.filePath)}
-                        class="block text-[1rem] leading-7 font-medium transition hover:text-accent"
-                      >
-                        {post.data.title}
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
-          </aside>
+          <PageSidebar posts={sortedPosts} />
         </div>
       </div>
     </section>
