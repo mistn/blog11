@@ -27,7 +27,7 @@ const listPosts = recentPosts.slice(1, SITE.postPerIndex + 2);
     <section class="overflow-hidden">
       <div class="px-1 py-4 sm:px-2 sm:py-5">
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1.78fr)_260px]">
-          <div transition:name="page-body" class="min-w-0">
+          <div class="min-w-0">
             {
               leadPost && (
                 <article class="border-b border-border/70 pb-10">

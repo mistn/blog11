@@ -83,7 +83,7 @@ const nextPost =
 ---
 
 <Layout {...layoutProps}>
-  <SiteTopbar compactMobile />
+  <SiteTopbar />
   <main id="main-content" class="app-layout pb-10 lg:max-w-7xl lg:pb-14">
     <section class="overflow-hidden">
       <div class="px-1 py-4 sm:px-2 sm:py-5">
@@ -280,6 +280,5 @@ const nextPost =
 
   document.addEventListener("astro:after-swap", () => {
     window.scrollTo({ left: 0, top: 0, behavior: "instant" });
-    runArticleEnterAnimation();
   });
 </script>

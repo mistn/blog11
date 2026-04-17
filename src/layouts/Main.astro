@@ -13,7 +13,7 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 ---
 
 <SiteTopbar />
-<div transition:name="page-body">
+<div>
   <main
     data-backUrl={backUrl}
     data-post-memory-scope="list"

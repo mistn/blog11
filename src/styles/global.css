@@ -144,7 +144,7 @@ html[data-theme="dark"] {
 ::view-transition-old(page-body),
 ::view-transition-new(page-body) {
   pointer-events: none;
-  animation-duration: 320ms;
+  animation-duration: 220ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
   mix-blend-mode: normal;
@@ -227,14 +227,14 @@ html.theme-transition-light::view-transition-new(root) {
 
   to {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(4px);
   }
 }
 
 @keyframes page-body-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(3px);
   }
 
   to {
