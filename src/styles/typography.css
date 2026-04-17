@@ -11,6 +11,8 @@
     h4,
     th {
       @apply mb-3 text-foreground;
+      font-family: var(--font-ui-serif);
+      letter-spacing: -0.02em;
     }
 
     p,
@@ -24,7 +26,7 @@
     }
 
     a {
-      @apply wrap-break-word text-accent no-underline transition-colors hover:text-foreground/75 focus-visible:no-underline;
+      @apply wrap-break-word text-accent underline decoration-accent/55 decoration-1 underline-offset-4 transition-colors hover:text-foreground/75 focus-visible:no-underline;
     }
 
     ul {
@@ -72,7 +74,7 @@
     }
 
     blockquote {
-      @apply border-s-accent/80 wrap-break-word opacity-80;
+      @apply border-s-border wrap-break-word text-foreground/78 opacity-90;
       font-style: normal;
       quotes: none;
     }

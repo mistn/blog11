@@ -13,9 +13,16 @@ const { frontmatter } = Astro.props;
 <Layout title={`${frontmatter.title} | ${SITE.title}`}>
   <SiteTopbar />
   <div transition:name="page-body">
-    <main id="main-content" class="app-layout">
-      <section id="about" class="app-prose mb-28 max-w-app prose-img:border-0">
-        <h1 class="text-2xl tracking-wider sm:text-3xl">{frontmatter.title}</h1>
+    <main id="main-content" class="app-layout pb-14 lg:max-w-5xl">
+      <section
+        id="about"
+        class="app-prose px-1 py-4 sm:px-2 sm:py-5 prose-img:border-0"
+      >
+        <h1
+          class="[font-family:var(--font-ui-serif)] text-[2.2rem] tracking-tight sm:text-[2.6rem]"
+        >
+          {frontmatter.title}
+        </h1>
         <slot />
       </section>
     </main>

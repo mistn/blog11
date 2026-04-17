@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Socials from "@/components/Socials.astro";
+import IconMail from "@/assets/icons/IconMail.svg";
+import { SOCIALS } from "@/constants";
 import { getPath } from "@/utils/getPath";
 import { SITE } from "@/config";
 
@@ -10,46 +11,59 @@ type Props = {
 
 const { posts } = Astro.props;
 const latestPosts = posts.slice(0, 5);
-const recentCount = Math.min(posts.length, SITE.postPerIndex);
+const emailLink = SOCIALS.find(social => social.href.startsWith("mailto:"));
+const emailAddress = emailLink?.href.replace("mailto:", "");
 ---
 
-<aside transition:persist class="space-y-5">
-  <section class="rounded-[1.55rem] border border-[#e7dece] bg-[#fcfaf5] px-6 py-5 dark:border-[#42516b] dark:bg-[#2a3347]">
-    <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/45">Contact</div>
-    <div class="mt-3">
-      <Socials />
-    </div>
-  </section>
-
-  <section class="rounded-[1.55rem] border border-[#e7dece] bg-[#fcfaf5] p-6 dark:border-[#42516b] dark:bg-[#2a3347]">
-    <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/45">Site Status</div>
-    <div class="mt-5 space-y-3 text-[1rem] leading-7">
-      <div class="flex items-center justify-between gap-4 border-b border-border/70 pb-3">
-        <span class="text-foreground/62">Posts</span>
-        <span class="font-semibold">{posts.length}</span>
-      </div>
-      <div class="flex items-center justify-between gap-4">
-        <span class="text-foreground/62">Recent</span>
-        <span class="font-semibold">{recentCount}</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="rounded-[1.55rem] border border-black/8 bg-[#f2c8d7] p-6 dark:border-[#5d4c5a] dark:bg-[#4e3f50]">
-    <div class="text-[11px] uppercase tracking-[0.28em] text-foreground/50">Latest Titles</div>
-    <ul class="mt-5 space-y-4">
+<aside
+  transition:persist
+  class="border-border/65 text-foreground/72 lg:border-s lg:ps-8"
+>
+  <div class="space-y-10 pt-2 lg:sticky lg:top-8">
+    <section class="space-y-3">
+      <p class="text-[0.74rem] tracking-[0.28em] text-foreground/42 uppercase">
+        Notebook
+      </p>
+      <h2
+        class="[font-family:var(--font-ui-serif)] text-[1.45rem] leading-tight font-semibold"
+      >
+        {SITE.author}
+      </h2>
+      <p class="max-w-[18rem] text-[0.97rem] leading-7 text-foreground/62">
+        {SITE.desc}
+      </p>
       {
-        latestPosts.map(post => (
-          <li class="border-b border-black/8 pb-4 last:border-b-0 last:pb-0 dark:border-white/10">
-            <a
-              href={getPath(post.id, post.filePath)}
-              class="block text-[1rem] leading-7 font-medium transition hover:text-accent"
-            >
-              {post.data.title}
-            </a>
-          </li>
-        ))
+        emailLink && emailAddress && (
+          <a
+            href={emailLink.href}
+            class="inline-flex items-center gap-2 text-[0.98rem] leading-7 text-foreground/76 underline decoration-border decoration-1 underline-offset-4 transition hover:text-accent"
+            title={emailLink.linkTitle}
+          >
+            <IconMail class="size-4.5 flex-none" />
+            <span>{emailAddress}</span>
+          </a>
+        )
       }
-    </ul>
-  </section>
+    </section>
+
+    <section>
+      <p class="text-[0.74rem] tracking-[0.28em] text-foreground/42 uppercase">
+        Recent
+      </p>
+      <ul class="mt-4 space-y-4">
+        {
+          latestPosts.map(post => (
+            <li>
+              <a
+                href={getPath(post.id, post.filePath)}
+                class="block text-[0.98rem] leading-7 text-foreground/74 transition hover:text-accent"
+              >
+                {post.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
 </aside>

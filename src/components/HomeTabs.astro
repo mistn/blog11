@@ -8,14 +8,11 @@ const currentPath = normalizePath(pathname);
 const isActive = (path: string) => currentPath === normalizePath(path);
 
 const tabClass =
-  "home-tab rounded-md border border-border/80 bg-[#fcfaf5] px-3 py-1.5 transition hover:border-accent/40 hover:text-accent dark:bg-[#2a3347]";
-const activeTabClass = "border-accent/45 text-accent";
+  "home-tab inline-flex items-center border-b border-transparent px-0.5 py-1 text-[0.95rem] font-medium text-foreground/58 transition hover:border-accent/35 hover:text-foreground dark:text-foreground/62";
+const activeTabClass = "border-accent/60 text-foreground dark:text-foreground";
 ---
 
-<nav
-  data-home-tabs
-  class="flex flex-wrap items-center gap-2 text-sm text-foreground/72"
->
+<nav data-home-tabs class="flex flex-wrap items-center gap-5 text-sm">
   <a
     href="/"
     data-path="/"
@@ -44,7 +41,7 @@ const activeTabClass = "border-accent/45 text-accent";
 </nav>
 
 <script is:inline>
-  const ACTIVE_HOME_TAB_CLASSES = ["border-accent/45", "text-accent"];
+  const ACTIVE_HOME_TAB_CLASSES = ["border-accent/60", "text-foreground"];
 
   function normalizeHomeTabPath(path) {
     if (!path) return "/";

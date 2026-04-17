@@ -5,19 +5,19 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+  --background: #fbfaf7;
+  --foreground: #243a62;
+  --accent: #244d88;
+  --muted: #ece7df;
+  --border: #e6e0d7;
 }
 
 html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #5eead4;
-  --muted: #343f60;
-  --border: #435270;
+  --background: #171d29;
+  --foreground: #e7ebf1;
+  --accent: #8db6ff;
+  --muted: #293142;
+  --border: #3a455b;
 }
 
 :root {
@@ -25,25 +25,15 @@ html[data-theme="dark"] {
   --theme-transition-y: 50vh;
   --theme-transition-radius: 0px;
   --font-ui-sans:
-    "PingFang SC",
-    "Hiragino Sans GB",
-    "Noto Sans CJK SC",
-    "Source Han Sans SC",
-    "Microsoft YaHei",
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
+    "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC",
+    "Microsoft YaHei", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
+  --font-ui-serif:
+    "Iowan Old Style", "Palatino Linotype", "Noto Serif SC",
+    "Source Han Serif SC", "Songti SC", "STSong", Georgia, serif;
   --font-ui-mono:
-    var(--font-google-sans-code),
-    "Maple Mono CN",
-    "Sarasa Mono SC",
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    Menlo,
-    monospace;
+    var(--font-google-sans-code), "Maple Mono CN", "Sarasa Mono SC",
+    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 @theme inline {
@@ -66,16 +56,39 @@ html[data-theme="dark"] {
   }
   body {
     @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    background-attachment: fixed;
+    background-image:
+      linear-gradient(rgba(36, 77, 136, 0.038) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(36, 77, 136, 0.038) 1px, transparent 1px),
+      linear-gradient(
+        180deg,
+        rgba(255, 252, 245, 0.98),
+        rgba(251, 250, 247, 0.98)
+      );
+    background-size:
+      22px 22px,
+      22px 22px,
+      auto;
+    background-position:
+      center top,
+      center top,
+      center top;
+    background-repeat: repeat, repeat, no-repeat;
   }
   html[data-theme="light"] body {
-    background-image: url("/bg-light.avif");
+    background-image:
+      linear-gradient(rgba(36, 77, 136, 0.038) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(36, 77, 136, 0.038) 1px, transparent 1px),
+      linear-gradient(
+        180deg,
+        rgba(255, 252, 245, 0.98),
+        rgba(251, 250, 247, 0.98)
+      );
   }
   html[data-theme="dark"] body {
-    background-image: url("/bg-dark.avif");
+    background-image:
+      linear-gradient(rgba(141, 182, 255, 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(141, 182, 255, 0.055) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(20, 25, 35, 0.985), rgba(23, 29, 41, 0.985));
   }
   a,
   button {
@@ -100,11 +113,9 @@ html[data-theme="dark"] {
 }
 
 .card-link-press {
-  transform-origin: left center;
   transition:
     color 180ms ease,
-    opacity 180ms ease,
-    transform 180ms ease;
+    opacity 180ms ease;
 }
 
 .card-link-press:active {
@@ -180,21 +191,31 @@ html.theme-transition-light::view-transition-new(root) {
 
 @keyframes theme-reveal-in {
   from {
-    clip-path: circle(14px at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(
+      14px at var(--theme-transition-x) var(--theme-transition-y)
+    );
   }
 
   to {
-    clip-path: circle(var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(
+      var(--theme-transition-radius) at var(--theme-transition-x)
+        var(--theme-transition-y)
+    );
   }
 }
 
 @keyframes theme-reveal-out {
   from {
-    clip-path: circle(var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(
+      var(--theme-transition-radius) at var(--theme-transition-x)
+        var(--theme-transition-y)
+    );
   }
 
   to {
-    clip-path: circle(14px at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(
+      14px at var(--theme-transition-x) var(--theme-transition-y)
+    );
   }
 }
 

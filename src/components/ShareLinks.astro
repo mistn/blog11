@@ -1,26 +1,34 @@
 ---
-import { SHARE_LINKS } from "@/constants";
-import LinkButton from "./LinkButton.astro";
-
-const URL = Astro.url;
+const postUrl = Astro.url.href;
 ---
 
-{
-  SHARE_LINKS.length > 0 && (
-    <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start">
-      <span class="italic">Share this post on:</span>
-      <div class="text-center">
-        {SHARE_LINKS.map(social => (
-          <LinkButton
-            href={`${social.href + URL}`}
-            class="scale-90 p-2 hover:rotate-6 sm:p-1"
-            title={social.linkTitle}
-          >
-            <social.icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
-            <span class="sr-only">{social.linkTitle}</span>
-          </LinkButton>
-        ))}
-      </div>
-    </div>
-  )
-}
+<div class="flex items-center justify-start">
+  <button
+    type="button"
+    data-copy-post-link={postUrl}
+    class="text-[0.98rem] text-foreground/58 underline decoration-border decoration-1 underline-offset-4 transition hover:text-accent"
+  >
+    复制文章链接
+  </button>
+</div>
+
+<script is:inline>
+  function setupCopyPostLink() {
+    const copyButton = document.querySelector("[data-copy-post-link]");
+    if (!(copyButton instanceof HTMLButtonElement)) return;
+
+    copyButton.addEventListener("click", async () => {
+      const link = copyButton.dataset.copyPostLink ?? window.location.href;
+      await navigator.clipboard.writeText(link);
+
+      copyButton.textContent = "链接已复制";
+
+      window.setTimeout(() => {
+        copyButton.textContent = "复制文章链接";
+      }, 1000);
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupCopyPostLink);
+  setupCopyPostLink();
+</script>

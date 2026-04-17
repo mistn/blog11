@@ -7,7 +7,6 @@ import PageSidebar from "@/components/PageSidebar.astro";
 import Tag from "@/components/Tag.astro";
 import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
-import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
@@ -41,19 +40,16 @@ const { Content } = await render(post);
 
 let ogImageUrl: string | undefined;
 
-// Determine OG image source
 if (typeof initOgImage === "string") {
-  ogImageUrl = initOgImage; // Remote OG image (absolute URL)
+  ogImageUrl = initOgImage;
 } else if (initOgImage?.src) {
-  ogImageUrl = initOgImage.src; // Local asset
+  ogImageUrl = initOgImage.src;
 }
 
-// Use dynamic OG image if enabled and no remote|local ogImage
 if (!ogImageUrl && SITE.dynamicOgImage) {
   ogImageUrl = `${getPath(post.id, post.filePath)}/index.png`;
 }
 
-// Resolve OG image URL (or fallback to SITE.ogImage / default `og.png`)
 const ogImage = ogImageUrl
   ? new URL(ogImageUrl, Astro.url.origin).href
   : undefined;
@@ -68,8 +64,6 @@ const layoutProps = {
   ogImage,
   scrollSmooth: true,
 };
-
-/* ========== Prev/Next Posts ========== */
 
 const sortedPosts = getSortedPosts(posts);
 
@@ -90,89 +84,95 @@ const nextPost =
 
 <Layout {...layoutProps}>
   <SiteTopbar />
-  <main id="main-content" class="app-layout pb-6 lg:max-w-7xl lg:pb-8">
-    <section class="overflow-hidden bg-transparent dark:bg-[#262b3a]">
-      <div class="p-5 sm:p-6 lg:p-8">
-        <div class="grid gap-5 lg:grid-cols-[minmax(0,1.65fr)_300px]">
+  <main id="main-content" class="app-layout pb-10 lg:max-w-7xl lg:pb-14">
+    <section class="overflow-hidden">
+      <div class="px-1 py-4 sm:px-2 sm:py-5">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.78fr)_260px]">
           <div class="min-w-0">
             <BackButton inline />
 
             <article
               transition:name="page-body"
-              class="relative overflow-visible rounded-[1rem] border border-[#e7dece] bg-[#fcfaf5] px-6 py-6 dark:border-[#42516b] dark:bg-[#2a3347] sm:px-7"
+              class="pt-2"
               data-pagefind-body
             >
-              <div class="absolute -top-4 -left-4 z-10 h-12 w-12 overflow-hidden rounded-full border border-[#ddd3c0] bg-[#fcfaf5] dark:border-[#51627d] dark:bg-[#2a3347]">
-                <img src="/avatar.avif" alt="avatar" class="h-full w-full object-cover" loading="eager" />
+              <h1
+                class="max-w-4xl [font-family:var(--font-ui-serif)] text-[2.25rem] leading-[1.14] font-semibold tracking-tight sm:text-[2.7rem]"
+              >
+                {title}
+              </h1>
+
+              <div
+                class="mt-5 flex flex-wrap items-center gap-2 text-foreground/60"
+              >
+                <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+                <span
+                  aria-hidden="true"
+                  class:list={[
+                    "max-sm:hidden",
+                    { hidden: !SITE.editPost.enabled || hideEditPost },
+                  ]}>|</span
+                >
+                <EditPost {hideEditPost} {post} class="max-sm:hidden" />
               </div>
 
-              <div class="pt-1">
-                <h1 class="inline-block text-[2rem] leading-tight font-semibold tracking-tight text-foreground sm:text-[2.45rem]">
-                  {title}
-                </h1>
+              <div
+                id="article"
+                class="app-prose mt-10 w-full max-w-none prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+              >
+                <Content />
+              </div>
 
-                <div class="my-4 flex flex-wrap items-center gap-2">
-                  <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
-                  <span
-                    aria-hidden="true"
-                    class:list={[
-                      "max-sm:hidden",
-                      { hidden: !SITE.editPost.enabled || hideEditPost },
-                    ]}>|</span
-                  >
-                  <EditPost {hideEditPost} {post} class="max-sm:hidden" />
-                </div>
+              <hr class="my-10 border-border/60" />
 
-                <div
-                  id="article"
-                  class="app-prose mt-8 w-full max-w-none prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
-                >
-                  <Content />
-                </div>
+              <EditPost class="sm:hidden" {hideEditPost} {post} />
 
-                <hr class="my-8 border-dashed" />
+              <ul class="mt-4 mb-10 flex flex-wrap gap-4 sm:my-8">
+                {
+                  tags.map(tag => (
+                    <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+                  ))
+                }
+              </ul>
 
-                <EditPost class="sm:hidden" {hideEditPost} {post} />
+              <hr class="my-8 border-border/60" />
 
-                <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-                  {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
-                </ul>
-
-                <ShareLinks />
-
-                <hr class="my-6 border-dashed" />
-
-                <!-- Previous/Next Post Buttons -->
-                <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  {
-                    prevPost && (
-                      <a
-                        href={getPath(prevPost.id, prevPost.filePath)}
-                        class="flex w-full gap-1 hover:opacity-75"
-                      >
-                        <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-                        <div>
-                          <span>Previous Post</span>
-                          <div class="text-sm text-accent/85">{prevPost.title}</div>
+              <div
+                data-pagefind-ignore
+                class="grid grid-cols-1 gap-6 sm:grid-cols-2"
+              >
+                {
+                  prevPost && (
+                    <a
+                      href={getPath(prevPost.id, prevPost.filePath)}
+                      class="flex w-full gap-1 text-foreground/72 transition hover:text-accent"
+                    >
+                      <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
+                      <div>
+                        <span>Previous Post</span>
+                        <div class="text-sm text-foreground/56">
+                          {prevPost.title}
                         </div>
-                      </a>
-                    )
-                  }
-                  {
-                    nextPost && (
-                      <a
-                        href={getPath(nextPost.id, nextPost.filePath)}
-                        class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
-                      >
-                        <div>
-                          <span>Next Post</span>
-                          <div class="text-sm text-accent/85">{nextPost.title}</div>
+                      </div>
+                    </a>
+                  )
+                }
+                {
+                  nextPost && (
+                    <a
+                      href={getPath(nextPost.id, nextPost.filePath)}
+                      class="flex w-full justify-end gap-1 text-end text-foreground/72 transition hover:text-accent sm:col-start-2"
+                    >
+                      <div>
+                        <span>Next Post</span>
+                        <div class="text-sm text-foreground/56">
+                          {nextPost.title}
                         </div>
-                        <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
-                      </a>
-                    )
-                  }
-                </div>
+                      </div>
+                      <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+                    </a>
+                  )
+                }
               </div>
             </article>
 
@@ -188,49 +188,6 @@ const nextPost =
 </Layout>
 
 <script is:inline data-astro-rerun>
-  /** Create a progress indicator
-   *  at the top */
-  function createProgressBar() {
-    // Create the main container div
-    const progressContainer = document.createElement("div");
-    progressContainer.className =
-      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
-
-    // Create the progress bar div
-    const progressBar = document.createElement("div");
-    progressBar.className = "progress-bar h-1 w-0 bg-accent";
-    progressBar.id = "myBar";
-
-    // Append the progress bar to the progress container
-    progressContainer.appendChild(progressBar);
-
-    // Append the progress container to the document body or any other desired parent element
-    document.body.appendChild(progressContainer);
-  }
-  createProgressBar();
-
-  /** Update the progress bar
-   *  when user scrolls */
-  function updateScrollProgress() {
-    document.addEventListener("scroll", () => {
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      if (document) {
-        const myBar = document.getElementById("myBar");
-        if (myBar) {
-          myBar.style.width = scrolled + "%";
-        }
-      }
-    });
-  }
-  updateScrollProgress();
-
-  /** Attaches links to headings in the document,
-   *  allowing sharing of sections easily */
   function addHeadingLinks() {
     const headings = Array.from(
       document.querySelectorAll("h2, h3, h4, h5, h6")
@@ -251,8 +208,6 @@ const nextPost =
   }
   addHeadingLinks();
 
-  /** Attaches copy buttons to code blocks in the document,
-   * allowing users to copy code easily. */
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";
     const codeBlocks = Array.from(document.querySelectorAll("pre"));
@@ -261,12 +216,10 @@ const nextPost =
       const wrapper = document.createElement("div");
       wrapper.style.position = "relative";
 
-      // Check if --file-name-offset custom property exists
       const computedStyle = getComputedStyle(codeBlock);
       const hasFileNameOffset =
         computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
 
-      // Determine the top positioning class
       const topClass = hasFileNameOffset
         ? "top-(--file-name-offset)"
         : "-top-3";
@@ -277,7 +230,6 @@ const nextPost =
       codeBlock.setAttribute("tabindex", "0");
       codeBlock.appendChild(copyButton);
 
-      // wrap codebock with relative parent element
       codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(codeBlock);
 
@@ -292,7 +244,6 @@ const nextPost =
 
       await navigator.clipboard.writeText(text ?? "");
 
-      // visual feedback that task is completed
       button.innerText = "Copied";
 
       setTimeout(() => {
@@ -302,7 +253,6 @@ const nextPost =
   }
   attachCopyButtons();
 
-  /* Go to page start after page swap */
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );

@@ -21,12 +21,14 @@ const { noMarginTop = false, class: className, ...attrs } = Astro.props;
 >
   <div
     class:list={[
-      "py-6 sm:py-4",
-      "border-t border-border",
+      "py-8 sm:py-6",
+      "border-t border-border/55",
       "flex justify-center",
     ]}
   >
-    <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
+    <div
+      class="my-2 flex flex-col items-center text-[0.92rem] whitespace-nowrap text-foreground/48 sm:flex-row"
+    >
       <span>&#169; {displayYear} {SITE.author}</span>
     </div>
   </div>

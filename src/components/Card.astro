@@ -14,17 +14,23 @@ const isHome = Heading === "home";
 const HeadingTag = isHome ? "h2" : Heading;
 ---
 
-<li class:list={[isHome ? "group border-b border-border/80 py-7 last:border-b-0 last:pb-0 first:pt-0" : "my-6"]}>
+<li
+  class:list={[
+    isHome
+      ? "group border-b border-border/80 py-7 first:pt-0 last:border-b-0 last:pb-0"
+      : "my-8",
+  ]}
+>
   <a
     href={getPath(id, filePath)}
     class:list={[
       "card-link-press",
       isHome
         ? "inline-block text-[1.45rem] leading-tight font-semibold tracking-tight text-foreground transition group-hover:text-accent"
-        : "inline-block text-lg font-medium text-accent",
+        : "inline-block [font-family:var(--font-ui-serif)] text-[1.45rem] leading-tight font-semibold text-foreground transition hover:text-accent",
       isHome
         ? "decoration-dashed underline-offset-4"
-        : "decoration-dashed underline-offset-4 hover:underline",
+        : "decoration-dashed underline-offset-4",
       "focus-visible:no-underline focus-visible:underline-offset-0",
     ]}
   >
@@ -33,10 +39,18 @@ const HeadingTag = isHome ? "h2" : Heading;
   <Datetime
     {...props}
     class:list={[
-      isHome ? "mt-3 text-foreground/55 [&_svg]:scale-75 [&_svg]:opacity-70" : "",
+      isHome
+        ? "mt-3 text-foreground/55 [&_svg]:scale-75 [&_svg]:opacity-70"
+        : "mt-3 text-foreground/52 [&_svg]:scale-75 [&_svg]:opacity-70",
     ]}
   />
-  <p class:list={[isHome ? "mt-3 max-w-3xl text-[1rem] leading-8 text-foreground/72" : ""]}>
+  <p
+    class:list={[
+      isHome
+        ? "mt-3 max-w-3xl text-[1rem] leading-8 text-foreground/72"
+        : "mt-3 max-w-3xl text-[1rem] leading-8 text-foreground/66",
+    ]}
+  >
     {description}
   </p>
 </li>
