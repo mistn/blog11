@@ -29,6 +29,7 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
   const ARTALK_CSS_URL =
     "https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css";
   const ARTALK_JS_URL = "https://esm.sh/artalk@2.9.1";
+  const ARTALK_MOUNT_RETRY_LIMIT = 12;
 
   function isDarkTheme() {
     return document.documentElement.getAttribute("data-theme") === "dark";
@@ -65,7 +66,26 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
       pageKey,
       pageTitle,
       darkMode: isDarkTheme(),
-      preferRemoteConf: true,
+      preferRemoteConf: false,
+    });
+  }
+
+  function scheduleArtalkMount(retryCount = 0) {
+    const el = document.getElementById(containerId);
+
+    if (!el) {
+      if (retryCount >= ARTALK_MOUNT_RETRY_LIMIT) return;
+
+      requestAnimationFrame(() => {
+        scheduleArtalkMount(retryCount + 1);
+      });
+      return;
+    }
+
+    void mountArtalk().then(() => {
+      requestAnimationFrame(() => {
+        syncArtalkTheme();
+      });
     });
   }
 
@@ -75,13 +95,23 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
     }
   }
 
+  if (window.__artalkPageLoadHandler) {
+    document.removeEventListener("astro:page-load", window.__artalkPageLoadHandler);
+    document.removeEventListener("astro:after-swap", window.__artalkPageLoadHandler);
+  }
+
   if (window.__artalkThemeHandler) {
     document.removeEventListener("theme-change", window.__artalkThemeHandler);
   }
 
+  window.__artalkPageLoadHandler = () => {
+    scheduleArtalkMount();
+  };
   window.__artalkThemeHandler = syncArtalkTheme;
+
+  document.addEventListener("astro:page-load", window.__artalkPageLoadHandler);
+  document.addEventListener("astro:after-swap", window.__artalkPageLoadHandler);
   document.addEventListener("theme-change", window.__artalkThemeHandler);
 
-  document.addEventListener("astro:page-load", mountArtalk);
-  mountArtalk().then(syncArtalkTheme);
+  scheduleArtalkMount();
 </script>
