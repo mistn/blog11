@@ -7,6 +7,7 @@ import PageSidebar from "@/components/PageSidebar.astro";
 import Tag from "@/components/Tag.astro";
 import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
+import ArtalkComments from "@/components/ArtalkComments.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
@@ -145,6 +146,11 @@ const nextPost =
                   ))
                 }
               </ul>
+
+              <ArtalkComments
+                pageKey={getPath(post.id, post.filePath)}
+                pageTitle={title}
+              />
 
               <hr class="my-8 border-border/60" />
 

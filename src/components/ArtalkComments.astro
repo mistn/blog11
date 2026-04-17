@@ -1,0 +1,69 @@
+---
+type Props = {
+  pageKey: string;
+  pageTitle: string;
+};
+
+const { pageKey, pageTitle } = Astro.props;
+
+const server = "https://artalkk.miuo.me";
+const siteName = "My Blog Site";
+const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+---
+
+<section
+  class="mt-10 border-t border-border/60 pt-8"
+  data-pagefind-ignore
+  aria-label="Comments"
+>
+  <h2 class="[font-family:var(--font-ui-serif)] text-[1.65rem] font-semibold tracking-tight">
+    评论
+  </h2>
+  <div id={containerId} class="mt-5 min-h-28"></div>
+</section>
+
+<script
+  is:inline
+  define:vars={{ containerId, pageKey, pageTitle, server, siteName }}
+>
+  const ARTALK_CSS_URL =
+    "https://cdnjs.cloudflare.com/ajax/libs/artalk/2.9.1/Artalk.css";
+  const ARTALK_JS_URL = "https://esm.sh/artalk@2.9.1";
+
+  function ensureArtalkStyle() {
+    if (document.querySelector('link[data-artalk-style="true"]')) return;
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = ARTALK_CSS_URL;
+    link.dataset.artalkStyle = "true";
+    document.head.appendChild(link);
+  }
+
+  async function mountArtalk() {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+
+    ensureArtalkStyle();
+
+    if (window.__artalk?.destroy) {
+      window.__artalk.destroy();
+    }
+
+    el.innerHTML = "";
+
+    const { default: Artalk } = await import(ARTALK_JS_URL);
+
+    window.__artalk = Artalk.init({
+      el,
+      server,
+      site: siteName,
+      pageKey,
+      pageTitle,
+      preferRemoteConf: true,
+    });
+  }
+
+  document.addEventListener("astro:page-load", mountArtalk);
+  mountArtalk();
+</script>
