@@ -3,9 +3,13 @@ import Footer from "@/components/Footer.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
 import Layout from "@/layouts/Layout.astro";
 import animeData from "@/data/anime.generated.json";
-import type { AnimeCollectionData } from "@/types/anime";
+import type {
+  AnimeCollectionData,
+  AnimeEntry,
+  AnimeYearGroup,
+} from "@/types/anime";
 
-const data = animeData as AnimeCollectionData;
+const rawData = animeData as AnimeCollectionData;
 
 const statusMap: Record<string, string> = {
   COMPLETED: "已看完",
@@ -28,9 +32,41 @@ const seasonMap: Record<string, string> = {
   FALL: "秋",
 };
 
+function dedupeGroups(data: AnimeCollectionData) {
+  const seen = new Map<number | string, AnimeEntry>();
+  const groups = new Map<string, AnimeYearGroup>();
+
+  for (const group of data.groups ?? []) {
+    for (const entry of group.entries ?? []) {
+      const key = entry.id || entry.siteUrl;
+      if (seen.has(key)) continue;
+      seen.set(key, entry);
+
+      const groupKey = group.yearLabel;
+      if (!groups.has(groupKey)) {
+        groups.set(groupKey, {
+          year: group.year,
+          yearLabel: group.yearLabel,
+          entries: [],
+        });
+      }
+
+      groups.get(groupKey)?.entries.push(entry);
+    }
+  }
+
+  const normalizedGroups = Array.from(groups.values());
+  return {
+    ...data,
+    total: seen.size,
+    groups: normalizedGroups,
+  };
+}
+
+const data = dedupeGroups(rawData);
+
 const pageTitle = "追番列表 | miuo";
-const pageDescription =
-  "按年份整理 AniList 自定义列表 normal 中已看完的动画，保留封面、进度、评分和基础条目信息。";
+const pageDescription = "按年份整理 AniList normal 列表中已看完的动画。";
 
 const sourceHref =
   data.source.userUrl ??
@@ -73,7 +109,7 @@ const generatedLabel = data.generatedAt
         class="overflow-hidden rounded-[2rem] border border-border/70 bg-background/82 shadow-[0_18px_60px_rgba(36,77,136,0.08)] backdrop-blur-sm"
       >
         <div
-          class="relative border-b border-border/70 px-5 py-7 sm:px-8 sm:py-9"
+          class="relative border-b border-border/70 px-5 py-6 sm:px-8 sm:py-7"
         >
           <div
             class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/35 to-transparent"
@@ -82,21 +118,23 @@ const generatedLabel = data.generatedAt
 
           <div class="max-w-4xl">
             <p
-              class="text-[0.82rem] font-medium tracking-[0.24em] text-foreground/42 uppercase"
+              class="text-[0.78rem] font-medium tracking-[0.22em] text-foreground/40 uppercase"
             >
               Anime Archive
             </p>
             <h1
-              class="mt-3 [font-family:var(--font-ui-serif)] text-4xl leading-none font-semibold tracking-tight text-foreground sm:text-[3.4rem]"
+              class="mt-2 [font-family:var(--font-ui-serif)] text-[2.6rem] leading-none font-semibold tracking-tight text-foreground sm:text-[3rem]"
             >
               追番列表
             </h1>
-            <p class="mt-4 max-w-3xl text-[1rem] leading-8 text-foreground/66">
-              这里收的是 AniList 里自定义列表 <code>normal</code> 中已经看完的动画，按年份整理成一页，方便回看和归档。
+            <p
+              class="mt-3 max-w-3xl text-[0.98rem] leading-7 text-foreground/62"
+            >
+              AniList `normal` 列表里已看完动画的简单整理。
             </p>
 
             <div
-              class="mt-6 flex flex-wrap items-center gap-3 text-sm text-foreground/58"
+              class="mt-5 flex flex-wrap items-center gap-3 text-sm text-foreground/58"
             >
               <span
                 class="rounded-full border border-border/70 bg-muted/58 px-3 py-1.5"
@@ -116,7 +154,7 @@ const generatedLabel = data.generatedAt
                 </a>
               </span>
               <span class="text-foreground/45">
-                筛选：{data.source.customListName} / completed
+                {data.source.customListName} / completed
               </span>
               {
                 generatedLabel && (
@@ -229,12 +267,10 @@ const generatedLabel = data.generatedAt
                   这里还没有同步到追番数据。
                 </p>
                 <p class="mt-3 text-sm leading-7 text-foreground/52">
-                  配置好 <code>ANILIST_USER_NAME</code> 或{" "}
-                  <code>ANILIST_USER_ID</code>
-                  后运行 <code>pnpm run anime:sync</code>，脚本会自动抓取
-                  AniList 中<code>normal</code> 列表里状态为{" "}
-                  <code>COMPLETED</code> 的动画；也可以等待 GitHub Actions
-                  的定时任务生成数据。
+                  运行 <code>pnpm run anime:sync</code>，脚本会抓取
+                  <code>uoooouuur</code> 的 AniList 数据，并保留
+                  <code>normal</code> 列表里状态为 <code>COMPLETED</code>{" "}
+                  的动画。
                 </p>
               </div>
             </div>

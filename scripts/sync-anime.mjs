@@ -113,6 +113,10 @@ function isNormalCompletedEntry(entry) {
   return customLists.includes(REQUIRED_CUSTOM_LIST);
 }
 
+function toEntryKey(entry) {
+  return Number(entry?.media?.id ?? 0) || entry?.media?.siteUrl || entry?.id;
+}
+
 function getGroupYear(entry) {
   return (
     entry.media?.seasonYear ??
@@ -209,8 +213,17 @@ async function main() {
     .filter(entry => entry?.media?.id && entry?.media?.coverImage?.large)
     .sort(compareEntries);
 
-  const groupsMap = new Map();
+  const dedupedEntries = [];
+  const seen = new Set();
   for (const entry of entries) {
+    const key = toEntryKey(entry);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    dedupedEntries.push(entry);
+  }
+
+  const groupsMap = new Map();
+  for (const entry of dedupedEntries) {
     const year = getGroupYear(entry);
     const key = formatYearLabel(year);
 
@@ -271,7 +284,7 @@ async function main() {
       statuses: [COMPLETED_STATUS],
       customListName: REQUIRED_CUSTOM_LIST,
     },
-    total: entries.length,
+    total: dedupedEntries.length,
     groups,
   };
 
@@ -279,7 +292,7 @@ async function main() {
   writeFileSync(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, "utf8");
 
   console.log(
-    `Synced ${output.total} completed anime entries from custom list "${REQUIRED_CUSTOM_LIST}" to ${OUTPUT_PATH}`
+    `Synced ${output.total} unique completed anime entries from custom list "${REQUIRED_CUSTOM_LIST}" to ${OUTPUT_PATH}`
   );
 }
 
