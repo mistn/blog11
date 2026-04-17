@@ -71,7 +71,7 @@ bash -c "$(curl -sSL https://resource.fit2cloud.com/1panel/package/v2/quick_star
 
 - 驱动选择对象存储
 - 挂载路径随意
-- 参考我之前文章的 [R2 配置](/posts/obsidian-sync#03-cloudflare-r2-图床配置)选择存储桶，端点，地区，访问密钥ID，访问密钥
+- 参考我之前文章的 [R2 配置](/posts/obsidian-sync/#03-cloudflare-r2-%E5%9B%BE%E5%BA%8A%E9%85%8D%E7%BD%AE)选择存储桶，端点，地区，访问密钥ID，访问密钥
 - **自定义主机**可以选择自己绑定在 R2 的域名
 - 其余默认即可
 挂载成功点击首页即可
