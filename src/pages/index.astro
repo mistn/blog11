@@ -34,7 +34,7 @@ const listPosts = recentPosts.slice(1, SITE.postPerIndex + 2);
                   <a
                     href={getPath(leadPost.id, leadPost.filePath)}
                     data-post-link
-                    class="card-link-press inline-block [font-family:var(--font-ui-serif)] text-[2.2rem] leading-[1.14] font-semibold tracking-tight transition hover:text-accent sm:text-[2.65rem]"
+                    class="card-link-press inline-block [font-family:var(--font-ui-serif)] text-[1.9rem] leading-[1.16] font-semibold tracking-tight transition hover:text-accent sm:text-[2.2rem]"
                   >
                     {leadPost.data.title}
                   </a>
@@ -42,7 +42,7 @@ const listPosts = recentPosts.slice(1, SITE.postPerIndex + 2);
                     {...leadPost.data}
                     class="mt-4 text-foreground/55 [&_svg]:scale-75 [&_svg]:opacity-70"
                   />
-                  <p class="mt-6 max-w-3xl text-[1.08rem] leading-10 text-foreground/76">
+                  <p class="mt-6 max-w-3xl text-[1.16rem] leading-[1.95] text-foreground/82 sm:text-[1.2rem]">
                     {leadPost.data.description}
                   </p>
                 </article>
@@ -56,7 +56,7 @@ const listPosts = recentPosts.slice(1, SITE.postPerIndex + 2);
                     <a
                       href={getPath(post.id, post.filePath)}
                       data-post-link
-                      class="card-link-press inline-block [font-family:var(--font-ui-serif)] text-[1.7rem] leading-[1.22] font-semibold tracking-tight transition hover:text-accent sm:text-[1.95rem]"
+                      class="card-link-press inline-block [font-family:var(--font-ui-serif)] text-[1.8rem] leading-[1.22] font-semibold tracking-tight transition hover:text-accent sm:text-[2rem]"
                     >
                       {post.data.title}
                     </a>
@@ -64,7 +64,7 @@ const listPosts = recentPosts.slice(1, SITE.postPerIndex + 2);
                       {...post.data}
                       class="mt-3.5 text-foreground/52 [&_svg]:scale-75 [&_svg]:opacity-70"
                     />
-                    <p class="mt-4 max-w-3xl text-[1rem] leading-9 text-foreground/68">
+                    <p class="mt-4 max-w-3xl text-[1.06rem] leading-[1.9] text-foreground/74">
                       {post.data.description}
                     </p>
                   </article>
