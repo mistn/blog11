@@ -36,16 +36,29 @@ function applyThemePreference(nextTheme: string): void {
   setPreference();
 }
 
+function getThemeTransitionOrigin(event?: Event): { x: number; y: number } | null {
+  const button = event?.currentTarget;
+  if (!(button instanceof HTMLButtonElement)) return null;
+
+  const icon = button.querySelector("svg");
+  const originElement = icon instanceof SVGElement ? icon : button;
+  const { left, top, width, height } = originElement.getBoundingClientRect();
+
+  return {
+    x: left + width / 2,
+    y: top + height / 2,
+  };
+}
+
 async function toggleThemeWithTransition(event?: Event): Promise<void> {
   if (isThemeTransitionRunning) return;
 
   const nextTheme = themeValue === LIGHT ? DARK : LIGHT;
-  const transitionEvent = event as MouseEvent | undefined;
+  const transitionOrigin = getThemeTransitionOrigin(event);
   const supportsViewTransition =
     typeof document !== "undefined" &&
     "startViewTransition" in document &&
-    typeof transitionEvent?.clientX === "number" &&
-    typeof transitionEvent?.clientY === "number" &&
+    transitionOrigin !== null &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!supportsViewTransition) {
@@ -56,16 +69,16 @@ async function toggleThemeWithTransition(event?: Event): Promise<void> {
   isThemeTransitionRunning = true;
 
   const endRadius = Math.hypot(
-    Math.max(transitionEvent.clientX, window.innerWidth - transitionEvent.clientX),
-    Math.max(transitionEvent.clientY, window.innerHeight - transitionEvent.clientY)
+    Math.max(transitionOrigin.x, window.innerWidth - transitionOrigin.x),
+    Math.max(transitionOrigin.y, window.innerHeight - transitionOrigin.y)
   );
 
   const root = document.documentElement;
   const transitionClass =
     nextTheme === DARK ? "theme-transition-dark" : "theme-transition-light";
 
-  root.style.setProperty("--theme-transition-x", `${transitionEvent.clientX}px`);
-  root.style.setProperty("--theme-transition-y", `${transitionEvent.clientY}px`);
+  root.style.setProperty("--theme-transition-x", `${transitionOrigin.x}px`);
+  root.style.setProperty("--theme-transition-y", `${transitionOrigin.y}px`);
   root.style.setProperty("--theme-transition-radius", `${endRadius}px`);
   root.classList.remove("theme-transition-dark", "theme-transition-light");
   root.classList.add(transitionClass);
