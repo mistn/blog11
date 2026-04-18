@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "关于"
+headingEyebrow: "About"
 ---
 
 这里是 `miuo` 的个人小站。

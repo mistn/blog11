@@ -5,7 +5,7 @@ import SiteTopbar from "@/components/SiteTopbar.astro";
 import Layout from "./Layout.astro";
 import { SITE } from "@/config";
 
-type Props = MarkdownLayoutProps<{ title: string }>;
+type Props = MarkdownLayoutProps<{ title: string; headingEyebrow?: string }>;
 
 const { frontmatter } = Astro.props;
 ---
@@ -18,12 +18,26 @@ const { frontmatter } = Astro.props;
         id="about"
         class="app-prose px-1 py-4 sm:px-2 sm:py-5 prose-img:border-0"
       >
-        <h1
-          class="[font-family:var(--font-ui-serif)] text-[2.2rem] tracking-tight sm:text-[2.6rem]"
-        >
-          {frontmatter.title}
-        </h1>
-        <slot />
+        <header class="not-prose max-w-4xl mb-10">
+          {
+            frontmatter.headingEyebrow && (
+              <p class="text-[0.76rem] font-medium tracking-[0.2em] text-foreground/36 uppercase">
+                {frontmatter.headingEyebrow}
+              </p>
+            )
+          }
+          <h1
+            class:list={[
+              "[font-family:var(--font-ui-serif)] text-[2.2rem] leading-[1.12] font-semibold tracking-tight sm:text-[2.6rem]",
+              frontmatter.headingEyebrow && "mt-2",
+            ]}
+          >
+            {frontmatter.title}
+          </h1>
+        </header>
+        <div class="[&>:first-child]:mt-0">
+          <slot />
+        </div>
       </section>
     </main>
   </div>

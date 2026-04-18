@@ -5,9 +5,10 @@ import { SITE } from "@/config";
 type Props = {
   pageTitle: string;
   pageDesc?: string;
+  pageEyebrow?: string;
 };
 
-const { pageTitle, pageDesc } = Astro.props;
+const { pageTitle, pageDesc, pageEyebrow } = Astro.props;
 
 const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
 ---
@@ -21,18 +22,30 @@ const backUrl = SITE.showBackButton ? Astro.url.pathname : "/";
     class="app-layout pb-12 lg:max-w-5xl"
   >
     <div class="px-1 py-4 sm:px-2 sm:py-5">
-      <h1
-        class="[font-family:var(--font-ui-serif)] text-[2.2rem] leading-[1.12] font-semibold tracking-tight sm:text-[2.6rem]"
-      >
-        {pageTitle}
-      </h1>
-      {
-        pageDesc && (
-          <p class="mt-4 mb-10 max-w-3xl text-[1rem] leading-8 text-foreground/60">
-            {pageDesc}
-          </p>
-        )
-      }
+      <header class="max-w-4xl mb-10">
+        {
+          pageEyebrow && (
+            <p class="text-[0.76rem] font-medium tracking-[0.2em] text-foreground/36 uppercase">
+              {pageEyebrow}
+            </p>
+          )
+        }
+        <h1
+          class:list={[
+            "[font-family:var(--font-ui-serif)] text-[2.2rem] leading-[1.12] font-semibold tracking-tight sm:text-[2.6rem]",
+            pageEyebrow && "mt-2",
+          ]}
+        >
+          {pageTitle}
+        </h1>
+        {
+          pageDesc && (
+            <p class="mt-4 max-w-3xl text-[1rem] leading-8 text-foreground/60">
+              {pageDesc}
+            </p>
+          )
+        }
+      </header>
       <slot />
     </div>
   </main>
