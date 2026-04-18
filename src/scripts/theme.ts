@@ -40,8 +40,11 @@ function getThemeTransitionOrigin(event?: Event): { x: number; y: number } | nul
   const button = event?.currentTarget;
   if (!(button instanceof HTMLButtonElement)) return null;
 
-  const icon = button.querySelector("svg");
-  const originElement = icon instanceof SVGElement ? icon : button;
+  const iconAnchor = button.querySelector("[data-theme-icon-anchor]");
+  const originElement =
+    iconAnchor instanceof HTMLElement || iconAnchor instanceof SVGElement
+      ? iconAnchor
+      : button;
   const { left, top, width, height } = originElement.getBoundingClientRect();
 
   return {
