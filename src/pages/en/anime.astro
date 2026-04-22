@@ -5,11 +5,11 @@ import SiteTopbar from "@/components/SiteTopbar.astro";
 import Layout from "@/layouts/Layout.astro";
 import animeData from "@/data/anime.generated.json";
 import type { AnimeDataPayload, AnimeItem } from "@/types/anime";
-import { getDateLocale, getLocaleFromPath, ui } from "@/i18n";
+import { getDateLocale, ui } from "@/i18n";
 
-const data = animeData as AnimeDataPayload;
-const locale = getLocaleFromPath(Astro.url.pathname);
+const locale = "en";
 const copy = ui[locale];
+const data = animeData as AnimeDataPayload;
 
 function getEntryKey(entry: AnimeItem) {
   return (
@@ -74,6 +74,7 @@ const updatedLabel = data.updatedAt
     },
     about: "AniList completed anime collection filtered by custom list normal.",
   }}
+  {locale}
 >
   <SiteTopbar />
 

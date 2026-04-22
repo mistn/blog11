@@ -1,18 +1,25 @@
 ---
 import IconHash from "@/assets/icons/IconHash.svg";
+import { getLocaleFromPath, localizePath, type Locale } from "@/i18n";
 
 type Props = {
   tag: string;
   tagName: string;
   size?: "sm" | "lg";
+  locale?: Locale;
 };
 
-const { tag, tagName, size = "lg" } = Astro.props;
+const {
+  tag,
+  tagName,
+  size = "lg",
+  locale = getLocaleFromPath(Astro.url.pathname),
+} = Astro.props;
 ---
 
 <li>
   <a
-    href={`/tags/${tag}/`}
+    href={localizePath(`/tags/${tag}/`, locale)}
     class:list={[
       "inline-flex items-center gap-1 rounded-full border border-border/80 bg-muted/28 text-foreground/78 no-underline shadow-[0_4px_12px_rgba(15,23,42,0.04)] transition-all",
       "hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/10 hover:text-accent",

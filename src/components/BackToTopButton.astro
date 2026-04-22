@@ -1,5 +1,13 @@
 ---
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
+import { getLocaleFromPath, ui, type Locale } from "@/i18n";
+
+type Props = {
+  locale?: Locale;
+};
+
+const { locale = getLocaleFromPath(Astro.url.pathname) } = Astro.props;
+const copy = ui[locale];
 ---
 
 <div
@@ -14,10 +22,12 @@ import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
     class:list={[
       "group relative flex size-11 items-center justify-center rounded-full border border-border/70 bg-background/90 text-foreground/70 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-sm transition hover:text-accent",
     ]}
-    aria-label="Back To Top"
-    title="Back To Top"
+    aria-label={copy.actions.backToTop}
+    title={copy.actions.backToTop}
   >
-    <IconChevronLeft class="inline-block size-4 rotate-90 transition group-hover:-translate-y-0.5" />
+    <IconChevronLeft
+      class="inline-block size-4 rotate-90 transition group-hover:-translate-y-0.5"
+    />
   </button>
 </div>
 

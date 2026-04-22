@@ -1,11 +1,13 @@
 ---
 import { SITE } from "@/config";
+import { getLocaleFromPath, localizePath, normalizePath, ui } from "@/i18n";
 
 const { pathname } = Astro.url;
-const normalizePath = (path: string) =>
-  path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
+const locale = getLocaleFromPath(pathname);
+const copy = ui[locale];
 const currentPath = normalizePath(pathname);
-const isActive = (path: string) => currentPath === normalizePath(path);
+const getHref = (path: string) => localizePath(path, locale);
+const isActive = (path: string) => currentPath === normalizePath(getHref(path));
 
 const tabClass =
   "home-tab inline-flex items-center border-b border-transparent px-0.5 py-1 text-[0.95rem] font-medium text-foreground/58 transition hover:border-accent/35 hover:text-foreground dark:text-foreground/62";
@@ -14,36 +16,36 @@ const activeTabClass = "border-accent/60 text-foreground dark:text-foreground";
 
 <nav data-home-tabs class="flex flex-wrap items-center gap-5 text-sm">
   <a
-    href="/"
-    data-path="/"
+    href={getHref("/")}
+    data-path={getHref("/")}
     class:list={[tabClass, { [activeTabClass]: isActive("/") }]}
   >
-    首页
+    {copy.nav.home}
   </a>
   {
     SITE.showArchives && (
       <a
-        href="/archives"
-        data-path="/archives"
+        href={getHref("/archives")}
+        data-path={getHref("/archives")}
         class:list={[tabClass, { [activeTabClass]: isActive("/archives") }]}
       >
-        归档
+        {copy.nav.archives}
       </a>
     )
   }
   <a
-    href="/anime"
-    data-path="/anime"
+    href={getHref("/anime")}
+    data-path={getHref("/anime")}
     class:list={[tabClass, { [activeTabClass]: isActive("/anime") }]}
   >
-    追番
+    {copy.nav.anime}
   </a>
   <a
-    href="/about"
-    data-path="/about"
+    href={getHref("/about")}
+    data-path={getHref("/about")}
     class:list={[tabClass, { [activeTabClass]: isActive("/about") }]}
   >
-    关于
+    {copy.nav.about}
   </a>
 </nav>
 

@@ -8,7 +8,7 @@ import Card from "@/components/Card.astro";
 import Pagination from "@/components/Pagination.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { SITE } from "@/config";
-import { getLocaleFromPath, ui } from "@/i18n";
+import { ui } from "@/i18n";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -16,11 +16,11 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-const locale = getLocaleFromPath(Astro.url.pathname);
+const locale = "en";
 const copy = ui[locale];
 ---
 
-<Layout title={`${copy.pages.postsTitle} | ${SITE.title}`}>
+<Layout title={`${copy.pages.postsTitle} | ${SITE.title}`} {locale}>
   <Main pageTitle={copy.pages.postsTitle} pageDesc={copy.pages.postsDesc}>
     <ul>
       {page.data.map(data => <Card {...data} {locale} />)}

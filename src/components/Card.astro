@@ -1,13 +1,21 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPath } from "@/utils/getPath";
+import { getLocaleFromPath, localizePath, type Locale } from "@/i18n";
 import Datetime from "./Datetime.astro";
 
 type Props = {
   variant?: "h2" | "h3" | "home";
+  locale?: Locale;
 } & CollectionEntry<"blog">;
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+const {
+  variant: Heading = "h2",
+  locale = getLocaleFromPath(Astro.url.pathname),
+  id,
+  data,
+  filePath,
+} = Astro.props;
 
 const { title, description, ...props } = data;
 const isHome = Heading === "home";
@@ -22,7 +30,7 @@ const HeadingTag = isHome ? "h2" : Heading;
   ]}
 >
   <a
-    href={getPath(id, filePath)}
+    href={localizePath(getPath(id, filePath), locale)}
     data-post-link
     class:list={[
       "card-link-press",
@@ -39,6 +47,7 @@ const HeadingTag = isHome ? "h2" : Heading;
   </a>
   <Datetime
     {...props}
+    locale={locale}
     class:list={[
       isHome
         ? "mt-3 text-foreground/55 [&_svg]:scale-75 [&_svg]:opacity-70"

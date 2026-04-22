@@ -16,13 +16,20 @@ import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import { SITE } from "@/config";
+import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 
 type Props = {
   post: CollectionEntry<"blog">;
   posts: CollectionEntry<"blog">[];
+  locale?: Locale;
 };
 
-const { post, posts } = Astro.props;
+const {
+  post,
+  posts,
+  locale = getLocaleFromPath(Astro.url.pathname),
+} = Astro.props;
+const copy = ui[locale];
 
 const {
   title,
@@ -64,6 +71,7 @@ const layoutProps = {
   canonicalURL,
   ogImage,
   scrollSmooth: true,
+  locale,
 };
 
 const sortedPosts = getSortedPosts(posts);
@@ -94,12 +102,9 @@ const nextPost =
       <div class="px-1 py-4 sm:px-2 sm:py-5">
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1.78fr)_260px]">
           <div class="min-w-0">
-            <BackButton inline />
+            <BackButton inline {locale} />
 
-            <article
-              class="pt-2"
-              data-pagefind-body
-            >
+            <article class="pt-2" data-pagefind-body>
               <h1
                 data-article-enter
                 style="--article-enter-delay: 0ms;"
@@ -114,7 +119,13 @@ const nextPost =
                 style="--article-enter-delay: 26ms;"
                 class="mt-5 flex flex-wrap items-center gap-2 text-foreground/60"
               >
-                <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+                <Datetime
+                  {pubDatetime}
+                  {modDatetime}
+                  {timezone}
+                  size="lg"
+                  {locale}
+                />
                 <span
                   aria-hidden="true"
                   class:list={[
@@ -122,7 +133,12 @@ const nextPost =
                     { hidden: !SITE.editPost.enabled || hideEditPost },
                   ]}>|</span
                 >
-                <EditPost {hideEditPost} {post} class="max-sm:hidden" />
+                <EditPost
+                  {hideEditPost}
+                  {post}
+                  {locale}
+                  class="max-sm:hidden"
+                />
               </div>
 
               <div
@@ -137,7 +153,7 @@ const nextPost =
 
               <hr class="my-10 border-border/60" />
 
-              <EditPost class="sm:hidden" {hideEditPost} {post} />
+              <EditPost class="sm:hidden" {hideEditPost} {post} {locale} />
 
               <ul
                 data-article-enter
@@ -146,7 +162,12 @@ const nextPost =
               >
                 {
                   tags.map(tag => (
-                    <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+                    <Tag
+                      tag={slugifyStr(tag)}
+                      tagName={tag}
+                      size="sm"
+                      {locale}
+                    />
                   ))
                 }
               </ul>
@@ -167,12 +188,15 @@ const nextPost =
                 {
                   prevPost && (
                     <a
-                      href={getPath(prevPost.id, prevPost.filePath)}
+                      href={localizePath(
+                        getPath(prevPost.id, prevPost.filePath),
+                        locale
+                      )}
                       class="flex w-full gap-1 text-foreground/72 transition hover:text-accent"
                     >
                       <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
                       <div>
-                        <span>Previous Post</span>
+                        <span>{copy.actions.previousPost}</span>
                         <div class="text-sm text-foreground/56">
                           {prevPost.title}
                         </div>
@@ -183,11 +207,14 @@ const nextPost =
                 {
                   nextPost && (
                     <a
-                      href={getPath(nextPost.id, nextPost.filePath)}
+                      href={localizePath(
+                        getPath(nextPost.id, nextPost.filePath),
+                        locale
+                      )}
                       class="flex w-full justify-end gap-1 text-end text-foreground/72 transition hover:text-accent sm:col-start-2"
                     >
                       <div>
-                        <span>Next Post</span>
+                        <span>{copy.actions.nextPost}</span>
                         <div class="text-sm text-foreground/56">
                           {nextPost.title}
                         </div>
@@ -199,10 +226,10 @@ const nextPost =
               </div>
             </article>
 
-            <BackToTopButton />
+            <BackToTopButton {locale} />
           </div>
 
-          <PageSidebar posts={sortedPosts} />
+          <PageSidebar posts={sortedPosts} {locale} />
         </div>
       </div>
     </section>
@@ -210,7 +237,14 @@ const nextPost =
   <Footer />
 </Layout>
 
-<script is:inline data-astro-rerun>
+<script
+  is:inline
+  data-astro-rerun
+  define:vars={{
+    copyCodeLabel: copy.actions.copy,
+    copiedCodeLabel: copy.actions.copied,
+  }}
+>
   function runArticleEnterAnimation() {
     const nodes = Array.from(document.querySelectorAll("[data-article-enter]"));
 
@@ -243,7 +277,7 @@ const nextPost =
   addHeadingLinks();
 
   function attachCopyButtons() {
-    const copyButtonLabel = "Copy";
+    const copyButtonLabel = copyCodeLabel;
     const codeBlocks = Array.from(document.querySelectorAll("pre"));
 
     for (const codeBlock of codeBlocks) {
@@ -278,7 +312,7 @@ const nextPost =
 
       await navigator.clipboard.writeText(text ?? "");
 
-      button.innerText = "Copied";
+      button.innerText = copiedCodeLabel;
 
       setTimeout(() => {
         button.innerText = copyButtonLabel;

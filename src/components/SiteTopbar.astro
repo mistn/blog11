@@ -3,10 +3,17 @@ import IconMail from "@/assets/icons/IconMail.svg";
 import IconMoon from "@/assets/icons/IconMoon.svg";
 import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
+import IconLanguage from "@/assets/icons/IconLanguage.svg";
 import HomeTabs from "@/components/HomeTabs.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { SOCIALS } from "@/constants";
 import { SITE } from "@/config";
+import {
+  getAlternateLocale,
+  getLocaleFromPath,
+  localizePath,
+  ui,
+} from "@/i18n";
 
 type Props = {
   compactMobile?: boolean;
@@ -14,8 +21,13 @@ type Props = {
 
 const { compactMobile = false } = Astro.props;
 
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = ui[locale];
+const alternateLocale = getAlternateLocale(locale);
+const languageHref = localizePath(Astro.url.pathname, alternateLocale);
 const emailLink = SOCIALS.find(social => social.href.startsWith("mailto:"));
 const emailAddress = emailLink?.href.replace("mailto:", "");
+const emailLabel = `${copy.nav.email} ${SITE.title}`;
 ---
 
 <section
@@ -42,7 +54,12 @@ const emailAddress = emailLink?.href.replace("mailto:", "");
           compactMobile ? "gap-3" : "gap-5",
         ]}
       >
-        <div class:list={["min-w-0", compactMobile && "max-lg:flex max-lg:items-center max-lg:gap-3"]}>
+        <div
+          class:list={[
+            "min-w-0",
+            compactMobile && "max-lg:flex max-lg:items-center max-lg:gap-3",
+          ]}
+        >
           <div
             class:list={[
               "overflow-hidden rounded-full border border-border/60 lg:hidden",
@@ -71,7 +88,7 @@ const emailAddress = emailLink?.href.replace("mailto:", "");
                 compactMobile && "hidden",
               ]}
             >
-              {SITE.desc}
+              {copy.site.desc}
             </p>
           </div>
         </div>
@@ -90,23 +107,34 @@ const emailAddress = emailLink?.href.replace("mailto:", "");
                 <LinkButton
                   href={emailLink.href}
                   class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
-                  title={emailLink.linkTitle}
-                  aria-label={emailLink.linkTitle}
+                  title={emailLabel}
+                  aria-label={emailLabel}
                 >
                   <IconMail class="size-5" />
-                  <span class="sr-only">Email</span>
+                  <span class="sr-only">{copy.nav.email}</span>
                 </LinkButton>
               )
             }
 
             <LinkButton
-              href="/search"
+              href={localizePath("/search", locale)}
               class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
-              title="Search"
-              aria-label="search"
+              title={copy.nav.search}
+              aria-label={copy.nav.search}
             >
               <IconSearch class="size-5" />
-              <span class="sr-only">Search</span>
+              <span class="sr-only">{copy.nav.search}</span>
+            </LinkButton>
+
+            <LinkButton
+              href={languageHref}
+              data-locale-target={alternateLocale}
+              class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
+              title={copy.nav.languageLabel}
+              aria-label={copy.nav.languageLabel}
+            >
+              <IconLanguage class="size-5" />
+              <span class="sr-only">{copy.nav.languageLabel}</span>
             </LinkButton>
 
             {
@@ -114,7 +142,7 @@ const emailAddress = emailLink?.href.replace("mailto:", "");
                 <button
                   id="theme-btn"
                   class="focus-outline relative size-10 rounded-full text-foreground/68 transition hover:text-accent"
-                  title="Toggles light & dark"
+                  title={copy.nav.theme}
                   aria-label="auto"
                   aria-live="polite"
                 >
@@ -135,13 +163,24 @@ const emailAddress = emailLink?.href.replace("mailto:", "");
 
       <div class="hidden items-center gap-1 lg:flex lg:self-auto">
         <LinkButton
-          href="/search"
+          href={localizePath("/search", locale)}
           class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
-          title="Search"
-          aria-label="search"
+          title={copy.nav.search}
+          aria-label={copy.nav.search}
         >
           <IconSearch class="size-5" />
-          <span class="sr-only">Search</span>
+          <span class="sr-only">{copy.nav.search}</span>
+        </LinkButton>
+
+        <LinkButton
+          href={languageHref}
+          data-locale-target={alternateLocale}
+          class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
+          title={copy.nav.languageLabel}
+          aria-label={copy.nav.languageLabel}
+        >
+          <IconLanguage class="size-5" />
+          <span class="sr-only">{copy.nav.languageLabel}</span>
         </LinkButton>
 
         {
@@ -149,7 +188,7 @@ const emailAddress = emailLink?.href.replace("mailto:", "");
             <button
               id="theme-btn-desktop"
               class="focus-outline relative size-10 rounded-full text-foreground/68 transition hover:text-accent"
-              title="Toggles light & dark"
+              title={copy.nav.theme}
               aria-label="auto"
               aria-live="polite"
             >

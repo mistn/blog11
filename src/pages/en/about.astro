@@ -1,0 +1,65 @@
+---
+import Footer from "@/components/Footer.astro";
+import SiteTopbar from "@/components/SiteTopbar.astro";
+import Layout from "@/layouts/Layout.astro";
+import { SITE } from "@/config";
+import { ui } from "@/i18n";
+
+const locale = "en";
+const copy = ui[locale];
+---
+
+<Layout title={`${copy.pages.aboutTitle} | ${SITE.title}`} {locale}>
+  <SiteTopbar />
+  <main id="main-content" class="app-layout pb-14 lg:max-w-5xl">
+    <section
+      id="about"
+      class="app-prose px-1 py-4 sm:px-2 sm:py-5 prose-img:border-0"
+    >
+      <header class="not-prose mb-10 max-w-4xl">
+        <p
+          class="text-[0.76rem] font-medium tracking-[0.2em] text-foreground/36 uppercase"
+        >
+          {copy.pages.aboutEyebrow}
+        </p>
+        <h1
+          class="mt-2 [font-family:var(--font-ui-serif)] text-[2.2rem] leading-[1.12] font-semibold tracking-tight sm:text-[2.6rem]"
+        >
+          {copy.pages.aboutTitle}
+        </h1>
+      </header>
+
+      <p>This is miuo's personal site.</p>
+
+      <p>
+        It mainly keeps things worth coming back to: essays, notes,
+        configuration records, deployment logs, and the occasional experiment.
+      </p>
+
+      <p>
+        Not every note is meant to be exhaustive, but I try to keep the writing
+        clear, reviewable, and useful for future me.
+      </p>
+
+      <h2>About This Site</h2>
+
+      <ul>
+        <li>Documenting setup processes and real usage experience</li>
+        <li>Keeping notes I may need again later</li>
+        <li>
+          Organizing input methods, tools, deployment, and productivity notes
+        </li>
+      </ul>
+
+      <p>If something here is useful to you too, even better.</p>
+
+      <h2>Contact</h2>
+
+      <p>
+        The email entry is available on the home page and in the site icons.
+        Feel free to reach out by email when needed.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

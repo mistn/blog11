@@ -6,16 +6,15 @@ import Tag from "@/components/Tag.astro";
 import Footer from "@/components/Footer.astro";
 import getUniqueTags from "@/utils/getUniqueTags";
 import { SITE } from "@/config";
-import { getLocaleFromPath, ui } from "@/i18n";
+import { ui } from "@/i18n";
 
-const posts = await getCollection("blog");
-const locale = getLocaleFromPath(Astro.url.pathname);
+const locale = "en";
 const copy = ui[locale];
-
-let tags = getUniqueTags(posts);
+const posts = await getCollection("blog");
+const tags = getUniqueTags(posts);
 ---
 
-<Layout title={`${copy.pages.tagsTitle} | ${SITE.title}`}>
+<Layout title={`${copy.pages.tagsTitle} | ${SITE.title}`} {locale}>
   <Main pageTitle={copy.pages.tagsTitle} pageDesc={copy.pages.tagsDesc}>
     <ul class="flex flex-wrap gap-6">
       {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} {locale} />)}

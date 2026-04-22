@@ -2,12 +2,15 @@
 import type { CollectionEntry } from "astro:content";
 import { getPath } from "@/utils/getPath";
 import PageSidebarIntro from "@/components/PageSidebarIntro.astro";
+import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 
 type Props = {
   posts: CollectionEntry<"blog">[];
+  locale?: Locale;
 };
 
-const { posts } = Astro.props;
+const { posts, locale = getLocaleFromPath(Astro.url.pathname) } = Astro.props;
+const copy = ui[locale];
 const latestPosts = posts.slice(0, 5);
 ---
 
@@ -17,19 +20,19 @@ const latestPosts = posts.slice(0, 5);
 >
   <div class="space-y-8 pt-2 lg:sticky lg:top-8 lg:space-y-10">
     <div class="hidden lg:block">
-      <PageSidebarIntro />
+      <PageSidebarIntro {locale} />
     </div>
 
     <section class="border-border/60 pt-2 max-lg:border-t max-lg:pt-6">
       <p class="text-[0.74rem] tracking-[0.28em] text-foreground/42 uppercase">
-        Recent
+        {copy.sidebar.recent}
       </p>
       <ul class="mt-4 space-y-3.5 lg:space-y-4">
         {
           latestPosts.map(post => (
             <li>
               <a
-                href={getPath(post.id, post.filePath)}
+                href={localizePath(getPath(post.id, post.filePath), locale)}
                 class="block text-[1rem] leading-7 text-foreground/74 transition hover:text-accent"
               >
                 {post.data.title}

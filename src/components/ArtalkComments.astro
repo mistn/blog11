@@ -1,10 +1,14 @@
 ---
+import { getLocaleFromPath, ui } from "@/i18n";
+
 type Props = {
   pageKey: string;
   pageTitle: string;
 };
 
 const { pageKey, pageTitle } = Astro.props;
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = ui[locale];
 
 const server = "https://artalkk.miuo.me";
 const siteName = "blogs";
@@ -14,10 +18,12 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
 <section
   class="mt-10 border-t border-border/60 pt-8"
   data-pagefind-ignore
-  aria-label="Comments"
+  aria-label={copy.actions.comments}
 >
-  <h2 class="[font-family:var(--font-ui-serif)] text-[1.65rem] font-semibold tracking-tight">
-    评论
+  <h2
+    class="[font-family:var(--font-ui-serif)] text-[1.65rem] font-semibold tracking-tight"
+  >
+    {copy.actions.comments}
   </h2>
   <div id={containerId} class="mt-5 min-h-28"></div>
 </section>
@@ -96,8 +102,14 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
   }
 
   if (window.__artalkPageLoadHandler) {
-    document.removeEventListener("astro:page-load", window.__artalkPageLoadHandler);
-    document.removeEventListener("astro:after-swap", window.__artalkPageLoadHandler);
+    document.removeEventListener(
+      "astro:page-load",
+      window.__artalkPageLoadHandler
+    );
+    document.removeEventListener(
+      "astro:after-swap",
+      window.__artalkPageLoadHandler
+    );
   }
 
   if (window.__artalkThemeHandler) {

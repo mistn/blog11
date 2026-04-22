@@ -6,22 +6,20 @@ import Footer from "@/components/Footer.astro";
 import Card from "@/components/Card.astro";
 import getPostsByGroupCondition from "@/utils/getPostsByGroupCondition";
 import { SITE } from "@/config";
-import { getLocaleFromPath, ui } from "@/i18n";
+import { ui } from "@/i18n";
 
-// Redirect to 404 page if `showArchives` config is false
+const locale = "en";
+const copy = ui[locale];
+
 if (!SITE.showArchives) {
-  return Astro.redirect(
-    localizePath("/404", getLocaleFromPath(Astro.url.pathname))
-  );
+  return Astro.redirect("/en/404");
 }
 
-const locale = getLocaleFromPath(Astro.url.pathname);
-const copy = ui[locale];
 const posts = await getCollection("blog", ({ data }) => !data.draft);
 const months = copy.months;
 ---
 
-<Layout title={`${copy.pages.archivesTitle} | ${SITE.title}`}>
+<Layout title={`${copy.pages.archivesTitle} | ${SITE.title}`} {locale}>
   <Main
     pageTitle={copy.pages.archivesTitle}
     pageEyebrow={copy.pages.archivesEyebrow}

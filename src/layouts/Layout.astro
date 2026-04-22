@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 import { SITE } from "@/config";
+import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 import "@/styles/global.css";
 
 type StructuredDataType = "BlogPosting" | "CollectionPage" | "WebPage";
@@ -18,13 +19,17 @@ type Props = {
   scrollSmooth?: boolean;
   structuredDataType?: StructuredDataType;
   structuredData?: Record<string, unknown> | null;
+  locale?: Locale;
 };
+
+const locale = Astro.props.locale ?? getLocaleFromPath(Astro.url.pathname);
+const copy = ui[locale];
 
 const {
   title = SITE.title,
   author = SITE.author,
   profile = SITE.profile,
-  description = SITE.desc,
+  description = copy.site.desc,
   ogImage = SITE.ogImage ? `/${SITE.ogImage}` : "/og.png",
   canonicalURL = new URL(Astro.url.pathname, Astro.url),
   pubDatetime,
@@ -36,6 +41,8 @@ const {
 
 const socialImageURL = new URL(ogImage, Astro.url);
 const canonicalHref = canonicalURL.toString();
+const zhURL = new URL(localizePath(Astro.url.pathname, "zh"), Astro.site);
+const enURL = new URL(localizePath(Astro.url.pathname, "en"), Astro.site);
 const ogType = structuredDataType === "BlogPosting" ? "article" : "website";
 const person = {
   "@type": "Person",
@@ -63,7 +70,7 @@ const baseStructuredData =
         description: `${description}`,
         url: canonicalHref,
         image: `${socialImageURL}`,
-        inLanguage: SITE.lang ?? "en",
+        inLanguage: locale === "en" ? "en" : "zh-CN",
         isPartOf: {
           "@type": "WebSite",
           name: SITE.title,
@@ -80,7 +87,7 @@ const resolvedStructuredData = structuredData
 <!doctype html>
 <html
   dir={SITE.dir}
-  lang=`${SITE.lang ?? "en"}`
+  lang={locale === "en" ? "en" : "zh-CN"}
   class={`${scrollSmooth && "scroll-smooth"}`}
 >
   <head>
@@ -116,9 +123,11 @@ const resolvedStructuredData = structuredData
       is:inline
       defer
       src="https://umami.miuo.me/script.js"
-      data-website-id="f27b869d-b507-45d9-ba10-48bfc25a9ae1"
-    ></script>
+      data-website-id="f27b869d-b507-45d9-ba10-48bfc25a9ae1"></script>
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="zh-CN" href={zhURL} />
+    <link rel="alternate" hreflang="en" href={enURL} />
+    <link rel="alternate" hreflang="x-default" href={zhURL} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- General Meta Tags -->
@@ -187,6 +196,79 @@ const resolvedStructuredData = structuredData
       )
     }
 
+    <script is:inline>
+      (function () {
+        const LOCALE_STORAGE_KEY = "preferred-locale";
+        const EN_PREFIX = "/en";
+        const pathname = window.location.pathname;
+        const isEnglishPath =
+          pathname === EN_PREFIX || pathname.startsWith(`${EN_PREFIX}/`);
+
+        function getStoredLocale() {
+          try {
+            return localStorage.getItem(LOCALE_STORAGE_KEY);
+          } catch {
+            return null;
+          }
+        }
+
+        function setStoredLocale(locale) {
+          try {
+            localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+          } catch {
+            // Ignore storage restrictions and fall back to browser language.
+          }
+        }
+
+        function toEnglishPath(path) {
+          if (path === "/") return "/en/";
+          if (path === "/404.html") return "/en/404/";
+          return `${EN_PREFIX}${path}`;
+        }
+
+        function prefersEnglish() {
+          const languages =
+            navigator.languages?.length > 0
+              ? navigator.languages
+              : [navigator.language || ""];
+          const supportedLanguage = languages
+            .map(language => language.toLowerCase())
+            .find(language => language.startsWith("zh") || language.startsWith("en"));
+
+          if (supportedLanguage) return supportedLanguage.startsWith("en");
+          return true;
+        }
+
+        if (isEnglishPath) {
+          setStoredLocale("en");
+        } else {
+          const storedLocale = getStoredLocale();
+          const shouldUseEnglish =
+            storedLocale === "en" || (!storedLocale && prefersEnglish());
+
+          if (shouldUseEnglish) {
+            window.location.replace(
+              `${toEnglishPath(pathname)}${window.location.search}${window.location.hash}`
+            );
+          }
+        }
+
+        document.addEventListener("click", event => {
+          const target =
+            event.target instanceof Element
+              ? event.target.closest("[data-locale-target]")
+              : null;
+
+          if (!(target instanceof HTMLElement)) return;
+
+          const targetLocale = target.dataset.localeTarget;
+          if (targetLocale === "zh" || targetLocale === "en") {
+            setStoredLocale(targetLocale);
+          }
+        });
+      })();
+    </script>
+
     <ClientRouter />
 
     <script is:inline>
@@ -246,7 +328,8 @@ const resolvedStructuredData = structuredData
         if (isSameDocumentLink) return false;
 
         return (
-          link.hasAttribute("data-post-link") || url.pathname.startsWith("/posts/")
+          link.hasAttribute("data-post-link") ||
+          url.pathname.startsWith("/posts/")
         );
       }
 

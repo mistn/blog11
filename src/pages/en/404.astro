@@ -4,13 +4,13 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { SITE } from "@/config";
-import { getLocaleFromPath, localizePath, ui } from "@/i18n";
+import { localizePath, ui } from "@/i18n";
 
-const locale = getLocaleFromPath(Astro.url.pathname);
+const locale = "en";
 const copy = ui[locale];
 ---
 
-<Layout title={`404 ${copy.pages.notFoundTitle} | ${SITE.title}`}>
+<Layout title={`404 ${copy.pages.notFoundTitle} | ${SITE.title}`} {locale}>
   <Header />
 
   <main

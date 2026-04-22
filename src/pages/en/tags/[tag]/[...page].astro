@@ -9,7 +9,7 @@ import Pagination from "@/components/Pagination.astro";
 import getUniqueTags from "@/utils/getUniqueTags";
 import getPostsByTag from "@/utils/getPostsByTag";
 import { SITE } from "@/config";
-import { getLocaleFromPath, ui } from "@/i18n";
+import { ui } from "@/i18n";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const posts = await getCollection("blog");
@@ -27,13 +27,13 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 }
 
 const { page, tagName } = Astro.props;
-const locale = getLocaleFromPath(Astro.url.pathname);
+const locale = "en";
 const copy = ui[locale];
 const pageTitle = `${copy.pages.tagTitle}${tagName}`;
 const pageDesc = `${copy.pages.tagDescPrefix}${tagName}${copy.pages.tagDescSuffix}`;
 ---
 
-<Layout title={`${pageTitle} | ${SITE.title}`}>
+<Layout title={`${pageTitle} | ${SITE.title}`} {locale}>
   <Main pageTitle={pageTitle} pageDesc={pageDesc}>
     <ul>
       {page.data.map(data => <Card {...data} {locale} />)}

@@ -1,4 +1,8 @@
 ---
+import { getLocaleFromPath, ui } from "@/i18n";
+
+const locale = getLocaleFromPath(Astro.url.pathname);
+const copy = ui[locale];
 const postUrl = Astro.url.href;
 ---
 
@@ -8,11 +12,17 @@ const postUrl = Astro.url.href;
     data-copy-post-link={postUrl}
     class="text-[0.98rem] text-foreground/58 underline decoration-border decoration-1 underline-offset-4 transition hover:text-accent"
   >
-    复制文章链接
+    {copy.actions.copyPostLink}
   </button>
 </div>
 
-<script is:inline>
+<script
+  is:inline
+  define:vars={{
+    copyPostLink: copy.actions.copyPostLink,
+    postLinkCopied: copy.actions.postLinkCopied,
+  }}
+>
   function setupCopyPostLink() {
     const copyButton = document.querySelector("[data-copy-post-link]");
     if (!(copyButton instanceof HTMLButtonElement)) return;
@@ -21,10 +31,10 @@ const postUrl = Astro.url.href;
       const link = copyButton.dataset.copyPostLink ?? window.location.href;
       await navigator.clipboard.writeText(link);
 
-      copyButton.textContent = "链接已复制";
+      copyButton.textContent = postLinkCopied;
 
       window.setTimeout(() => {
-        copyButton.textContent = "复制文章链接";
+        copyButton.textContent = copyPostLink;
       }, 1000);
     });
   }

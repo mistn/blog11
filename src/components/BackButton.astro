@@ -3,16 +3,21 @@ import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import type { HTMLAttributes } from "astro/types";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 
 type Props = {
   inline?: boolean;
+  locale?: Locale;
 } & HTMLAttributes<"a">;
 
 const {
   inline = false,
+  locale = getLocaleFromPath(Astro.url.pathname),
   class: className,
   ...attrs
 } = Astro.props;
+
+const copy = ui[locale];
 ---
 
 {
@@ -26,7 +31,7 @@ const {
     >
       <LinkButton
         id="back-button"
-        href="/"
+        href={localizePath("/", locale)}
         class:list={[
           "focus-outline -ms-2 hover:text-foreground/75",
           inline ? "mb-4" : "mt-8 mb-2",
@@ -35,7 +40,7 @@ const {
         {...attrs}
       >
         <IconChevronLeft class="inline-block size-6 rtl:rotate-180" />
-        <span>Go back</span>
+        <span>{copy.actions.goBack}</span>
       </LinkButton>
     </div>
   )

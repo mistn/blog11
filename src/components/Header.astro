@@ -3,13 +3,26 @@ import IconMoon from "@/assets/icons/IconMoon.svg";
 import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconArchive from "@/assets/icons/IconArchive.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
+import IconLanguage from "@/assets/icons/IconLanguage.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+import {
+  getAlternateLocale,
+  getLocaleFromPath,
+  localizePath,
+  normalizePath,
+  ui,
+} from "@/i18n";
 
 const { pathname } = Astro.url;
+const locale = getLocaleFromPath(pathname);
+const copy = ui[locale];
+const alternateLocale = getAlternateLocale(locale);
+const languageHref = localizePath(pathname, alternateLocale);
 const currentPath =
   pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
-const isActive = (path: string) => currentPath === path;
+const isActive = (path: string) =>
+  currentPath === normalizePath(localizePath(path, locale));
 ---
 
 <a
@@ -17,7 +30,7 @@ const isActive = (path: string) => currentPath === path;
   href="#main-content"
   class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4"
 >
-  Skip to content
+  {copy.nav.skipToContent}
 </a>
 
 <header
@@ -33,7 +46,7 @@ const isActive = (path: string) => currentPath === path;
     ]}
   >
     <a
-      href="/"
+      href={localizePath("/", locale)}
       class="py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:my-auto sm:text-2xl sm:leading-none"
     >
       {SITE.title}
@@ -42,39 +55,49 @@ const isActive = (path: string) => currentPath === path;
       {
         SITE.showArchives && (
           <LinkButton
-            href="/archives"
+            href={localizePath("/archives", locale)}
             class:list={[
               "focus-outline flex p-3 sm:p-1.5",
               {
                 "[&>svg]:stroke-accent": isActive("/archives"),
               },
             ]}
-            title="Archives"
-            aria-label="archives"
+            title={copy.nav.archives}
+            aria-label={copy.nav.archives}
           >
             <IconArchive />
-            <span class="sr-only">Archives</span>
+            <span class="sr-only">{copy.nav.archives}</span>
           </LinkButton>
         )
       }
       <LinkButton
-        href="/search"
+        href={localizePath("/search", locale)}
         class:list={[
           "focus-outline flex p-3 sm:p-1.5",
           { "[&>svg]:stroke-accent": isActive("/search") },
         ]}
-        title="Search"
-        aria-label="search"
+        title={copy.nav.search}
+        aria-label={copy.nav.search}
       >
         <IconSearch />
-        <span class="sr-only">Search</span>
+        <span class="sr-only">{copy.nav.search}</span>
+      </LinkButton>
+      <LinkButton
+        href={languageHref}
+        data-locale-target={alternateLocale}
+        class="focus-outline flex p-3 sm:p-1.5"
+        title={copy.nav.languageLabel}
+        aria-label={copy.nav.languageLabel}
+      >
+        <IconLanguage />
+        <span class="sr-only">{copy.nav.languageLabel}</span>
       </LinkButton>
       {
         SITE.lightAndDarkMode && (
           <button
             id="theme-btn"
             class="focus-outline relative size-12 p-4 text-foreground/68 transition hover:text-accent sm:size-9"
-            title="Toggles light & dark"
+            title={copy.nav.theme}
             aria-label="auto"
             aria-live="polite"
           >

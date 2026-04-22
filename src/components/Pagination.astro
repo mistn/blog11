@@ -4,12 +4,17 @@ import type { CollectionEntry } from "astro:content";
 import IconArrowLeft from "@/assets/icons/IconArrowLeft.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import LinkButton from "./LinkButton.astro";
+import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 
 type Props = {
   page: Page<CollectionEntry<"blog">>;
+  locale?: Locale;
 };
 
-const { page } = Astro.props;
+const { page, locale = getLocaleFromPath(Astro.url.pathname) } = Astro.props;
+const copy = ui[locale];
+const prevUrl = page.url.prev ? localizePath(page.url.prev, locale) : undefined;
+const nextUrl = page.url.next ? localizePath(page.url.next, locale) : undefined;
 ---
 
 {
@@ -20,22 +25,22 @@ const { page } = Astro.props;
       aria-label="Pagination Navigation"
     >
       <LinkButton
-        disabled={!page.url.prev}
-        href={page.url.prev as string}
-        class:list={["me-4 select-none", { "opacity-50": !page.url.prev }]}
-        aria-label="Goto Previous Page"
+        disabled={!prevUrl}
+        href={prevUrl as string}
+        class:list={["me-4 select-none", { "opacity-50": !prevUrl }]}
+        aria-label={copy.actions.previousPageLabel}
       >
         <IconArrowLeft class="inline-block rtl:rotate-180" />
-        Prev
+        {copy.actions.previousPage}
       </LinkButton>
       {page.currentPage} / {page.lastPage}
       <LinkButton
-        disabled={!page.url.next}
-        href={page.url.next as string}
-        class:list={["ms-4 select-none", { "opacity-50": !page.url.next }]}
-        aria-label="Goto Next Page"
+        disabled={!nextUrl}
+        href={nextUrl as string}
+        class:list={["ms-4 select-none", { "opacity-50": !nextUrl }]}
+        aria-label={copy.actions.nextPageLabel}
       >
-        Next
+        {copy.actions.nextPage}
         <IconArrowRight class="inline-block rtl:rotate-180" />
       </LinkButton>
     </nav>
