@@ -5,11 +5,11 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #fbfaf7;
-  --foreground: #243a62;
-  --accent: #244d88;
-  --muted: #ece7df;
-  --border: #e6e0d7;
+  --background: #fbfaf6;
+  --foreground: #30394a;
+  --accent: #2f628f;
+  --muted: #f0ede7;
+  --border: #dfd8ce;
 }
 
 html[data-theme="dark"] {
@@ -21,9 +21,6 @@ html[data-theme="dark"] {
 }
 
 :root {
-  --theme-transition-x: 50vw;
-  --theme-transition-y: 50vh;
-  --theme-transition-radius: 0px;
   --font-ui-sans:
     "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC",
     "Microsoft YaHei", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
@@ -57,16 +54,16 @@ html[data-theme="dark"] {
   body {
     @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
     background-image:
-      linear-gradient(rgba(36, 77, 136, 0.038) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(36, 77, 136, 0.038) 1px, transparent 1px),
+      linear-gradient(rgba(47, 98, 143, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(47, 98, 143, 0.022) 1px, transparent 1px),
       linear-gradient(
         180deg,
-        rgba(255, 252, 245, 0.98),
-        rgba(251, 250, 247, 0.98)
+        rgba(255, 253, 248, 0.995),
+        rgba(251, 250, 246, 0.995)
       );
     background-size:
-      22px 22px,
-      22px 22px,
+      28px 28px,
+      28px 28px,
       auto;
     background-position:
       center top,
@@ -76,12 +73,12 @@ html[data-theme="dark"] {
   }
   html[data-theme="light"] body {
     background-image:
-      linear-gradient(rgba(36, 77, 136, 0.038) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(36, 77, 136, 0.038) 1px, transparent 1px),
+      linear-gradient(rgba(47, 98, 143, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(47, 98, 143, 0.022) 1px, transparent 1px),
       linear-gradient(
         180deg,
-        rgba(255, 252, 245, 0.98),
-        rgba(251, 250, 247, 0.98)
+        rgba(255, 253, 248, 0.995),
+        rgba(251, 250, 246, 0.995)
       );
   }
   html[data-theme="dark"] body {
@@ -150,15 +147,6 @@ html[data-theme="dark"] {
   mix-blend-mode: normal;
 }
 
-html[data-theme-switching="true"]::view-transition-old(page-body),
-html[data-theme-switching="true"]::view-transition-new(page-body) {
-  animation: none;
-}
-
-html[data-theme-switching="true"] [data-astro-transition-scope] {
-  view-transition-name: none !important;
-}
-
 ::view-transition-old(page-body) {
   z-index: 1;
   animation-name: page-body-out;
@@ -167,56 +155,6 @@ html[data-theme-switching="true"] [data-astro-transition-scope] {
 ::view-transition-new(page-body) {
   z-index: 2;
   animation-name: page-body-in;
-}
-
-html.theme-transition-dark::view-transition-old(root) {
-  z-index: 1;
-  animation: none;
-}
-
-html.theme-transition-dark::view-transition-new(root) {
-  z-index: 2;
-  animation: theme-reveal-in 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-html.theme-transition-light::view-transition-old(root) {
-  z-index: 2;
-  animation: theme-reveal-out 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-html.theme-transition-light::view-transition-new(root) {
-  z-index: 1;
-  animation: none;
-}
-
-@keyframes theme-reveal-in {
-  from {
-    clip-path: circle(
-      14px at var(--theme-transition-x) var(--theme-transition-y)
-    );
-  }
-
-  to {
-    clip-path: circle(
-      var(--theme-transition-radius) at var(--theme-transition-x)
-        var(--theme-transition-y)
-    );
-  }
-}
-
-@keyframes theme-reveal-out {
-  from {
-    clip-path: circle(
-      var(--theme-transition-radius) at var(--theme-transition-x)
-        var(--theme-transition-y)
-    );
-  }
-
-  to {
-    clip-path: circle(
-      14px at var(--theme-transition-x) var(--theme-transition-y)
-    );
-  }
 }
 
 @keyframes page-body-out {

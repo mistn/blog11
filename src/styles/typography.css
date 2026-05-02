@@ -4,6 +4,8 @@
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
     @apply prose;
+    font-size: 1.05rem;
+    line-height: 1.82;
 
     h1,
     h2,
@@ -50,13 +52,15 @@
     }
 
     table {
+      @apply overflow-hidden border border-border/70 bg-background/45;
+
       th,
       td {
-        @apply border border-border p-2;
+        @apply border border-border/65 p-2;
       }
 
       th {
-        @apply py-1.5;
+        @apply bg-muted/45 py-1.5;
       }
 
       code {

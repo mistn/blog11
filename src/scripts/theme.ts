@@ -23,7 +23,6 @@ function getPreferTheme(): string {
 
 // Use existing theme value from inline script if available, otherwise detect
 let themeValue = window.theme?.themeValue ?? getPreferTheme();
-let isThemeTransitionRunning = false;
 
 function setPreference(): void {
   localStorage.setItem(THEME, themeValue);
@@ -36,76 +35,9 @@ function applyThemePreference(nextTheme: string): void {
   setPreference();
 }
 
-function getThemeTransitionOrigin(event?: Event): { x: number; y: number } | null {
-  const button = event?.currentTarget;
-  if (!(button instanceof HTMLButtonElement)) return null;
-
-  const iconAnchor = button.querySelector("[data-theme-icon-anchor]");
-  const originElement =
-    iconAnchor instanceof HTMLElement || iconAnchor instanceof SVGElement
-      ? iconAnchor
-      : button;
-  const { left, top, width, height } = originElement.getBoundingClientRect();
-
-  return {
-    x: left + width / 2,
-    y: top + height / 2,
-  };
-}
-
-async function toggleThemeWithTransition(event?: Event): Promise<void> {
-  if (isThemeTransitionRunning) return;
-
+function toggleTheme(): void {
   const nextTheme = themeValue === LIGHT ? DARK : LIGHT;
-  const transitionOrigin = getThemeTransitionOrigin(event);
-  const supportsViewTransition =
-    typeof document !== "undefined" &&
-    "startViewTransition" in document &&
-    transitionOrigin !== null &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!supportsViewTransition) {
-    applyThemePreference(nextTheme);
-    return;
-  }
-
-  isThemeTransitionRunning = true;
-
-  const endRadius = Math.hypot(
-    Math.max(transitionOrigin.x, window.innerWidth - transitionOrigin.x),
-    Math.max(transitionOrigin.y, window.innerHeight - transitionOrigin.y)
-  );
-
-  const root = document.documentElement;
-  const transitionClass =
-    nextTheme === DARK ? "theme-transition-dark" : "theme-transition-light";
-
-  root.style.setProperty("--theme-transition-x", `${transitionOrigin.x}px`);
-  root.style.setProperty("--theme-transition-y", `${transitionOrigin.y}px`);
-  root.style.setProperty("--theme-transition-radius", `${endRadius}px`);
-  root.classList.remove("theme-transition-dark", "theme-transition-light");
-  root.classList.add(transitionClass);
-  root.setAttribute("data-theme-switching", "true");
-
-  try {
-    const transition = (document as Document & {
-      startViewTransition: (callback: () => void | Promise<void>) => {
-        ready: Promise<void>;
-        finished: Promise<void>;
-      };
-    }).startViewTransition(() => {
-      applyThemePreference(nextTheme);
-    });
-
-    await transition.ready;
-    await transition.finished;
-  } catch {
-    applyThemePreference(nextTheme);
-  } finally {
-    root.classList.remove("theme-transition-dark", "theme-transition-light");
-    root.removeAttribute("data-theme-switching");
-    isThemeTransitionRunning = false;
-  }
+  applyThemePreference(nextTheme);
 }
 
 function reflectPreference(): void {
@@ -173,8 +105,8 @@ function setThemeFeature(): void {
   if (!themeButtons.length) return;
 
   for (const themeButton of themeButtons) {
-    themeButton.onclick = event => {
-      void toggleThemeWithTransition(event);
+    themeButton.onclick = () => {
+      toggleTheme();
     };
   }
 }
@@ -212,7 +144,9 @@ document.addEventListener("astro:before-swap", event => {
 window
   .matchMedia("(prefers-color-scheme: dark)")
   .addEventListener("change", ({ matches: isDark }) => {
+    if (localStorage.getItem(THEME)) return;
+
     themeValue = isDark ? DARK : LIGHT;
     window.theme?.setTheme(themeValue);
-    setPreference();
+    reflectPreference();
   });
