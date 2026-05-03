@@ -1,12 +1,18 @@
 {
   "username": "miuol",
-  "updatedAt": "2026-04-26T18:32:54.978Z",
+  "updatedAt": "2026-05-03T18:39:12.674Z",
   "items": [
     {
       "title": "超かぐや姫！",
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx201903-v43gxQKw8Tc8.jpg",
       "year": 2026,
       "url": "https://anilist.co/anime/201903"
+    },
+    {
+      "title": "ダンダダン 第2期",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx185660-uB8RUMBGovGr.jpg",
+      "year": 2025,
+      "url": "https://anilist.co/anime/185660"
     },
     {
       "title": "俺だけレベルアップな件 Season 2 -Arise from the Shadow-",
@@ -19,6 +25,12 @@
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx154473-o55309dVGP3G.jpg",
       "year": 2024,
       "url": "https://anilist.co/anime/154473"
+    },
+    {
+      "title": "ダンダダン",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx171018-60q1B6GK2Ghb.jpg",
+      "year": 2024,
+      "url": "https://anilist.co/anime/171018"
     },
     {
       "title": "デート・ア・ライブV",
@@ -97,6 +109,12 @@
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx107420-fTC53wOorIsl.jpg",
       "year": 2020,
       "url": "https://anilist.co/anime/107420"
+    },
+    {
+      "title": "クドわふたー",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx104749-b4JLtaA5MF7C.png",
+      "year": 2020,
+      "url": "https://anilist.co/anime/104749"
     },
     {
       "title": "ジョゼと虎と魚たち",
@@ -273,6 +291,12 @@
       "url": "https://anilist.co/anime/20646"
     },
     {
+      "title": "私がモテないのはどう考えてもお前らが悪い! 未放送第13話",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx20453-qLyo3mXA5t4V.jpg",
+      "year": 2014,
+      "url": "https://anilist.co/anime/20453"
+    },
+    {
       "title": "東京喰種 トーキョーグール",
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b20605-k665mVkSug8D.jpg",
       "year": 2014,
@@ -297,10 +321,22 @@
       "url": "https://anilist.co/anime/16782"
     },
     {
+      "title": "私がモテないのはどう考えてもお前らが悪い!",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx16742-apAy622TmkVd.jpg",
+      "year": 2013,
+      "url": "https://anilist.co/anime/16742"
+    },
+    {
       "title": "パパのいうことを聞きなさい！",
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11179-dsXM0rjRESlv.jpg",
       "year": 2012,
       "url": "https://anilist.co/anime/11179"
+    },
+    {
+      "title": "ブラック★ロックシューター (TV)",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx11285-uO6GgQUjikbf.jpg",
+      "year": 2012,
+      "url": "https://anilist.co/anime/11285"
     },
     {
       "title": "僕は友達が少ない",
@@ -313,6 +349,12 @@
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx9756-QnUGwlwwnsuN.jpg",
       "year": 2011,
       "url": "https://anilist.co/anime/9756"
+    },
+    {
+      "title": "ブラック★ロックシューター (OVA)",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx7059-8fqxS4nNzbq7.jpg",
+      "year": 2010,
+      "url": "https://anilist.co/anime/7059"
     },
     {
       "title": "ヨスガノソラ",
