@@ -10,6 +10,7 @@ import EditPost from "@/components/EditPost.astro";
 import ArtalkComments from "@/components/ArtalkComments.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
@@ -44,7 +45,7 @@ const {
   hideEditPost,
 } = post.data;
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 let ogImageUrl: string | undefined;
 
@@ -226,6 +227,7 @@ const nextPost =
               </div>
             </article>
 
+            <TableOfContents {headings} {locale} />
             <BackToTopButton {locale} />
           </div>
 

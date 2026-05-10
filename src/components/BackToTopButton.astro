@@ -19,15 +19,37 @@ const copy = ui[locale];
 >
   <button
     data-button="back-to-top"
+    style="--read-progress-ratio: 0;"
     class:list={[
-      "group relative flex size-11 items-center justify-center rounded-full border border-border/70 bg-background/90 text-foreground/70 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-sm transition hover:text-accent",
+      "group relative flex size-11 items-center justify-center rounded-full text-foreground/70 transition hover:text-accent",
     ]}
     aria-label={copy.actions.backToTop}
     title={copy.actions.backToTop}
   >
-    <IconChevronLeft
-      class="inline-block size-4 rotate-90 transition group-hover:-translate-y-0.5"
-    />
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 44 44"
+      class="pointer-events-none absolute inset-0 size-full -rotate-90"
+    >
+      <circle
+        cx="22"
+        cy="22"
+        r="20.5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        class="text-accent"
+        style="stroke-dasharray: 128.8; stroke-dashoffset: calc(128.8 - (128.8 * var(--read-progress-ratio)));"
+      />
+    </svg>
+    <span
+      class="relative flex size-full items-center justify-center rounded-full"
+    >
+      <IconChevronLeft
+        class="inline-block size-4 rotate-90 transition group-hover:-translate-y-0.5"
+      />
+    </span>
   </button>
 </div>
 
@@ -49,8 +71,14 @@ const copy = ui[locale];
       const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
       const scrollTop = rootElement.scrollTop;
       const safeScrollTotal = scrollTotal <= 0 ? 1 : scrollTotal;
+      const progress = Math.min(Math.max(scrollTop / safeScrollTotal, 0), 1);
 
-      const isVisible = scrollTop / safeScrollTotal > 0.18;
+      backToTopBtn.style.setProperty(
+        "--read-progress-ratio",
+        progress.toFixed(4)
+      );
+
+      const isVisible = progress > 0.18;
 
       if (isVisible !== lastVisible) {
         btnContainer.classList.toggle("opacity-100", isVisible);

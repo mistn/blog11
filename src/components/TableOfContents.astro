@@ -1,0 +1,178 @@
+---
+import IconListTree from "@/assets/icons/IconListTree.svg";
+import IconX from "@/assets/icons/IconX.svg";
+import { getLocaleFromPath, type Locale } from "@/i18n";
+
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
+type Props = {
+  headings: Heading[];
+  locale?: Locale;
+};
+
+const { headings, locale = getLocaleFromPath(Astro.url.pathname) } =
+  Astro.props;
+
+const tocHeadings = headings.filter(
+  heading => heading.depth >= 2 && heading.depth <= 4 && heading.slug
+);
+
+const title = locale === "en" ? "Table of contents" : "文章目录";
+const toggleLabel = locale === "en" ? "Open table of contents" : "打开文章目录";
+const closeLabel = locale === "en" ? "Close table of contents" : "关闭文章目录";
+---
+
+{
+  tocHeadings.length > 0 && (
+    <div
+      id="toc-drawer"
+      data-toc-root
+      data-open="false"
+      class="pointer-events-none fixed end-5 bottom-20 z-50"
+    >
+      <aside
+        aria-labelledby="toc-drawer-title"
+        data-toc-panel
+        class="pointer-events-none fixed end-5 bottom-36 flex max-h-[min(30rem,62vh)] w-[min(20rem,calc(100vw-2.5rem))] translate-y-2 flex-col rounded-md border border-border/70 bg-background/96 px-4 py-4 opacity-0 shadow-[0_18px_48px_rgba(15,23,42,0.16)] backdrop-blur-xl transition duration-200 ease-out"
+      >
+        <div class="flex items-center justify-between gap-3">
+          <h2
+            id="toc-drawer-title"
+            class="[font-family:var(--font-ui-serif)] text-lg font-semibold"
+          >
+            {title}
+          </h2>
+          <button
+            type="button"
+            data-toc-close
+            aria-label={closeLabel}
+            title={closeLabel}
+            class="flex size-9 items-center justify-center rounded-full border border-border/70 bg-muted/60 text-foreground/72 transition hover:text-accent"
+          >
+            <IconX class="size-4" />
+          </button>
+        </div>
+
+        <nav class="mt-4 overflow-y-auto pe-1" aria-label={title}>
+          <ol class="space-y-1">
+            {tocHeadings.map(heading => (
+              <li>
+                <a
+                  href={`#${heading.slug}`}
+                  data-toc-link={heading.slug}
+                  class:list={[
+                    "block rounded px-2 py-1.5 text-sm leading-6 text-foreground/70 transition hover:bg-muted/70 hover:text-accent",
+                    {
+                      "ms-3": heading.depth === 3,
+                      "ms-6 text-xs": heading.depth === 4,
+                    },
+                  ]}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </aside>
+
+      <div class="pointer-events-auto">
+        <button
+          type="button"
+          data-toc-toggle
+          aria-expanded="false"
+          aria-controls="toc-drawer"
+          aria-label={toggleLabel}
+          title={title}
+          class="group flex size-11 items-center justify-center rounded-full border border-border/70 bg-background/90 text-foreground/70 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-sm transition hover:text-accent"
+        >
+          <IconListTree class="size-5 transition group-hover:scale-105" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<script is:inline data-astro-rerun>
+  function initTableOfContents() {
+    const root = document.querySelector("[data-toc-root]");
+    if (!root) return;
+
+    const toggle = root.querySelector("[data-toc-toggle]");
+    const close = root.querySelector("[data-toc-close]");
+    const panel = root.querySelector("[data-toc-panel]");
+    const links = Array.from(root.querySelectorAll("[data-toc-link]"));
+    const targets = links
+      .map(link => {
+        const id = link.getAttribute("data-toc-link");
+        return id ? document.getElementById(id) : null;
+      })
+      .filter(Boolean);
+
+    if (!toggle || !close || !panel) return;
+
+    function setOpen(isOpen) {
+      root.dataset.open = String(isOpen);
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      root.classList.toggle("pointer-events-auto", isOpen);
+      root.classList.toggle("pointer-events-none", !isOpen);
+      panel.classList.toggle("pointer-events-auto", isOpen);
+      panel.classList.toggle("pointer-events-none", !isOpen);
+      panel.classList.toggle("translate-y-0", isOpen);
+      panel.classList.toggle("translate-y-2", !isOpen);
+      panel.classList.toggle("opacity-100", isOpen);
+      panel.classList.toggle("opacity-0", !isOpen);
+    }
+
+    function updateActiveLink() {
+      let activeId = targets[0]?.id;
+      for (const target of targets) {
+        if (target.getBoundingClientRect().top <= 120) {
+          activeId = target.id;
+        } else {
+          break;
+        }
+      }
+
+      for (const link of links) {
+        const isActive = link.getAttribute("data-toc-link") === activeId;
+        link.classList.toggle("bg-muted", isActive);
+        link.classList.toggle("text-accent", isActive);
+        link.classList.toggle("font-medium", isActive);
+      }
+    }
+
+    toggle.addEventListener("click", () => {
+      setOpen(root.dataset.open !== "true");
+    });
+    close.addEventListener("click", () => setOpen(false));
+    links.forEach(link => link.addEventListener("click", () => setOpen(false)));
+    document.addEventListener("click", event => {
+      if (root.dataset.open !== "true") return;
+      if (event.target instanceof Node && root.contains(event.target)) return;
+      setOpen(false);
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") setOpen(false);
+    });
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveLink();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    updateActiveLink();
+  }
+
+  initTableOfContents();
+</script>
