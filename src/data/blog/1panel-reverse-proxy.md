@@ -52,7 +52,7 @@ description: 1Panel 反向代理实操记录，包含 Cloudflare DNS、证书申
    - 填写 Token 即可
 ![](https://s3.2731515.xyz/PicGo/202604031158574JBzJx.webp)
 4. 申请证书
-   - 主域名：目标域名前加* 即可
+   - 主域名：目标域名前加 `*.` 即可，例如 `*.example.com`
 
 ### 2.2 创建反向代理
 

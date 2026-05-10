@@ -1,7 +1,7 @@
 ---
 author: miuo
 pubDatetime: 2026-05-10T00:00:00+08:00
-modDatetime: 2026-05-10T00:00:00+08:00
+modDatetime: 2026-05-11T00:00:00+08:00
 title: 用 Rclone 自动备份小狼毫配置到 WebDAV
 featured: false
 draft: false
@@ -90,7 +90,7 @@ $ErrorActionPreference = "Stop"
 $Source = "C:\Users\xxx\AppData\Roaming\Rime"
 $TempDir = "C:\Users\xxx\rclone-temp"
 $LogDir = "C:\Users\xxx\rclone-logs"
-$RemoteDir = "remote:backup/rime-archives"
+$RemoteDir = "list:backup/rime-archives"
 
 # File names
 $Time = Get-Date -Format "yyyyMMdd-HHmmss"
@@ -422,57 +422,65 @@ schtasks /Query /TN "Backup Rime to R2 Keep3" /V /FO LIST
 
 ### 4.1 使用 `[` / `]` 切换候选项
 
-```yaml
-# default.yaml
+配置文件路径：
 
-key_binder:
+```text
+C:\Users\Sakura\AppData\Roaming\Rime\default.custom.yaml
+```
+
+如果没有 `default.custom.yaml` 就新建一个。不要直接改 `default.yaml`，更新方案时更容易被覆盖。
+
+```yaml file="default.custom.yaml"
+patch:
   # 原本 [ ] 被 Lua 的“以词定字”占用
   # 如果要用 [ ] 翻页，需要先把“以词定字”改成别的快捷键
-  select_first_character: "Control+bracketleft"
-  select_last_character: "Control+bracketright"
+  key_binder/select_first_character: "Control+bracketleft"
+  key_binder/select_last_character: "Control+bracketright"
 
-  bindings:
-    # 翻页 [ ]
+  key_binder/bindings/+:
     - { when: has_menu, accept: bracketleft, send: Page_Up }
     - { when: has_menu, accept: bracketright, send: Page_Down }
-
 ```
 
 ### 4.2 小狼毫皮肤配置
 
 ![](https://s3.2731515.xyz/PicGo/20260510125659ShsZRR.webp)
 
-`weasel.yaml`
+配置文件路径：
 
-启用自定义皮肤
-
-```yaml
-style:
-  color_scheme: purity_of_form_custom
-
+```text
+C:\Users\Sakura\AppData\Roaming\Rime\weasel.custom.yaml
 ```
 
-自定义皮肤配色
+如果没有 `weasel.custom.yaml` 就新建一个。不要直接改 `weasel.yaml`，更新配置时更容易被覆盖。
 
-```yaml
-preset_color_schemes:
-  purity_of_form_custom:
+```yaml file="weasel.custom.yaml"
+patch:
+  style/color_scheme: purity_of_form_custom
+
+  preset_color_schemes/purity_of_form_custom:
     name: "uo"
-    author: "miuo, based on Purity of Form"
-    text_color: 0x808080
-    back_color: 0x545554
-    label_color: 0xBBBBBB
-    border_color: 0x545554
-    shadow_color: 0xb4000000
-    comment_text_color: 0x808080
-    candidate_text_color: 0xEEEEEE
-    hilited_text_color: 0xEEEEEE
-    hilited_comment_text_color: 0x808080
-    hilited_candidate_back_color: 0xE3E3E3
-    hilited_candidate_border_color: 0xE3E3E3
-    hilited_candidate_label_color: 0x4C4C4C
-    hilited_candidate_text_color: 0x000000
+    author: "miuo"
 
+    # 小狼毫颜色是 BGR，不是网页常见的 RGB；黑白灰不受影响。
+    text_color: 0x000000
+    back_color: 0xFFFFFF
+    border_color: 0xE5E5E5
+    shadow_color: 0x20000000
+
+    label_color: 0x666666
+    candidate_text_color: 0x333333
+    comment_text_color: 0x888888
+
+    hilited_text_color: 0x000000
+    hilited_candidate_text_color: 0x000000
+    hilited_candidate_label_color: 0x333333
+    hilited_comment_text_color: 0x666666
+    hilited_candidate_back_color: 0xFFFFFF
+    hilited_candidate_border_color: 0xFFFFFF
+
+    # 左侧高亮标记，0xD47800 对应接近 Windows 蓝色。
+    hilited_mark_color: 0xD47800
 ```
 
 重新部署即可

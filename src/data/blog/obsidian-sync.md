@@ -58,7 +58,7 @@ git clone git@github.com:mistn/test_vault.git
 
 7. 创建 .gitignore。
 
-```gitignore
+```text
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 ```
@@ -66,6 +66,8 @@ git clone git@github.com:mistn/test_vault.git
 8. 推送到 GitHub 仓库。
 
 ```bash
+git add .gitignore
+git commit -m "add obsidian gitignore"
 git push origin main
 ```
 
