@@ -82,16 +82,17 @@ const isActive = (path: string) =>
         <IconSearch />
         <span class="sr-only">{copy.nav.search}</span>
       </LinkButton>
-      <LinkButton
+      <a
         href={languageHref}
         data-locale-target={alternateLocale}
-        class="focus-outline flex p-3 sm:p-1.5"
+        data-astro-reload
+        class="group inline-flex items-center gap-1 focus-outline p-3 hover:text-accent sm:p-1.5"
         title={copy.nav.languageLabel}
         aria-label={copy.nav.languageLabel}
       >
         <IconLanguage />
         <span class="sr-only">{copy.nav.languageLabel}</span>
-      </LinkButton>
+      </a>
       {
         SITE.lightAndDarkMode && (
           <button

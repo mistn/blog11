@@ -126,16 +126,17 @@ const emailLabel = `${copy.nav.email} ${SITE.title}`;
               <span class="sr-only">{copy.nav.search}</span>
             </LinkButton>
 
-            <LinkButton
+            <a
               href={languageHref}
               data-locale-target={alternateLocale}
-              class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
+              data-astro-reload
+              class="group inline-flex size-10 items-center justify-center gap-1 rounded-full text-foreground/68 transition focus-outline hover:text-accent"
               title={copy.nav.languageLabel}
               aria-label={copy.nav.languageLabel}
             >
               <IconLanguage class="size-5" />
               <span class="sr-only">{copy.nav.languageLabel}</span>
-            </LinkButton>
+            </a>
 
             {
               SITE.lightAndDarkMode && (
@@ -172,16 +173,17 @@ const emailLabel = `${copy.nav.email} ${SITE.title}`;
           <span class="sr-only">{copy.nav.search}</span>
         </LinkButton>
 
-        <LinkButton
+        <a
           href={languageHref}
           data-locale-target={alternateLocale}
-          class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
+          data-astro-reload
+          class="group inline-flex size-10 items-center justify-center gap-1 rounded-full text-foreground/68 transition focus-outline hover:text-accent"
           title={copy.nav.languageLabel}
           aria-label={copy.nav.languageLabel}
         >
           <IconLanguage class="size-5" />
           <span class="sr-only">{copy.nav.languageLabel}</span>
-        </LinkButton>
+        </a>
 
         {
           SITE.lightAndDarkMode && (
