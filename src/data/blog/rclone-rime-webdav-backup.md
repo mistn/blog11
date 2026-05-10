@@ -13,7 +13,7 @@ tags:
 description: 记录在 Windows 下配置 Rclone WebDAV、编写 Rime 配置备份脚本，并通过计划任务定时备份到云端的过程。
 ---
 
-## Rclone 配置 webdav
+## 1. Rclone 配置 webdav
 
 scoop 下载 rclone
 
@@ -79,7 +79,7 @@ PS C:\Users\Sakura> rclone lsd list:
 PS C:\Users\Sakura>
 ```
 
-## 创建 Rime 备份脚本
+## 2. 创建 Rime 备份脚本
 
 按需自行修改
 
@@ -370,7 +370,7 @@ finally {
 }
 ```
 
-## 设置 windows 定时备份任务
+## 3. 设置 windows 定时备份任务
 
 每周日 22:10 跑一次，错过后下次开机补跑，失败后每 10 分钟重试一次最多 3 次，超过 1 小时停止，不启动重复实例
 
@@ -418,9 +418,9 @@ Register-ScheduledTask `
 schtasks /Query /TN "Backup Rime to R2 Keep3" /V /FO LIST
 ```
 
-## Rime 具体配置
+## 4. Rime 具体配置
 
-### 使用 `[` / `]` 切换候选项
+### 4.1 使用 `[` / `]` 切换候选项
 
 ```yaml
 # default.yaml
@@ -438,7 +438,7 @@ key_binder:
 
 ```
 
-### 小狼毫皮肤配置
+### 4.2 小狼毫皮肤配置
 
 ![](https://s3.2731515.xyz/PicGo/20260510125659ShsZRR.webp)
 
@@ -477,7 +477,7 @@ preset_color_schemes:
 
 重新部署即可
 
-## 雾凇词库更新
+## 5. 雾凇词库更新
 
 ```bash
 git status
