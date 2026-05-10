@@ -19,8 +19,8 @@ const artalkText =
         nick: "Name",
         noComment: "No comments yet",
         placeholder: "Type something...",
-        send: "Post Comment",
-        sendBtn: "Post Comment",
+        send: "Post",
+        sendBtn: "Post",
       }
     : {
         counter: "{count} 条评论",
@@ -53,6 +53,7 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
 
 <script
   is:inline
+  data-astro-rerun
   define:vars={{
     artalkIsEnglish,
     artalkText,
@@ -72,7 +73,7 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
     ["邮箱", "Email"],
     ["网址", "Website"],
     ["键入内容...", "Type something..."],
-    ["发送", "Post Comment"],
+    ["发送", "Post"],
     ["条评论", "comments"],
     ["「此时无声胜有声」", "No comments yet"],
   ];
