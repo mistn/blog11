@@ -51,12 +51,20 @@
       @apply opacity-75;
     }
 
+    .markdown-table-scroll {
+      @apply my-6 max-w-full overflow-x-auto border border-border/70 bg-background/45;
+      overscroll-behavior-inline: contain;
+    }
+
     table {
-      @apply overflow-hidden border border-border/70 bg-background/45;
+      @apply my-0 border-0 bg-transparent;
+      min-width: max-content;
+      width: 100%;
 
       th,
       td {
         @apply border border-border/65 p-2;
+        white-space: nowrap;
       }
 
       th {

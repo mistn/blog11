@@ -11,6 +11,7 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import { rehypeWrapTables } from "./src/utils/rehypeWrapTables.js";
 import { SITE } from "./src/config";
 
 // https://astro.build/config
@@ -27,7 +28,7 @@ export default defineConfig({
       remarkToc,
       [remarkCollapse, { test: "Table of contents" }],
     ],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [rehypeKatex, rehypeWrapTables],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "night-owl" },
