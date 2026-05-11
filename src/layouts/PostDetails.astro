@@ -346,6 +346,7 @@ const nextPost =
       wrapper.appendChild(codeBlock);
 
       collapseButton.addEventListener("click", () => {
+        const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
         const isCollapsed = wrapper.classList.toggle("is-collapsed");
         codeBlock.hidden = isCollapsed;
         collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
@@ -356,6 +357,15 @@ const nextPost =
         collapseButton.innerHTML = getCollapseButtonContent(
           isCollapsed ? expandCodeLabel : collapseCodeLabel
         );
+
+        if (isCollapsed && window.scrollY > wrapperTop) {
+          window.requestAnimationFrame(() => {
+            window.scrollTo({
+              top: Math.max(wrapperTop - 16, 0),
+              behavior: "auto",
+            });
+          });
+        }
       });
 
       copyButton.addEventListener("click", async () => {
