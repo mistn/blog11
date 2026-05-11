@@ -122,6 +122,10 @@
       @apply relative my-6 rounded-md border border-border/70 bg-muted/20;
     }
 
+    .code-block-frame.is-collapsed {
+      @apply bg-background/70;
+    }
+
     .code-block-frame::after {
       @apply pointer-events-none absolute top-10 right-0 bottom-0 z-10 w-10 rounded-ee-md opacity-100 transition-opacity sm:hidden;
       content: "";
@@ -130,6 +134,10 @@
         transparent,
         color-mix(in srgb, var(--background) 78%, transparent)
       );
+    }
+
+    .code-block-frame.is-collapsed::after {
+      @apply hidden;
     }
 
     .code-block-frame:focus-within::after {
@@ -142,6 +150,10 @@
 
     .code-block-header {
       @apply sticky top-0 z-20 flex h-10 items-center justify-between gap-3 rounded-t-md border-b border-border/60 bg-background px-3 text-sm text-foreground shadow-[0_1px_0_rgba(15,23,42,0.04)];
+    }
+
+    .code-block-frame.is-collapsed .code-block-header {
+      @apply rounded-b-md border-b-0;
     }
 
     html[data-theme="dark"] .code-block-header {
@@ -164,12 +176,24 @@
       @apply rounded-sm border border-border/70 bg-background/55 px-1.5 py-0.5 text-[0.68rem] leading-none font-normal text-foreground/64;
     }
 
-    .copy-code {
+    .code-block-actions {
+      @apply flex flex-none items-center gap-1;
+    }
+
+    .code-block-action {
       @apply inline-flex size-8 flex-none items-center justify-center rounded text-foreground/70 transition hover:bg-background/55 hover:text-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-dashed;
     }
 
-    .copy-code svg {
+    .code-block-action svg {
       @apply size-4;
+    }
+
+    .collapse-code-icon {
+      @apply transition-transform;
+    }
+
+    .code-block-frame.is-collapsed .collapse-code-icon {
+      @apply -rotate-90;
     }
 
     .katex-display {

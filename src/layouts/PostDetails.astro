@@ -247,6 +247,8 @@ const nextPost =
   define:vars={{
     copyCodeLabel: copy.actions.copy,
     copiedCodeLabel: copy.actions.copied,
+    collapseCodeLabel: locale === "en" ? "Collapse code" : "折叠代码",
+    expandCodeLabel: locale === "en" ? "Expand code" : "展开代码",
     openImageLabel: locale === "en" ? "Open image preview" : "打开图片预览",
   }}
 >
@@ -316,19 +318,45 @@ const nextPost =
       wrapper.className = "code-block-frame";
 
       const header = createCodeHeader(codeBlock);
+      const actions = document.createElement("div");
+      actions.className = "code-block-actions";
+
+      const collapseButton = document.createElement("button");
+      collapseButton.className = "code-block-action collapse-code";
+      collapseButton.type = "button";
+      collapseButton.ariaLabel = collapseCodeLabel;
+      collapseButton.title = collapseCodeLabel;
+      collapseButton.setAttribute("aria-expanded", "true");
+      collapseButton.innerHTML = getCollapseButtonContent(collapseCodeLabel);
+
       const copyButton = document.createElement("button");
-      copyButton.className = "copy-code";
+      copyButton.className = "code-block-action copy-code";
       copyButton.type = "button";
       copyButton.ariaLabel = copyButtonLabel;
       copyButton.title = copyButtonLabel;
       copyButton.innerHTML = getCopyButtonContent(copyButtonLabel);
-      header.appendChild(copyButton);
+      actions.appendChild(collapseButton);
+      actions.appendChild(copyButton);
+      header.appendChild(actions);
 
       codeBlock.setAttribute("tabindex", "0");
 
       codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(header);
       wrapper.appendChild(codeBlock);
+
+      collapseButton.addEventListener("click", () => {
+        const isCollapsed = wrapper.classList.toggle("is-collapsed");
+        codeBlock.hidden = isCollapsed;
+        collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
+        collapseButton.ariaLabel = isCollapsed
+          ? expandCodeLabel
+          : collapseCodeLabel;
+        collapseButton.title = isCollapsed ? expandCodeLabel : collapseCodeLabel;
+        collapseButton.innerHTML = getCollapseButtonContent(
+          isCollapsed ? expandCodeLabel : collapseCodeLabel
+        );
+      });
 
       copyButton.addEventListener("click", async () => {
         await copyCode(codeBlock, copyButton);
@@ -395,6 +423,15 @@ const nextPost =
       `;
     }
 
+    function getCollapseButtonContent(label) {
+      return `
+        <svg aria-hidden="true" class="collapse-code-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+        <span class="sr-only">${label}</span>
+      `;
+    }
+
     function getCopyButtonContent(label, copied = false) {
       const icon = copied
         ? `<path d="m5 12 4 4L19 6"></path>`
@@ -411,7 +448,7 @@ const nextPost =
 
     async function copyCode(block, button) {
       const code = block.querySelector("code");
-      const text = code?.innerText;
+      const text = code?.textContent;
 
       await navigator.clipboard.writeText(text ?? "");
 
