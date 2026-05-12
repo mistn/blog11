@@ -33,10 +33,9 @@ export const friendLinks: FriendLink[] = [
     description: "这是一本记录IFDESS的经历和感悟的书。",
   },
   {
-    name: "huizhi",
-    blog: "huizhi's Aside",
+    name: "huizhi's Aside",
     href: "https://blog.huizhi.ink/",
-    description: "Weekly notes, posts, and Minecraft tinkering.",
+    description: "也许只是些碎碎念吧。",
     color: "#0b84c6",
   },
 ];
