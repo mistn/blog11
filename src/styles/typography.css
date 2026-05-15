@@ -119,11 +119,11 @@
     }
 
     .code-block-frame {
-      @apply relative my-6 rounded-md border border-border/70 bg-muted/20;
+      @apply relative my-6 rounded-md border border-border/80 bg-background/95 shadow-[0_8px_24px_rgba(15,23,42,0.06)];
     }
 
     .code-block-frame.is-collapsed {
-      @apply bg-background/70;
+      @apply bg-background/90;
     }
 
     .code-block-frame::after {
@@ -145,11 +145,11 @@
     }
 
     html[data-theme="dark"] .code-block-frame {
-      @apply bg-muted/40;
+      @apply bg-muted/40 shadow-[0_8px_28px_rgba(0,0,0,0.35)];
     }
 
     .code-block-header {
-      @apply sticky top-0 z-20 flex h-10 items-center justify-between gap-3 rounded-t-md border-b border-border/60 bg-background px-3 text-sm text-foreground shadow-[0_1px_0_rgba(15,23,42,0.04)];
+      @apply sticky top-0 z-20 flex h-10 items-center justify-between gap-3 rounded-t-md border-b border-border/70 bg-background/95 px-3 text-sm text-foreground shadow-[0_1px_0_rgba(15,23,42,0.06)];
     }
 
     .code-block-frame.is-collapsed .code-block-header {
@@ -157,7 +157,7 @@
     }
 
     html[data-theme="dark"] .code-block-header {
-      @apply bg-muted;
+      @apply bg-muted/90;
     }
 
     .code-block-meta {
@@ -173,7 +173,7 @@
     }
 
     .code-language-badge {
-      @apply rounded-sm border border-border/70 bg-background/55 px-1.5 py-0.5 text-[0.68rem] leading-none font-normal text-foreground/64;
+      @apply rounded-sm border border-border/80 bg-muted/60 px-1.5 py-0.5 text-[0.68rem] leading-none font-normal text-foreground/70;
     }
 
     .code-block-actions {
@@ -207,7 +207,7 @@
 
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
-    @apply flex rounded-b-md border-0 bg-transparent text-(--shiki-light) outline-border;
+    @apply flex rounded-b-md border-0 bg-transparent px-4 py-3 text-(--shiki-light) outline-border;
     font-family: var(--font-ui-mono);
     font-size: 0.96em;
     font-synthesis: none;
