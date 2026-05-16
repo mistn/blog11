@@ -41,7 +41,7 @@ export const ui = {
       searchDesc: "搜索站内文章。",
       animeTitle: "追番列表",
       animeFullTitle: "追番列表 | miuo",
-      animeDesc: "按年份整理 AniList normal 列表中已看完的动画。",
+      animeDesc: "可按年份或全部查看 AniList normal 列表中已看完的动画。",
       animeEyebrow: "Anime Archive",
       friendsTitle: "友链",
       friendsDesc: "交换友链的小站。",
@@ -77,6 +77,9 @@ export const ui = {
       countUnit: "部",
       dataFrom: "数据来自",
       updatedAt: "更新于",
+      viewMode: "展示",
+      viewAll: "全部",
+      viewByYear: "按年份",
       empty: "这里还没有同步到追番数据。",
       emptyHelp:
         "运行脚本会抓取 miuol 的 AniList 数据，并保留 normal 列表里状态为 COMPLETED 的动画。",
@@ -133,7 +136,7 @@ export const ui = {
       animeTitle: "Anime List",
       animeFullTitle: "Anime List | miuo",
       animeDesc:
-        "Completed anime from the AniList normal list, grouped by year.",
+        "Completed anime from the AniList normal list, viewable by year or as a full list.",
       animeEyebrow: "Anime Archive",
       friendsTitle: "Friends",
       friendsDesc: "Sites exchanged as friend links.",
@@ -169,6 +172,9 @@ export const ui = {
       countUnit: "items",
       dataFrom: "Data from",
       updatedAt: "Updated",
+      viewMode: "View",
+      viewAll: "All",
+      viewByYear: "By year",
       empty: "No anime data has been synced yet.",
       emptyHelp:
         "Run the sync script to fetch miuol's AniList data and keep completed items from the normal list.",
