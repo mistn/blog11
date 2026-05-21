@@ -45,4 +45,10 @@ export const friendLinks: FriendLink[] = [
     avatar: "https://avatars.githubusercontent.com/u/191684279",
     description: "这里存着卡尔白的过去、现在和未来",
   },
+  {
+    name: "番茄主理人",
+    href: "https://fqzlr.com/",
+    avatar: "https://q1.qlogo.cn/g?b=qq&nk=20447289&s=640",
+    description: "坐而言不如起而行.",
+  },
 ];
