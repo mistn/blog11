@@ -10,8 +10,9 @@ const getHref = (path: string) => localizePath(path, locale);
 const isActive = (path: string) => currentPath === normalizePath(getHref(path));
 
 const tabClass =
-  "home-tab inline-flex items-center border-b border-transparent px-0.5 py-1 text-[0.95rem] font-medium text-foreground/58 transition hover:border-accent/35 hover:text-foreground dark:text-foreground/62";
-const activeTabClass = "border-accent/60 text-foreground dark:text-foreground";
+  "home-tab inline-flex items-center border-b border-transparent px-0.5 py-1 text-[0.95rem] font-medium font-[var(--font-ui-serif)] text-foreground/72 transition hover:border-accent/35 hover:text-foreground dark:text-foreground/74";
+const activeTabClass =
+  "border-accent/60 text-foreground dark:text-foreground";
 ---
 
 <nav
