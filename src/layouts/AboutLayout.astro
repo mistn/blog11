@@ -28,14 +28,14 @@ const { frontmatter } = Astro.props;
           }
           <h1
             class:list={[
-              "[font-family:var(--font-ui-serif)] text-[2.2rem] leading-[1.12] font-semibold tracking-tight sm:text-[2.6rem]",
+              "text-[2.2rem] leading-[1.12] font-medium tracking-tight sm:text-[2.6rem]",
               frontmatter.headingEyebrow && "mt-2",
             ]}
           >
             {frontmatter.title}
           </h1>
         </header>
-        <div class="[&>:first-child]:mt-0">
+        <div class="*:first:mt-0">
           <slot />
         </div>
       </section>

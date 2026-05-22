@@ -4,8 +4,20 @@
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
     @apply prose;
-    font-size: 1.05rem;
-    line-height: 1.82;
+    font-size: 1.12rem;
+    line-height: 1.9;
+    font-weight: 500;
+    font-synthesis: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei",
+      sans-serif;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    letter-spacing: 0;
+    text-align: left;
+    line-break: strict;
+    word-break: normal;
+    overflow-wrap: break-word;
 
     h1,
     h2,
@@ -13,8 +25,27 @@
     h4,
     th {
       @apply mb-3 text-foreground;
-      font-family: var(--font-ui-serif);
-      letter-spacing: -0.02em;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", "PingFang SC",
+        "Microsoft YaHei", sans-serif;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+    }
+
+    h1 {
+      @apply mt-0 text-[2.25rem] leading-[1.2];
+    }
+
+    h2 {
+      @apply mt-12 text-[1.7rem] leading-[1.3];
+    }
+
+    h3 {
+      @apply mt-8 text-[1.35rem] leading-[1.35];
+    }
+
+    h4 {
+      @apply mt-6 text-[1.15rem] leading-[1.4];
     }
 
     p,
@@ -22,9 +53,29 @@
     ol,
     ul,
     figcaption,
-    table,
-    code {
-      @apply text-foreground;
+    table {
+      @apply text-foreground/96;
+    }
+
+    p {
+      margin: 0.95em 0;
+    }
+
+    ul,
+    ol {
+      margin: 0.95em 0 1.05em;
+    }
+
+    li > p {
+      margin: 0.6em 0;
+    }
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
     }
 
     a {
@@ -76,7 +127,7 @@
       }
     }
 
-    code {
+    :not(pre) > code {
       @apply rounded bg-muted/75 p-1 wrap-break-word text-foreground before:content-none after:content-none;
       font-family: var(--font-ui-mono);
       font-synthesis: none;
@@ -90,7 +141,7 @@
     }
 
     blockquote {
-      @apply border-s-border wrap-break-word text-foreground/78 opacity-90;
+      @apply border-s-border wrap-break-word text-foreground/88 opacity-100;
       font-style: normal;
       quotes: none;
     }

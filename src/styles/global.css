@@ -22,12 +22,11 @@ html[data-theme="dark"] {
 
 :root {
   --font-ui-sans:
-    "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC",
-    "Microsoft YaHei", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
-    sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-ui-serif:
-    "Iowan Old Style", "Palatino Linotype", "Noto Serif SC",
-    "Source Han Serif SC", "Songti SC", "STSong", Georgia, serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-ui-mono:
     "Maple Mono CN", "Sarasa Mono SC", "Microsoft YaHei Mono", "Cascadia Code",
     "Cascadia Mono", Consolas, "SFMono-Regular", "Liberation Mono", Menlo,
@@ -54,6 +53,9 @@ html[data-theme="dark"] {
   }
   body {
     @apply flex min-h-svh max-w-full flex-col overflow-x-clip bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
     background-image:
       linear-gradient(rgba(47, 98, 143, 0.014) 1px, transparent 1px),
       linear-gradient(90deg, rgba(47, 98, 143, 0.014) 1px, transparent 1px),
@@ -208,29 +210,25 @@ html[data-theme="dark"] {
 @keyframes page-body-out {
   from {
     opacity: 1;
-    transform: translateY(0);
   }
 
   to {
     opacity: 0;
-    transform: translateY(4px);
   }
 }
 
 @keyframes page-body-in {
   from {
     opacity: 0;
-    transform: translateY(3px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 [data-article-enter] {
-  will-change: transform, opacity;
+  will-change: opacity;
 }
 
 .article-enter {
@@ -249,12 +247,10 @@ html[data-theme="dark"] {
 @keyframes article-enter {
   from {
     opacity: 0;
-    transform: translateY(5px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
