@@ -1,6 +1,6 @@
 {
   "username": "miuol",
-  "updatedAt": "2026-05-20T18:57:27.486Z",
+  "updatedAt": "2026-05-23T14:07:58.682Z",
   "items": [
     {
       "title": "超かぐや姫！",
@@ -309,6 +309,12 @@
       "url": "https://anilist.co/anime/20605"
     },
     {
+      "title": "コープスパーティー Tortured Souls -暴虐された魂の呪叫-",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx15037-32PupkILJcuv.jpg",
+      "year": 2013,
+      "url": "https://anilist.co/anime/15037"
+    },
+    {
       "title": "デート・ア・ライブ",
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx15583-Sxd2J4RJdRhj.jpg",
       "year": 2013,
@@ -411,16 +417,40 @@
       "url": "https://anilist.co/anime/1195"
     },
     {
+      "title": "パプリカ",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b1943-jMCEYL1Ixmgc.png",
+      "year": 2006,
+      "url": "https://anilist.co/anime/1943"
+    },
+    {
       "title": "ほしのこえ",
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx256-CMHbugPOGxF6.png",
       "year": 2002,
       "url": "https://anilist.co/anime/256"
     },
     {
+      "title": "千年女優",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1033-d5p1pbd5qa4L.png",
+      "year": 2002,
+      "url": "https://anilist.co/anime/1033"
+    },
+    {
       "title": "千と千尋の神隠し",
       "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx199-sWefXJvXkDOb.jpg",
       "year": 2001,
       "url": "https://anilist.co/anime/199"
+    },
+    {
+      "title": "PERFECT BLUE",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx437-69NMlXKFeuse.jpg",
+      "year": 1998,
+      "url": "https://anilist.co/anime/437"
+    },
+    {
+      "title": "地下幻燈劇画 少女椿",
+      "cover": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx2981-PuzLTzNf4DeV.png",
+      "year": 1992,
+      "url": "https://anilist.co/anime/2981"
     }
   ]
 }
