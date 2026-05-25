@@ -269,6 +269,21 @@ const resolvedStructuredData = structuredData
       })();
     </script>
 
+    <script is:inline>
+      (function () {
+        const shouldSkip = sessionStorage.getItem("skipViewTransition");
+        if (shouldSkip) {
+          document.documentElement.classList.add("skip-view-transition");
+        }
+
+        document.addEventListener("astro:page-load", () => {
+          if (!shouldSkip) return;
+          sessionStorage.removeItem("skipViewTransition");
+          document.documentElement.classList.remove("skip-view-transition");
+        });
+      })();
+    </script>
+
     <ClientRouter />
 
     <script is:inline>

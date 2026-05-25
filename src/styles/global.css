@@ -197,6 +197,14 @@ html[data-theme="dark"] {
   mix-blend-mode: normal;
 }
 
+html.skip-view-transition::view-transition-old(root),
+html.skip-view-transition::view-transition-new(root),
+html.skip-view-transition::view-transition-old(page-body),
+html.skip-view-transition::view-transition-new(page-body) {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
 ::view-transition-old(page-body) {
   z-index: 1;
   animation-name: page-body-out;
