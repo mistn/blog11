@@ -8,7 +8,18 @@ document.addEventListener("astro:page-load", () => {
 
     if (window.history && window.history.length > 1) {
       e.preventDefault();
-      window.history.back();
+      // Use view transition API when available to avoid flash on navigation
+      const doBack = () => window.history.back();
+      if (typeof document.startViewTransition === "function") {
+        try {
+          document.startViewTransition(doBack);
+          return;
+        } catch {
+          // fallthrough to direct back
+        }
+      }
+
+      doBack();
     }
     // otherwise allow default href (usually home)
   });
