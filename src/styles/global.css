@@ -205,6 +205,10 @@ html.skip-view-transition::view-transition-new(page-body) {
   opacity: 1 !important;
 }
 
+html.is-restoring-scroll [data-post-memory-scope="list"] {
+  opacity: 0;
+}
+
 ::view-transition-old(page-body) {
   z-index: 1;
   animation-name: page-body-out;

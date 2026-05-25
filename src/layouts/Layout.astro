@@ -405,6 +405,8 @@ const resolvedStructuredData = structuredData
           const memory = JSON.parse(raw);
           if (memory?.listPath !== getCurrentPath()) return;
 
+          document.documentElement.classList.add("is-restoring-scroll");
+
           const links = Array.from(document.querySelectorAll("a[href]")).filter(
             link => isRememberablePostLink(link)
           );
@@ -428,12 +430,16 @@ const resolvedStructuredData = structuredData
                 left: 0,
                 behavior: "instant",
               });
+              requestAnimationFrame(() => {
+                document.documentElement.classList.remove("is-restoring-scroll");
+              });
             });
           });
 
           sessionStorage.removeItem(POST_MEMORY_KEY);
         } catch {
           sessionStorage.removeItem(POST_MEMORY_KEY);
+          document.documentElement.classList.remove("is-restoring-scroll");
         }
       }
 
