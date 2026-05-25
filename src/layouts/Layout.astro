@@ -306,8 +306,19 @@ const resolvedStructuredData = structuredData
       const POST_MEMORY_KEY = "postLinkMemory";
       const POST_MEMORY_INIT_KEY = "__postLinkMemoryInit";
 
+      function normalizePath(pathname, search = "") {
+        const normalizedPath =
+          pathname.length > 1 && pathname.endsWith("/")
+            ? pathname.slice(0, -1)
+            : pathname;
+        return `${normalizedPath}${search}`;
+      }
+
       function getCurrentPath() {
-        return `${window.location.pathname}${window.location.search}`;
+        return normalizePath(
+          window.location.pathname,
+          window.location.search
+        );
       }
 
       function getListMemoryScope() {
@@ -362,7 +373,7 @@ const resolvedStructuredData = structuredData
           POST_MEMORY_KEY,
           JSON.stringify({
             listPath: getCurrentPath(),
-            postPath: `${url.pathname}${url.search}`,
+            postPath: normalizePath(url.pathname, url.search),
             viewportTop: link.getBoundingClientRect().top,
             scrollY: window.scrollY,
           })
@@ -385,7 +396,7 @@ const resolvedStructuredData = structuredData
           const matchingLink = links.find(link => {
             if (!(link instanceof HTMLAnchorElement)) return false;
             const url = new URL(link.href, window.location.href);
-            return `${url.pathname}${url.search}` === memory.postPath;
+            return normalizePath(url.pathname, url.search) === memory.postPath;
           });
 
           const targetTop =
