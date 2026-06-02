@@ -198,7 +198,7 @@ const applicationText = applicationFields
             button.ariaLabel = COPY_TEXT;
             button.title = COPY_TEXT;
           }, 900);
-        } catch (error) {
+        } catch {
           const originalText = button.textContent ?? COPY_TEXT;
           button.textContent = COPY_FAILED_TEXT;
           window.setTimeout(() => {

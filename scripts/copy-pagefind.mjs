@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { cpSync, existsSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 
