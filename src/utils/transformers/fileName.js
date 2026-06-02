@@ -5,7 +5,7 @@
  * and exposes it as metadata for the runtime code block header.
  *
  */
-export const transformerFileName = () => ({
+export const transformerFileName = (_options = {}) => ({
   pre(node) {
     const raw = this.options.meta?.__raw?.split(" ");
 

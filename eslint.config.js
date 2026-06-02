@@ -13,6 +13,6 @@ export default [
       },
     },
   },
-  { rules: { "no-console": "error" } },
+  { rules: { "no-console": "error", "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }] } },
   { ignores: ["dist/**", ".astro", "public/pagefind/**"] },
 ];
