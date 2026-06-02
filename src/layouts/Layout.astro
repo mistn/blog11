@@ -226,19 +226,6 @@ const resolvedStructuredData = structuredData
           return `${EN_PREFIX}${path}`;
         }
 
-        function prefersEnglish() {
-          const languages =
-            navigator.languages?.length > 0
-              ? navigator.languages
-              : [navigator.language || ""];
-          const supportedLanguage = languages
-            .map(language => language.toLowerCase())
-            .find(language => language.startsWith("zh") || language.startsWith("en"));
-
-          if (supportedLanguage) return supportedLanguage.startsWith("en");
-          return true;
-        }
-
         if (isEnglishPath) {
           setStoredLocale("en");
         } else {

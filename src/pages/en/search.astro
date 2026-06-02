@@ -66,6 +66,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
       try {
         PagefindUI = await loadPagefindUI();
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
         pageFindSearch.innerHTML = `
             <div class="bg-muted/75 rounded p-4 space-y-4 mb-4">
