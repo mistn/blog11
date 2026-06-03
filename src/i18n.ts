@@ -54,6 +54,7 @@ export const ui = {
     sidebar: {
       notebook: "笔记",
       recent: "最近",
+      rss: "RSS 订阅",
     },
     actions: {
       goBack: "返回",
@@ -152,6 +153,7 @@ export const ui = {
     sidebar: {
       notebook: "Notebook",
       recent: "Recent",
+      rss: "RSS Feed",
     },
     actions: {
       goBack: "Go back",

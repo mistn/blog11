@@ -1,5 +1,6 @@
 ---
 import IconMail from "@/assets/icons/IconMail.svg";
+import IconRss from "@/assets/icons/IconRss.svg";
 import { SOCIALS } from "@/constants";
 import { SITE } from "@/config";
 import { getLocaleFromPath, ui, type Locale } from "@/i18n";
@@ -67,6 +68,15 @@ const emailLabel = `${copy.nav.email} ${SITE.title}`;
           </a>
         )
       }
+
+      <a
+        href="/rss.xml"
+        class="mt-2.5 inline-flex items-center gap-2 text-[0.98rem] leading-7 text-foreground/76 underline decoration-border decoration-1 underline-offset-4 transition hover:text-accent"
+        title={copy.sidebar.rss}
+      >
+        <IconRss class="size-4.5 flex-none" />
+        <span>{copy.sidebar.rss}</span>
+      </a>
     </div>
   </div>
 </section>

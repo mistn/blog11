@@ -20,7 +20,7 @@ headingEyebrow: "About"
 
 ## 联系方式
 
-邮箱入口保留在首页和站内图标里，需要的话可以直接通过邮件联系我。
+- 邮箱：[hi@miuo.me](mailto:hi@miuo.me)
 
 ## 站点源码
 
