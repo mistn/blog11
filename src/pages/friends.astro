@@ -2,6 +2,7 @@
 import SiteTopbar from "@/components/SiteTopbar.astro";
 import ArtalkComments from "@/components/ArtalkComments.astro";
 import PageHeader from "@/components/PageHeader.astro";
+import CodeSnippet from "@/components/CodeSnippet.astro";
 import Layout from "@/layouts/Layout.astro";
 import { defaultFriendAvatar, friendLinks, siteProfile } from "@/data/friends";
 import { SITE } from "@/config";
@@ -36,7 +37,7 @@ const applicationText = applicationFields
 >
   <SiteTopbar />
 
-  <main id="main-content" class="mx-auto max-w-5xl px-4 pb-14">
+  <main id="main-content" class="mx-auto w-full max-w-5xl px-4 pb-14 overflow-x-hidden">
     <PageHeader title={copy.pages.friendsTitle} />
     <section class="py-4" data-pagefind-body>
       <div class="max-w-5xl">
@@ -93,37 +94,7 @@ const applicationText = applicationFields
 
           <div class="friend-application mt-6">
             <p class="friend-application-title">申请模板</p>
-            <div class="relative rounded-xl bg-muted/40">
-              <div class="flex items-center justify-between gap-3 rounded-t-xl px-4 py-2 text-sm text-foreground/45">
-                <div class="flex min-w-0 items-center gap-2">
-                  <svg aria-hidden="true" class="size-3.5 flex-none text-foreground/45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m8 9-3 3 3 3"></path>
-                    <path d="m16 9 3 3-3 3"></path>
-                    <path d="m14 5-4 14"></path>
-                  </svg>
-                  <span class="rounded-sm bg-muted/60 px-1.5 py-0.5 text-[0.68rem] leading-none font-normal text-foreground/50">YAML</span>
-                </div>
-                <div class="flex flex-none items-center gap-1">
-                  <button class="inline-flex size-7 flex-none items-center justify-center rounded text-foreground/40 transition hover:text-foreground/70" type="button" data-copy-value={applicationText} aria-label="复制模板">
-                    <svg class="size-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M9 9H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <rect x="9" y="3" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="sr-only">复制模板</span>
-                  </button>
-                </div>
-              </div>
-              <dl class="friend-application__list">
-                {
-                  applicationFields.map(field => (
-                    <div class="friend-application__item">
-                      <dt>{field.label}</dt>
-                      <dd>{field.value}</dd>
-                    </div>
-                  ))
-                }
-              </dl>
-            </div>
+            <CodeSnippet code={applicationText} language="yaml" />
           </div>
         </section>
       </div>
@@ -135,65 +106,6 @@ const applicationText = applicationFields
   </main>
 
 </Layout>
-
-<script is:inline data-astro-rerun>
-  const COPY_TEXT = "复制";
-  const COPIED_TEXT = "已复制";
-  const COPY_FAILED_TEXT = "复制失败";
-
-  const getCopyButtonContent = (label, copied = false) => {
-    const icon = copied
-      ? `<path d="m5 12 4 4L19 6"></path>`
-      : `<rect x="9" y="9" width="11" height="11" rx="2"></rect>
-        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>`;
-
-    return `
-      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        ${icon}
-      </svg>
-      <span class="sr-only">${label}</span>
-    `;
-  };
-
-  const setupCopyButtons = () => {
-    const buttons = document.querySelectorAll("[data-copy-value]");
-    buttons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement)) return;
-      if (button.dataset.copyBound === "true") return;
-      button.dataset.copyBound = "true";
-      button.innerHTML = getCopyButtonContent(COPY_TEXT);
-      button.ariaLabel = COPY_TEXT;
-      button.title = COPY_TEXT;
-
-      button.addEventListener("click", async () => {
-        const value = button.dataset.copyValue;
-        if (!value) return;
-
-        try {
-          await navigator.clipboard.writeText(value);
-          button.innerHTML = getCopyButtonContent(COPIED_TEXT, true);
-          button.ariaLabel = COPIED_TEXT;
-          button.title = COPIED_TEXT;
-          window.setTimeout(() => {
-            button.innerHTML = getCopyButtonContent(COPY_TEXT);
-            button.ariaLabel = COPY_TEXT;
-            button.title = COPY_TEXT;
-          }, 900);
-        } catch {
-          const originalText = button.textContent ?? COPY_TEXT;
-          button.textContent = COPY_FAILED_TEXT;
-          window.setTimeout(() => {
-            button.textContent = originalText;
-          }, 1400);
-        }
-      });
-    });
-  };
-
-  document.addEventListener("astro:page-load", setupCopyButtons);
-  document.addEventListener("astro:after-swap", setupCopyButtons);
-  setupCopyButtons();
-</script>
 
 <style>
   .apply-section {
@@ -236,50 +148,6 @@ const applicationText = applicationFields
     font-weight: 600;
   }
 
-  .friend-application__list {
-    margin: 0 1rem 1rem;
-    padding: 0.3rem 0 0.2rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-  }
-
-  .friend-application__item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.25rem 0.5rem;
-    padding: 0.45rem 0;
-  }
-
-  .friend-application__item dt {
-    margin: 0;
-    color: color-mix(in srgb, var(--foreground) 82%, transparent);
-    font-size: 0.88rem;
-  }
-
-  .friend-application__item dt::after {
-    content: ":";
-    margin-left: 0.2rem;
-  }
-
-  .friend-application__item dd {
-    margin: 0;
-    overflow-wrap: anywhere;
-    color: color-mix(in srgb, var(--foreground) 94%, transparent);
-    font-size: 0.98rem;
-    line-height: 1.7;
-    white-space: nowrap;
-  }
-
-  .friend-application__item dt {
-    flex: 0 0 4.4rem;
-    min-width: 4.4rem;
-  }
-
-  .friend-application__item dd {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
 
   @media (max-width: 639px) {
     .apply-section {
@@ -293,20 +161,6 @@ const applicationText = applicationFields
 
     .friend-application-title {
       font-size: 0.82rem;
-    }
-
-    .friend-application__list {
-      margin: 0.8rem 0.85rem 0.85rem;
-      padding-left: 0.85rem;
-    }
-
-    .friend-application__item {
-      padding: 0.3rem 0;
-    }
-
-    .friend-application__item dd {
-      font-size: 0.82rem;
-      line-height: 1.65;
     }
   }
 </style>
