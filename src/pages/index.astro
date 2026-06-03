@@ -24,7 +24,7 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
     id="main-content"
     data-layout="index"
     data-post-memory-scope="list"
-    class="app-layout pb-10 lg:pb-14"
+    class="app-layout pb-8 lg:pb-10"
   >
     <section class="overflow-hidden">
       <div class="px-1 py-4 sm:px-2 sm:py-5">
@@ -32,7 +32,7 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
           <div class="min-w-0">
             {
               leadPost && (
-                <article class="border-b border-border/70 pb-10">
+                <article class="pb-10">
                   <a
                     href={localizePath(
                       getPath(leadPost.id, leadPost.filePath),
@@ -55,7 +55,7 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
               )
             }
 
-            <div class="divide-y divide-border/55" data-post-list>
+            <div data-post-list>
               {
                 listPosts.map(post => (
                   <article class="py-10" data-post-item>
@@ -82,29 +82,24 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
               }
             </div>
             {totalPages > 1 && (
-              <nav
-                class="page-number-nav"
-                aria-label="Pagination Navigation"
-              >
-                <div class="page-number-group">
-                  {pageNumbers.map(pageNumber => (
-                    <a
-                      href={
-                        pageNumber === 1
-                          ? localizePath("/", locale)
-                          : localizePath(`/posts/${pageNumber}`, locale)
-                      }
-                      class={
-                        pageNumber === 1
-                          ? "page-number-current"
-                          : "page-number-item"
-                      }
-                      aria-current={pageNumber === 1 ? "page" : undefined}
-                    >
-                      {pageNumber}
-                    </a>
-                  ))}
-                </div>
+              <nav class="mt-8 flex justify-center items-center gap-4" aria-label="Pagination Navigation">
+                {pageNumbers.map(pageNumber => (
+                  <a
+                    href={
+                      pageNumber === 1
+                        ? localizePath("/", locale)
+                        : localizePath(`/posts/${pageNumber}`, locale)
+                    }
+                    class={
+                      pageNumber === 1
+                        ? "px-4 py-1.5 bg-gray-100 text-gray-900 font-bold rounded-full"
+                        : "text-gray-400 hover:text-gray-900 transition-colors"
+                    }
+                    aria-current={pageNumber === 1 ? "page" : undefined}
+                  >
+                    {pageNumber}
+                  </a>
+                ))}
               </nav>
             )}
           </div>

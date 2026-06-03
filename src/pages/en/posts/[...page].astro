@@ -35,13 +35,13 @@ function getPageHref(pageNumber: number) {
     id="main-content"
     data-layout="index"
     data-post-memory-scope="list"
-    class="app-layout pb-10 lg:pb-14"
+    class="app-layout pb-8 lg:pb-10"
   >
     <section class="overflow-hidden">
       <div class="px-1 py-4 sm:px-2 sm:py-5">
         <div>
           <div class="min-w-0">
-            <div class="divide-y divide-border/55" data-post-list>
+            <div data-post-list>
               {
                 listPosts.map(post => (
                   <article class="py-10" data-post-item>
@@ -66,27 +66,22 @@ function getPageHref(pageNumber: number) {
             </div>
 
             {page.lastPage > 1 && (
-              <nav
-                class="page-number-nav"
-                aria-label="Pagination Navigation"
-              >
-                <div class="page-number-group">
-                  {pageNumbers.map(pageNumber => (
-                    <a
-                      href={getPageHref(pageNumber)}
-                      class={
-                        pageNumber === page.currentPage
-                          ? "page-number-current"
-                          : "page-number-item"
-                      }
-                      aria-current={
-                        pageNumber === page.currentPage ? "page" : undefined
-                      }
-                    >
-                      {pageNumber}
-                    </a>
-                  ))}
-                </div>
+              <nav class="mt-8 flex justify-center items-center gap-4" aria-label="Pagination Navigation">
+                {pageNumbers.map(pageNumber => (
+                  <a
+                    href={getPageHref(pageNumber)}
+                    class={
+                      pageNumber === page.currentPage
+                        ? "px-4 py-1.5 bg-gray-100 text-gray-900 font-bold rounded-full"
+                        : "text-gray-400 hover:text-gray-900 transition-colors"
+                    }
+                    aria-current={
+                      pageNumber === page.currentPage ? "page" : undefined
+                    }
+                  >
+                    {pageNumber}
+                  </a>
+                ))}
               </nav>
             )}
           </div>

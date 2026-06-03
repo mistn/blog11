@@ -14,7 +14,7 @@ const { frontmatter } = Astro.props;
   <SiteTopbar />
   <main id="main-content" class="mx-auto max-w-4xl px-4 pb-14">
     <PageHeader title={frontmatter.title} />
-    <section id="about" class="app-prose prose-img:border-0">
+    <section id="about" class="app-prose prose-img:border-0 prose-p:font-normal prose-p:text-gray-600 prose-p:leading-relaxed prose-li:font-normal prose-li:text-gray-600">
         <div class="*:first:mt-0">
           <slot />
         </div>
