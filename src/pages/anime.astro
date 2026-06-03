@@ -1,6 +1,5 @@
 ---
 import PageHeader from "@/components/PageHeader.astro";
-import BackToTopButton from "@/components/BackToTopButton.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
 import Layout from "@/layouts/Layout.astro";
 import animeData from "@/data/anime.generated.json";
@@ -216,8 +215,37 @@ const updatedLabel = data.updatedAt
         }
   </main>
 
-  <BackToTopButton {locale} />
+  <button
+    id="anime-btt"
+    class="fixed bottom-8 right-4 sm:right-8 z-50 flex size-10 items-center justify-center rounded-full border border-gray-200 bg-white/80 shadow-lg backdrop-blur-md text-gray-600 opacity-0 pointer-events-none transition-all duration-300 dark:border-gray-700 dark:bg-gray-800/80 dark:text-gray-300"
+    aria-label="Back to top"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
 </Layout>
+
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+    const bttBtn = document.getElementById('anime-btt');
+    if (!bttBtn) return;
+
+    function toggle() {
+      if (window.scrollY > 300) {
+        bttBtn.classList.remove('opacity-0', 'pointer-events-none');
+        bttBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        bttBtn.classList.remove('opacity-100', 'pointer-events-auto');
+        bttBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    window.addEventListener('scroll', toggle, { passive: true });
+    bttBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    toggle();
+  });
+</script>
 
 <script>
   document.addEventListener("astro:page-load", () => {

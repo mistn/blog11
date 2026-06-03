@@ -3,6 +3,7 @@ import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 import { SITE } from "@/config";
 import Footer from "@/components/Footer.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
 import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 import "@/styles/global.css";
 
@@ -302,6 +303,10 @@ const resolvedStructuredData = structuredData
   <body>
     <slot />
     <Footer />
+    <div class="fixed right-4 sm:right-8 bottom-8 z-50 flex flex-col items-center gap-4">
+      <BackToTopButton />
+      <slot name="floating" />
+    </div>
 
     <script src="../scripts/theme.ts"></script>
     <script src="../scripts/back-button-fallback.ts"></script>

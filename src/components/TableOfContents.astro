@@ -34,7 +34,7 @@ const closeLabel = copy.actions.tocClose;
       id="toc-drawer"
       data-toc-root
       data-open="false"
-      class="pointer-events-none fixed end-5 bottom-6 z-50"
+      class="pointer-events-none"
     >
       <aside
         aria-labelledby="toc-drawer-title"
@@ -94,7 +94,7 @@ const closeLabel = copy.actions.tocClose;
           aria-controls="toc-drawer"
           aria-label={toggleLabel}
           title={title}
-          class="group flex size-11 items-center justify-center rounded-full border border-border/70 bg-background/90 text-foreground/70 shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-sm transition hover:text-accent"
+          class="flex size-11 items-center justify-center rounded-full border border-gray-200 bg-white/80 shadow-lg backdrop-blur-md text-gray-700 transition hover:text-gray-900 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800/80 dark:text-gray-200 dark:hover:text-gray-100"
         >
           <IconListTree class="size-5 transition group-hover:scale-105" />
         </button>

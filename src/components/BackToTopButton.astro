@@ -10,89 +10,44 @@ const { locale = getLocaleFromPath(Astro.url.pathname) } = Astro.props;
 const copy = ui[locale];
 ---
 
-<div
-  id="btt-btn-container"
-  class:list={[
-    "fixed end-5 bottom-20 z-50",
-    "translate-y-14 opacity-0 pointer-events-none transition duration-300",
-  ]}
+<button
+  id="btt-btn"
+  data-button="back-to-top"
+  class="flex size-11 items-center justify-center rounded-full border border-gray-200 bg-white/80 shadow-lg backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800/80"
+  aria-label={copy.actions.backToTop}
+  title={copy.actions.backToTop}
 >
-  <button
-    data-button="back-to-top"
-    style="--read-progress-ratio: 0;"
-    class:list={[
-      "group relative flex size-11 items-center justify-center rounded-full text-foreground/70 transition hover:text-accent",
-    ]}
-    aria-label={copy.actions.backToTop}
-    title={copy.actions.backToTop}
-  >
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 44 44"
-      class="pointer-events-none absolute inset-0 size-full -rotate-90"
-    >
-      <circle
-        cx="22"
-        cy="22"
-        r="20.5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        class="text-accent"
-        style="stroke-dasharray: 128.8; stroke-dashoffset: calc(128.8 - (128.8 * var(--read-progress-ratio)));"
-      />
-    </svg>
-    <span
-      class="relative flex size-full items-center justify-center rounded-full"
-    >
-      <IconChevronLeft
-        class="inline-block size-4 rotate-90 transition group-hover:-translate-y-0.5"
-      />
-    </span>
-  </button>
-</div>
+  <IconChevronLeft class="size-4 rotate-90 text-gray-700 dark:text-gray-200" />
+</button>
 
 <script is:inline data-astro-rerun>
-  function backToTop() {
-    const rootElement = document.documentElement;
-    const btnContainer = document.querySelector("#btt-btn-container");
-    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+  (function () {
+    const btn = document.getElementById("btt-btn");
+    if (!btn) return;
 
-    if (!rootElement || !btnContainer || !backToTopBtn) return;
+    if (btn.dataset.bttBound === "true") return;
+    btn.dataset.bttBound = "true";
 
-    backToTopBtn.addEventListener("click", () => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    let lastVisible = null;
+    const THRESHOLD = 300;
+    let lastVisible = false;
+
     function handleScroll() {
-      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
-      const scrollTop = rootElement.scrollTop;
-      const safeScrollTotal = scrollTotal <= 0 ? 1 : scrollTotal;
-      const progress = Math.min(Math.max(scrollTop / safeScrollTotal, 0), 1);
+      const isVisible = window.scrollY > THRESHOLD;
+      if (isVisible === lastVisible) return;
+      lastVisible = isVisible;
 
-      backToTopBtn.style.setProperty(
-        "--read-progress-ratio",
-        progress.toFixed(4)
-      );
-
-      const isVisible = progress > 0.18;
-
-      if (isVisible !== lastVisible) {
-        btnContainer.classList.toggle("opacity-100", isVisible);
-        btnContainer.classList.toggle("translate-y-0", isVisible);
-        btnContainer.classList.toggle("opacity-0", !isVisible);
-        btnContainer.classList.toggle("translate-y-14", !isVisible);
-        btnContainer.classList.toggle("pointer-events-auto", isVisible);
-        btnContainer.classList.toggle("pointer-events-none", !isVisible);
-        lastVisible = isVisible;
-      }
+      btn.classList.toggle("opacity-100", isVisible);
+      btn.classList.toggle("pointer-events-auto", isVisible);
+      btn.classList.toggle("opacity-0", !isVisible);
+      btn.classList.toggle("pointer-events-none", !isVisible);
     }
 
     let ticking = false;
-    document.addEventListener("scroll", () => {
+    window.addEventListener("scroll", () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           handleScroll();
@@ -100,9 +55,8 @@ const copy = ui[locale];
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
 
     handleScroll();
-  }
-  backToTop();
+  })();
 </script>

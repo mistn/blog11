@@ -7,7 +7,6 @@ import EditPost from "@/components/EditPost.astro";
 import ArtalkComments from "@/components/ArtalkComments.astro";
 import ArticleImageLightbox from "@/components/ArticleImageLightbox.astro";
 import BackButton from "@/components/BackButton.astro";
-import BackToTopButton from "@/components/BackToTopButton.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
@@ -206,15 +205,13 @@ const nextPost =
                 }
               </div>
             </article>
-
-            <TableOfContents {headings} {locale} />
-            <BackToTopButton {locale} />
           </div>
         </div>
       </div>
     </section>
   </main>
   <ArticleImageLightbox {locale} />
+  <TableOfContents slot="floating" {headings} {locale} />
 </Layout>
 
 <script
