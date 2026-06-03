@@ -2,7 +2,6 @@
 import { render, type CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
-import Tag from "@/components/Tag.astro";
 import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
 import ArtalkComments from "@/components/ArtalkComments.astro";
@@ -13,8 +12,6 @@ import TableOfContents from "@/components/TableOfContents.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
-import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
-import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import { SITE } from "@/config";
 import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 
@@ -109,7 +106,7 @@ const nextPost =
                 data-article-enter
                 style="--article-enter-delay: 0ms;"
                 data-article-enter-type="title"
-                class="max-w-4xl text-[2.25rem] leading-[1.14] font-medium tracking-tight sm:text-[2.7rem]"
+                class="max-w-4xl text-3xl leading-tight font-semibold tracking-tight md:text-4xl"
               >
                 {title}
               </h1>
@@ -117,7 +114,7 @@ const nextPost =
               <div
                 data-article-enter
                 style="--article-enter-delay: 26ms;"
-                class="mt-5 flex flex-wrap items-center gap-2 text-foreground/60"
+                class="mt-4 flex flex-wrap items-center gap-2 text-foreground/60"
               >
                 <Datetime
                   {pubDatetime}
@@ -151,39 +148,33 @@ const nextPost =
                 <Content />
               </div>
 
-              <hr class="my-10 border-border/60" />
-
-              <EditPost class="sm:hidden" {hideEditPost} {post} {locale} />
-
-              <ul
+              <div
                 data-article-enter
                 style="--article-enter-delay: 88ms;"
-                class="mt-4 mb-10 flex flex-wrap gap-4 sm:my-8"
+                class="mt-12 flex flex-wrap gap-3"
               >
-                {
-                  tags.map(tag => (
-                    <Tag
-                      tag={slugifyStr(tag)}
-                      tagName={tag}
-                      size="sm"
-                      {locale}
-                    />
-                  ))
-                }
-              </ul>
+                {tags.map(tag => (
+                  <a
+                    href={localizePath(`/tags/${slugifyStr(tag)}/`, locale)}
+                    class="text-xs text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-100 transition-colors"
+                  >
+                    {tag}
+                  </a>
+                ))}
+              </div>
+
+              <EditPost class="sm:hidden mt-8" {hideEditPost} {post} {locale} />
 
               <ArtalkComments
                 pageKey={getPath(post.id, post.filePath)}
                 pageTitle={title}
               />
 
-              <hr class="my-8 border-border/60" />
-
               <div
                 data-pagefind-ignore
                 data-article-enter
                 style="--article-enter-delay: 112ms;"
-                class="grid grid-cols-1 gap-6 sm:grid-cols-2"
+                class="mt-16 mb-4 flex justify-between gap-8 text-sm"
               >
                 {
                   prevPost && (
@@ -192,15 +183,9 @@ const nextPost =
                         getPath(prevPost.id, prevPost.filePath),
                         locale
                       )}
-                      class="flex w-full gap-1 text-foreground/72 transition hover:text-accent"
+                      class="text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                     >
-                      <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-                      <div>
-                        <span>{copy.actions.previousPost}</span>
-                        <div class="text-sm text-foreground/56">
-                          {prevPost.title}
-                        </div>
-                      </div>
+                      {copy.actions.previousPost}
                     </a>
                   )
                 }
@@ -211,15 +196,9 @@ const nextPost =
                         getPath(nextPost.id, nextPost.filePath),
                         locale
                       )}
-                      class="flex w-full justify-end gap-1 text-end text-foreground/72 transition hover:text-accent sm:col-start-2"
+                      class="ml-auto text-right text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                     >
-                      <div>
-                        <span>{copy.actions.nextPost}</span>
-                        <div class="text-sm text-foreground/56">
-                          {nextPost.title}
-                        </div>
-                      </div>
-                      <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+                      {copy.actions.nextPost}
                     </a>
                   )
                 }

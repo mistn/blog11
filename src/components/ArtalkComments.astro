@@ -39,13 +39,11 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
 ---
 
 <section
-  class="mt-10 border-t border-border/60 pt-8"
+  class="mt-10 pt-8"
   data-pagefind-ignore
   aria-label={copy.actions.comments}
 >
-  <h2
-    class="text-[1.65rem] font-medium tracking-tight"
-  >
+  <h2 id="artalk-comments-title" class="text-[1.65rem] font-medium tracking-tight">
     {copy.actions.comments}
   </h2>
   <div id={containerId} class="mt-5 min-h-28"></div>
@@ -105,31 +103,36 @@ const containerId = `artalk-comments-${pageKey.replace(/[^a-zA-Z0-9_-]/g, "-")}`
     window.__artalkTextObserver?.disconnect();
     el.innerHTML = "";
 
-    const { default: Artalk } = await import(ARTALK_JS_URL);
+    try {
+      const { default: Artalk } = await import(ARTALK_JS_URL);
 
-    window.__artalk = Artalk.init({
-      el,
-      server,
-      site: siteName,
-      pageKey,
-      pageTitle,
-      darkMode: isDarkTheme(),
-      locale: {
-        counter: artalkText.counter,
-        email: artalkText.email,
-        link: artalkText.link,
-        nick: artalkText.nick,
+      window.__artalk = Artalk.init({
+        el,
+        server,
+        site: siteName,
+        pageKey,
+        pageTitle,
+        darkMode: isDarkTheme(),
+        locale: {
+          counter: artalkText.counter,
+          email: artalkText.email,
+          link: artalkText.link,
+          nick: artalkText.nick,
+          noComment: artalkText.noComment,
+          placeholder: artalkText.placeholder,
+          send: artalkText.send,
+        },
         noComment: artalkText.noComment,
         placeholder: artalkText.placeholder,
-        send: artalkText.send,
-      },
-      noComment: artalkText.noComment,
-      placeholder: artalkText.placeholder,
-      preferRemoteConf: false,
-      sendBtn: artalkText.sendBtn,
-    });
+        preferRemoteConf: false,
+        sendBtn: artalkText.sendBtn,
+      });
 
-    setupArtalkTextFallback(el);
+      setupArtalkTextFallback(el);
+    } catch {
+      el.closest("section")?.classList.add("hidden");
+      document.getElementById("artalk-comments-title")?.classList.add("hidden");
+    }
   }
 
   function replaceTextValue(value) {

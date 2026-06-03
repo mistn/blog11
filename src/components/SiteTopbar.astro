@@ -39,7 +39,7 @@ const isActive = (path: string) => currentPath === normalizePath(getHref(path));
 <!-- ===== Topbar ===== -->
 <section
   class:list={[
-    "app-layout lg:py-8",
+    "mx-auto w-full max-w-5xl px-4 lg:py-8",
     compactMobile ? "py-4" : "py-6",
   ]}
 >
@@ -50,18 +50,21 @@ const isActive = (path: string) => currentPath === normalizePath(getHref(path));
       ]}
     >
       <div class="flex items-center justify-between">
-        <!-- Left: Logo -->
-        <div class="min-w-0">
-          <p class="-ml-[2px] text-[1.85rem] leading-none font-medium tracking-tight">
-            {SITE.author}
-          </p>
+        <!-- Left: Logo + HomeTabs -->
+        <div class="flex items-center gap-6 lg:gap-8">
+          <div class="min-w-0">
+            <p class="-ml-[5px] text-[1.85rem] leading-none font-medium tracking-tight">
+              {SITE.author}
+            </p>
+          </div>
+
+          <div class="hidden lg:block">
+            <HomeTabs />
+          </div>
         </div>
 
-      <!-- Desktop: HomeTabs + icons -->
-      <div class="hidden lg:flex lg:items-center lg:gap-10">
-        <HomeTabs />
-
-        <div class="flex items-center gap-1">
+        <!-- Desktop: icon buttons -->
+        <div class="hidden lg:flex items-center gap-1">
           <LinkButton
             href={localizePath("/search", locale)}
             class="focus-outline flex size-10 items-center justify-center rounded-full text-foreground/68 transition hover:text-accent"
@@ -115,23 +118,22 @@ const isActive = (path: string) => currentPath === normalizePath(getHref(path));
             )
           }
         </div>
-      </div>
 
-      <!-- Mobile: Hamburger -->
-      <button
-        id="menu-toggle"
-        class="lg:hidden p-2 -mr-2 text-foreground/68 hover:text-foreground transition-colors"
-        aria-label="Menu"
-        aria-expanded="false"
-      >
-        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="4" y1="6" x2="20" y2="6" />
-          <line x1="4" y1="12" x2="20" y2="12" />
-          <line x1="4" y1="18" x2="20" y2="18" />
-        </svg>
-      </button>
+        <!-- Mobile: Hamburger -->
+        <button
+          id="menu-toggle"
+          class="lg:hidden p-2 -mr-2 text-foreground/68 hover:text-foreground transition-colors"
+          aria-label="Menu"
+          aria-expanded="false"
+        >
+          <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
+      </div>
     </div>
-  </div>
 </section>
 
 <!-- ===== Mobile Full-screen Overlay ===== -->
