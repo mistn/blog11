@@ -24,9 +24,6 @@ html[data-theme="dark"] {
   --font-ui-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-ui-serif:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-ui-mono:
     "Maple Mono CN", "Sarasa Mono SC", "Microsoft YaHei Mono", "Cascadia Code",
     "Cascadia Mono", Consolas, "SFMono-Regular", "Liberation Mono", Menlo,
