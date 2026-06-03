@@ -1,7 +1,7 @@
 ---
 import IconListTree from "@/assets/icons/IconListTree.svg";
 import IconX from "@/assets/icons/IconX.svg";
-import { getLocaleFromPath, type Locale } from "@/i18n";
+import { getLocaleFromPath, ui, type Locale } from "@/i18n";
 
 type Heading = {
   depth: number;
@@ -17,13 +17,15 @@ type Props = {
 const { headings, locale = getLocaleFromPath(Astro.url.pathname) } =
   Astro.props;
 
+const copy = ui[locale];
+
 const tocHeadings = headings.filter(
   heading => heading.depth >= 2 && heading.depth <= 4 && heading.slug
 );
 
-const title = locale === "en" ? "Table of contents" : "文章目录";
-const toggleLabel = locale === "en" ? "Open table of contents" : "打开文章目录";
-const closeLabel = locale === "en" ? "Close table of contents" : "关闭文章目录";
+const title = copy.actions.tocTitle;
+const toggleLabel = copy.actions.tocToggle;
+const closeLabel = copy.actions.tocClose;
 ---
 
 {

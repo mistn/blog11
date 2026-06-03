@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import type { GetStaticPathsOptions } from "astro";
 import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
-import Footer from "@/components/Footer.astro";
 import Card from "@/components/Card.astro";
 import Pagination from "@/components/Pagination.astro";
 import getUniqueTags from "@/utils/getUniqueTags";
@@ -41,6 +40,4 @@ const pageDesc = `${copy.pages.tagDescPrefix}${tagName}${copy.pages.tagDescSuffi
   </Main>
 
   <Pagination {page} {locale} />
-
-  <Footer noMarginTop={page.lastPage > 1} />
 </Layout>

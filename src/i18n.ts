@@ -71,6 +71,9 @@ export const ui = {
       nextPage: "下一页",
       previousPageLabel: "前往上一页",
       nextPageLabel: "前往下一页",
+      tocTitle: "文章目录",
+      tocToggle: "打开文章目录",
+      tocClose: "关闭文章目录",
     },
     anime: {
       unknownYear: "未标年份",
@@ -166,6 +169,9 @@ export const ui = {
       nextPage: "Next",
       previousPageLabel: "Go to previous page",
       nextPageLabel: "Go to next page",
+      tocTitle: "Table of contents",
+      tocToggle: "Open table of contents",
+      tocClose: "Close table of contents",
     },
     anime: {
       unknownYear: "Unknown year",

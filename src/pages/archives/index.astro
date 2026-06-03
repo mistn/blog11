@@ -2,11 +2,10 @@
 import { getCollection } from "astro:content";
 import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
-import Footer from "@/components/Footer.astro";
 import Card from "@/components/Card.astro";
 import getPostsByGroupCondition from "@/utils/getPostsByGroupCondition";
 import { SITE } from "@/config";
-import { getLocaleFromPath, ui } from "@/i18n";
+import { getLocaleFromPath, localizePath, ui } from "@/i18n";
 
 // Redirect to 404 page if `showArchives` config is false
 if (!SITE.showArchives) {
@@ -54,12 +53,8 @@ const months = copy.months;
                     {monthGroup
                       .sort(
                         (a, b) =>
-                          Math.floor(
-                            new Date(b.data.pubDatetime).getTime() / 1000
-                          ) -
-                          Math.floor(
-                            new Date(a.data.pubDatetime).getTime() / 1000
-                          )
+                          new Date(b.data.pubDatetime).getTime() -
+                          new Date(a.data.pubDatetime).getTime()
                       )
                       .map(data => (
                         <Card {...data} {locale} />
@@ -71,5 +66,4 @@ const months = copy.months;
         ))
     }
   </Main>
-  <Footer />
 </Layout>

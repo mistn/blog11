@@ -1,5 +1,4 @@
 ---
-import Footer from "@/components/Footer.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
 import Layout from "@/layouts/Layout.astro";
 import { SITE } from "@/config";
@@ -37,8 +36,8 @@ const copy = ui[locale];
       </p>
 
       <p>
-        Not every note is meant to be exhaustive, but I try to keep the writing
-        clear, reviewable, and useful for future me.
+        Not every piece is exhaustive, but I try to keep the writing clear,
+        reviewable, and useful for future me.
       </p>
 
       <h2>About This Site</h2>
@@ -47,7 +46,7 @@ const copy = ui[locale];
         <li>Documenting setup processes and real usage experience</li>
         <li>Keeping notes I may need again later</li>
         <li>
-          Organizing input methods, tools, deployment, and productivity notes
+          Organising input methods, tools, deployment, and productivity notes
         </li>
       </ul>
 
@@ -59,7 +58,14 @@ const copy = ui[locale];
         The email entry is available on the home page and in the site icons.
         Feel free to reach out by email when needed.
       </p>
+
+      <h2>Source Code</h2>
+
+      <p>
+        This site is open source on
+        <a href="https://github.com/mistn/blog11">GitHub</a>, built on a
+        heavily customised AstroPaper theme.
+      </p>
     </section>
   </main>
-  <Footer />
 </Layout>

@@ -125,20 +125,29 @@ async function fetchAnimeCollection() {
     throw new Error("ANILIST_USER_ID must be a valid integer.");
   }
 
-  const response = await fetch(ANILIST_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query,
-      variables: {
-        userName,
-        userId,
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30_000);
+
+  let response;
+  try {
+    response = await fetch(ANILIST_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-    }),
-  });
+      body: JSON.stringify({
+        query,
+        variables: {
+          userName,
+          userId,
+        },
+      }),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!response.ok) {
     throw new Error(`AniList request failed with ${response.status}.`);

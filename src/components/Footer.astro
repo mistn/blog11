@@ -8,15 +8,13 @@ const displayYear =
     ? `${SITE.startYear}-${currentYear}`
     : `${SITE.startYear}`;
 
-type Props = {
-  noMarginTop?: boolean;
-} & HTMLAttributes<"footer">;
+type Props = HTMLAttributes<"footer">;
 
-const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+const { class: className, ...attrs } = Astro.props;
 ---
 
 <footer
-  class:list={["app-layout", { "mt-auto": !noMarginTop }, className]}
+  class:list={["app-layout mt-auto", className]}
   {...attrs}
 >
   <div

@@ -10,5 +10,10 @@ if (!existsSync(sourceDir)) {
   process.exit(1);
 }
 
-mkdirSync(resolve("public"), { recursive: true });
-cpSync(sourceDir, targetDir, { recursive: true, force: true });
+try {
+  mkdirSync(resolve("public"), { recursive: true });
+  cpSync(sourceDir, targetDir, { recursive: true, force: true });
+} catch (error) {
+  console.error(`Failed to copy pagefind output: ${error.message}`);
+  process.exit(1);
+}

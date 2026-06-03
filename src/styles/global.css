@@ -54,7 +54,6 @@ html[data-theme="dark"] {
   body {
     @apply flex min-h-svh max-w-full flex-col overflow-x-clip bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
     font-synthesis: none;
-    text-rendering: optimizeLegibility;
     font-kerning: normal;
     background-image:
       linear-gradient(rgba(47, 98, 143, 0.014) 1px, transparent 1px),

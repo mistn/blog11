@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import Main from "@/layouts/Main.astro";
 import Layout from "@/layouts/Layout.astro";
 import Tag from "@/components/Tag.astro";
-import Footer from "@/components/Footer.astro";
 import getUniqueTags from "@/utils/getUniqueTags";
 import { SITE } from "@/config";
 import { getLocaleFromPath, ui } from "@/i18n";
@@ -21,5 +20,4 @@ let tags = getUniqueTags(posts);
       {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} {locale} />)}
     </ul>
   </Main>
-  <Footer />
 </Layout>

@@ -144,7 +144,7 @@ const emailLabel = `${copy.nav.email} ${SITE.title}`;
                   id="theme-btn"
                   class="focus-outline relative size-10 rounded-full text-foreground/68 transition hover:text-accent"
                   title={copy.nav.theme}
-                  aria-label="auto"
+                  aria-label={copy.nav.theme}
                   aria-live="polite"
                 >
                   <span
@@ -187,13 +187,13 @@ const emailLabel = `${copy.nav.email} ${SITE.title}`;
 
         {
           SITE.lightAndDarkMode && (
-            <button
-              id="theme-btn-desktop"
-              class="focus-outline relative size-10 rounded-full text-foreground/68 transition hover:text-accent"
-              title={copy.nav.theme}
-              aria-label="auto"
-              aria-live="polite"
-            >
+                <button
+                  id="theme-btn-desktop"
+                  class="focus-outline relative size-10 rounded-full text-foreground/68 transition hover:text-accent"
+                  title={copy.nav.theme}
+                  aria-label={copy.nav.theme}
+                  aria-live="polite"
+                >
               <span
                 data-theme-icon-anchor
                 class="pointer-events-none absolute top-[50%] left-[50%] size-5 -translate-[50%]"

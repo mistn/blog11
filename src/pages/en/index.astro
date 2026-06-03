@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import Footer from "@/components/Footer.astro";
 import SiteTopbar from "@/components/SiteTopbar.astro";
 import Datetime from "@/components/Datetime.astro";
 import PageSidebar from "@/components/PageSidebar.astro";
@@ -116,7 +115,6 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
       </div>
     </section>
   </main>
-  <Footer />
 </Layout>
 
 <script>
