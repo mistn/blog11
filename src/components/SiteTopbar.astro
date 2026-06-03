@@ -39,23 +39,23 @@ const isActive = (path: string) => currentPath === normalizePath(getHref(path));
 <!-- ===== Topbar ===== -->
 <section
   class:list={[
-    "app-layout lg:max-w-7xl lg:py-8",
+    "app-layout lg:py-8",
     compactMobile ? "py-4" : "py-6",
   ]}
 >
-  <div
-    class:list={[
-      "px-1 sm:px-2 font-app",
-      compactMobile ? "pb-3" : "pb-4",
-    ]}
-  >
-    <div class="flex items-center justify-between">
-      <!-- Left: Logo -->
-      <div class="min-w-0">
-        <p class="text-[1.85rem] leading-none font-medium tracking-tight">
-          {SITE.author}
-        </p>
-      </div>
+    <div
+      class:list={[
+        "px-1 sm:px-2 font-app",
+        compactMobile ? "pb-3" : "pb-4",
+      ]}
+    >
+      <div class="flex items-center justify-between">
+        <!-- Left: Logo -->
+        <div class="min-w-0">
+          <p class="-ml-[2px] text-[1.85rem] leading-none font-medium tracking-tight">
+            {SITE.author}
+          </p>
+        </div>
 
       <!-- Desktop: HomeTabs + icons -->
       <div class="hidden lg:flex lg:items-center lg:gap-10">
