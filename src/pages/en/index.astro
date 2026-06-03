@@ -24,7 +24,7 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
     id="main-content"
     data-layout="index"
     data-post-memory-scope="list"
-    class="app-layout pb-8 lg:pb-10"
+    class="app-layout pb-4 md:pb-10"
   >
     <section class="overflow-hidden">
       <div class="px-1 py-4 sm:px-2 sm:py-5">
@@ -82,7 +82,7 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
               }
             </div>
             {totalPages > 1 && (
-              <nav class="mt-8 flex justify-center items-center gap-4" aria-label="Pagination Navigation">
+              <nav class="mt-6 md:mt-12 flex justify-center items-center gap-4" aria-label="Pagination Navigation">
                 {pageNumbers.map(pageNumber => (
                   <a
                     href={
