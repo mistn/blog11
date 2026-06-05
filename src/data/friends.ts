@@ -51,4 +51,10 @@ export const friendLinks: FriendLink[] = [
     avatar: "https://q1.qlogo.cn/g?b=qq&nk=20447289&s=640",
     description: "坐而言不如起而行.",
   },
+  {
+    name: "wutong-yu-blog",
+    href: "https://wutongyu.site",
+    avatar: "https://wutongyu.site/cat-icon.svg",
+    description: "全栈&Agent 开发和我的随想",
+  },
 ];
