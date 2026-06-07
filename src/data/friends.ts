@@ -63,4 +63,10 @@ export const friendLinks: FriendLink[] = [
     avatar: "https://lemonadorable.github.io/favicon/favicon.gif",
     description: "愿美梦成真",
   },
+  {
+    name: "Seeridia's Home",
+    href: "https://blog.seeridia.top",
+    avatar: "https://www.github.com/Seeridia.png",
+    description: "Seeridia 的小小小的大窝！",
+  },
 ];
