@@ -193,7 +193,7 @@
     }
 
     .code-block-header {
-      @apply sticky top-0 z-20 flex items-center justify-between gap-3 rounded-t-xl px-4 py-2 text-sm text-foreground/45;
+      @apply sticky top-0 z-20 flex items-center justify-between gap-3 rounded-t-xl px-4 py-2 text-sm text-foreground/45 bg-gray-50/90 dark:bg-gray-900/90 backdrop-blur-sm;
     }
 
     .code-block-frame.is-collapsed .code-block-header {
