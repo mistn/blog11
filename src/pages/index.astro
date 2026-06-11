@@ -12,8 +12,7 @@ const posts = await getCollection("blog");
 const locale = getLocaleFromPath(Astro.url.pathname);
 const sortedPosts = getSortedPosts(posts);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
-const leadPost = recentPosts[0];
-const listPosts = recentPosts.slice(1, SITE.postPerPage);
+const listPosts = recentPosts.slice(0, SITE.postPerPage);
 const totalPages = Math.ceil(recentPosts.length / SITE.postPerPage);
 const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 ---
@@ -30,48 +29,20 @@ const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
       <div class="px-1 py-2 sm:px-2 md:py-5">
         <div>
           <div class="min-w-0">
-            {
-              leadPost && (
-                <article class="pb-6 md:pb-10">
-                  <a
-                    href={localizePath(
-                      getPath(leadPost.id, leadPost.filePath),
-                      locale
-                    )}
-                    data-post-link
-                    class="card-link-press inline-block text-xl leading-normal font-semibold tracking-tight transition hover:text-accent md:text-2xl"
-                  >
-                    {leadPost.data.title}
-                  </a>
-                  <Datetime
-                    {...leadPost.data}
-                    locale={locale}
-                      class="mt-3 md:mt-4 text-foreground/55 [&_svg]:scale-75 [&_svg]:opacity-70"
-                    />
-                      <p class="mt-4 md:mt-6 max-w-3xl text-sm leading-relaxed text-gray-600 dark:text-gray-400 md:text-base line-clamp-3">
-                    {leadPost.data.description}
-                  </p>
-                </article>
-              )
-            }
-
             <div data-post-list>
               {
                 listPosts.map(post => (
                   <article class="py-6 md:py-10" data-post-item>
                     <a
-                      href={localizePath(
-                        getPath(post.id, post.filePath),
-                        locale
-                      )}
+                      href={localizePath(getPath(post.id, post.filePath), locale)}
                       data-post-link
-                      class="card-link-press inline-block text-xl leading-normal font-semibold tracking-tight transition hover:text-accent md:text-2xl"
+                      class="card-link-press inline-block text-[1.45rem] leading-tight font-medium tracking-tight transition hover:text-accent"
                     >
                       {post.data.title}
                     </a>
                     <Datetime
                       {...post.data}
-                      locale={locale}
+                      {locale}
                       class="mt-2.5 md:mt-3.5 text-foreground/52 [&_svg]:scale-75 [&_svg]:opacity-70"
                     />
                     <p class="mt-3 md:mt-4 max-w-3xl text-sm leading-relaxed text-gray-600 dark:text-gray-400 md:text-base line-clamp-2">
