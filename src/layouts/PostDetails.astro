@@ -11,6 +11,7 @@ import TableOfContents from "@/components/TableOfContents.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
+import { getReadingStats } from "@/utils/readingTime";
 import { SITE } from "@/config";
 import { getLocaleFromPath, localizePath, ui, type Locale } from "@/i18n";
 
@@ -41,6 +42,8 @@ const {
 } = post.data;
 
 const { Content, headings } = await render(post);
+
+const readingStats = getReadingStats(post.body || "");
 
 let ogImageUrl: string | undefined;
 
@@ -113,7 +116,7 @@ const nextPost =
               <div
                 data-article-enter
                 style="--article-enter-delay: 26ms;"
-                class="mt-4 flex flex-wrap items-center gap-2 text-foreground/60"
+                class="mt-4 flex flex-wrap items-center gap-3 text-sm text-foreground/55"
               >
                 <Datetime
                   {pubDatetime}
@@ -123,6 +126,10 @@ const nextPost =
                   {locale}
                   showUpdated={true}
                 />
+                <span class="inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-60"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  {readingStats.readingTime}m
+                </span>
                 <span
                   aria-hidden="true"
                   class:list={[

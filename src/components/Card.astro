@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPath } from "@/utils/getPath";
 import { getLocaleFromPath, localizePath, type Locale } from "@/i18n";
 import Datetime from "./Datetime.astro";
+import { getReadingStats } from "@/utils/readingTime";
 
 type Props = {
   variant?: "h2" | "h3" | "home";
@@ -15,11 +16,13 @@ const {
   id,
   data,
   filePath,
+  body,
 } = Astro.props;
 
 const { title, description, ...props } = data;
 const isHome = Heading === "home";
 const HeadingTag = isHome ? "h2" : Heading;
+const stats = getReadingStats(body || "");
 ---
 
 <li
@@ -45,15 +48,20 @@ const HeadingTag = isHome ? "h2" : Heading;
   >
     <HeadingTag>{title}</HeadingTag>
   </a>
-  <Datetime
-    {...props}
-    locale={locale}
+  <div
     class:list={[
+      "flex flex-wrap items-center gap-2.5 text-xs",
       isHome
         ? "mt-1.5 text-foreground/55 [&_svg]:scale-75 [&_svg]:opacity-70"
         : "mt-1.5 text-foreground/52 [&_svg]:scale-75 [&_svg]:opacity-70",
     ]}
-  />
+  >
+    <Datetime {...props} locale={locale} class="" />
+    <span class="inline-flex items-center gap-1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      {stats.readingTime}m
+    </span>
+  </div>
   <p
     class:list={[
       isHome

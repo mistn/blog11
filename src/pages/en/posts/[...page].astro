@@ -8,6 +8,7 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { SITE } from "@/config";
 import { localizePath, ui } from "@/i18n";
+import { getReadingStats } from "@/utils/readingTime";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -43,7 +44,9 @@ function getPageHref(pageNumber: number) {
           <div class="min-w-0">
             <div data-post-list>
               {
-                listPosts.map(post => (
+                listPosts.map(post => {
+                  const stats = getReadingStats(post.body || "");
+                  return (
                   <article class="py-6 md:py-10" data-post-item>
                     <a
                       href={localizePath(getPath(post.id, post.filePath), locale)}
@@ -52,16 +55,19 @@ function getPageHref(pageNumber: number) {
                     >
                       {post.data.title}
                     </a>
-                    <Datetime
-                      {...post.data}
-                      {locale}
-                      class="mt-2.5 md:mt-3.5 text-foreground/52 [&_svg]:scale-75 [&_svg]:opacity-70"
-                    />
+                    <div class="mt-2.5 md:mt-3.5 flex flex-wrap items-center gap-2.5 text-xs text-foreground/52 [&_svg]:scale-75 [&_svg]:opacity-70">
+                      <Datetime {...post.data} {locale} class="" />
+                      <span class="inline-flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        {stats.readingTime}m
+                      </span>
+                    </div>
                     <p class="mt-3 md:mt-4 max-w-3xl text-sm leading-relaxed text-gray-600 dark:text-gray-400 md:text-base line-clamp-2">
                       {post.data.description}
                     </p>
                   </article>
-                ))
+                  );
+                })
               }
             </div>
 

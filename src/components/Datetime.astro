@@ -38,10 +38,10 @@ const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(
   postTimezone || SITE.timezone
 );
 
-const date = new Intl.DateTimeFormat(getDateLocale(locale), {
+const date = new Intl.DateTimeFormat("en-CA", {
   year: "numeric",
-  month: "short",
-  day: "numeric",
+  month: "2-digit",
+  day: "2-digit",
   timeZone: postTimezone || SITE.timezone,
 }).format(datetime.toDate());
 ---
