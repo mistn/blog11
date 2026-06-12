@@ -12,6 +12,7 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { rehypeWrapTables } from "./src/utils/rehypeWrapTables.js";
+import { rehypeLazyImages } from "./src/utils/rehypeLazyImages.js";
 import { remarkAlert } from "remark-github-blockquote-alert";
 import { remarkReadingTime } from "./src/utils/remarkReadingTime";
 import { SITE } from "./src/config";
@@ -33,7 +34,7 @@ export default defineConfig({
       remarkAlert,
       remarkReadingTime,
     ],
-    rehypePlugins: [rehypeKatex, rehypeWrapTables],
+    rehypePlugins: [rehypeKatex, rehypeWrapTables, rehypeLazyImages],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "github-light", dark: "night-owl" },
