@@ -13,11 +13,11 @@ headingEyebrow: "About"
 运行在云端的一些自托管服务。
 
 * [听歌记录](https://spotify.miuo.me/?gname=All&token=19b6fb61-e46f-483c-8514-2aab0f51b579) — 最近在听什么
-* [随机壁纸](https://6st.cc.cd) — 自用壁纸 API
-* [图床](https://api.6st.cc.cd/) — 个人图床
-* [临时邮箱](https://mail.6st.cc.cd/) — 临时收件箱
-* [网站状态监控](https://status.miuo.me/status/s) — 看看服务挂没挂
-* [服务器探针](https://ss.miuo.me) — 几台小鸡的运行状态
+* [壁纸 API](https://img.2731515.xyz) — 自用壁纸
+* [图床](https://api.2731515.xyz) — 个人图床
+* [临时邮箱](https://mail.2731515.xyz) — 临时收件箱
+* [网站状态监控](https://stats.uptimerobot.com/tyYiHJaRpS) — 看看服务挂没挂
+* [服务器探针](https://ss.miuo.me) — 服务器的运行状态
 
 ## 联系方式
 
