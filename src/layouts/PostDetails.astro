@@ -45,6 +45,8 @@ const { Content, headings } = await render(post);
 
 const readingStats = getReadingStats(post.body || "");
 
+const hasMath = post.body?.includes("$") || false;
+
 let ogImageUrl: string | undefined;
 
 if (typeof initOgImage === "string") {
@@ -91,6 +93,9 @@ const nextPost =
 ---
 
 <Layout {...layoutProps}>
+  {hasMath && (
+    <link slot="head" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" />
+  )}
   <SiteTopbar />
   <main
     id="main-content"
