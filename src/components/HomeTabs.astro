@@ -19,7 +19,7 @@ const activeTabClass =
   data-home-tabs
   class="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-2 text-sm translate-y-[3px]"
 >
-  <a data-astro-reload href={getHref("/")}
+  <a href={getHref("/")}
     data-path={getHref("/")}
     class:list={[tabClass, { [activeTabClass]: isActive("/") }]}
   >
@@ -27,7 +27,7 @@ const activeTabClass =
   </a>
   {
     SITE.showArchives && (
-      <a data-astro-reload href={getHref("/archives")}
+      <a href={getHref("/archives")}
         data-path={getHref("/archives")}
         class:list={[tabClass, { [activeTabClass]: isActive("/archives") }]}
       >
@@ -35,19 +35,19 @@ const activeTabClass =
       </a>
     )
   }
-  <a data-astro-reload href={getHref("/anime")}
+  <a href={getHref("/anime")}
     data-path={getHref("/anime")}
     class:list={[tabClass, { [activeTabClass]: isActive("/anime") }]}
   >
     {copy.nav.anime}
   </a>
-  <a data-astro-reload href={getHref("/friends")}
+  <a href={getHref("/friends")}
     data-path={getHref("/friends")}
     class:list={[tabClass, { [activeTabClass]: isActive("/friends") }]}
   >
     {copy.nav.friends}
   </a>
-  <a data-astro-reload href={getHref("/about")}
+  <a href={getHref("/about")}
     data-path={getHref("/about")}
     class:list={[tabClass, { [activeTabClass]: isActive("/about") }]}
   >
