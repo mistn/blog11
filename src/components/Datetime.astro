@@ -16,6 +16,7 @@ type Props = {
   timezone?: string;
   modDatetime?: string | Date | null;
   locale?: Locale;
+  showUpdated?: boolean;
 };
 
 const {
@@ -25,12 +26,13 @@ const {
   class: className = "",
   timezone: postTimezone,
   locale = getLocaleFromPath(Astro.url.pathname),
+  showUpdated = false,
 } = Astro.props;
 
 const copy = ui[locale];
 
 /* ========== Formatted Datetime ========== */
-const isModified = modDatetime && modDatetime > pubDatetime;
+const isModified = showUpdated && modDatetime && modDatetime > pubDatetime;
 
 const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(
   postTimezone || SITE.timezone

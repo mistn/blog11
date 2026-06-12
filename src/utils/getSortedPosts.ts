@@ -6,8 +6,8 @@ const getSortedPosts = (posts: CollectionEntry<"blog">[]) => {
     .filter(postFilter)
     .sort(
       (a, b) =>
-        new Date(b.data.modDatetime ?? b.data.pubDatetime).getTime() -
-        new Date(a.data.modDatetime ?? a.data.pubDatetime).getTime()
+        new Date(b.data.pubDatetime).getTime() -
+        new Date(a.data.pubDatetime).getTime()
     );
 };
 
