@@ -1,5 +1,3 @@
-import type { Root } from "mdast";
-
 function extractText(node: any): string {
   if (node.type === "text" || node.type === "inlineCode") {
     return node.value || "";
@@ -17,7 +15,7 @@ function extractText(node: any): string {
 }
 
 export function remarkReadingTime() {
-  return (_tree: Root, file: any) => {
+  return (_tree: any, file: any) => {
     const text = extractText(_tree);
     const chineseChars = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
     const englishWords = (text.match(/\b[a-zA-Z]+\b/g) || []).length;
