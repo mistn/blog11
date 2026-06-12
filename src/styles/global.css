@@ -50,6 +50,7 @@ html[data-theme="dark"] {
   }
   body {
     @apply flex min-h-svh max-w-full flex-col overflow-x-clip bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
+    touch-action: manipulation;
     font-synthesis: none;
     font-kerning: normal;
     background-image:

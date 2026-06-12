@@ -123,13 +123,13 @@ const updatedLabel = data.updatedAt
 
     <div class="mb-12 inline-flex rounded-full bg-muted/60 p-1" role="tablist" aria-label={copy.anime.viewMode}>
       <button type="button" data-anime-toggle="all" aria-pressed="true"
-        class="rounded-full px-5 py-1.5 text-sm font-medium transition-all
+        class="rounded-full px-5 py-1.5 text-sm font-medium transition-all active:scale-95
         aria-pressed:bg-background aria-pressed:text-foreground aria-pressed:shadow-sm
         text-foreground/50 hover:text-foreground/70">
         {copy.anime.viewAll}
       </button>
       <button type="button" data-anime-toggle="year" aria-pressed="false"
-        class="rounded-full px-5 py-1.5 text-sm font-medium transition-all
+        class="rounded-full px-5 py-1.5 text-sm font-medium transition-all active:scale-95
         aria-pressed:bg-background aria-pressed:text-foreground aria-pressed:shadow-sm
         text-foreground/50 hover:text-foreground/70">
         {copy.anime.viewByYear}
@@ -146,7 +146,7 @@ const updatedLabel = data.updatedAt
                       href={entry.url}
                       target="_blank"
                       rel="noreferrer"
-                      class="group relative overflow-hidden rounded-xl shadow-sm ring-1 ring-border/40 transition-shadow transition-transform duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-border/60 aspect-[2/3]"
+                      class="group relative overflow-hidden rounded-xl shadow-sm ring-1 ring-border/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-border/60 active:scale-[0.98] aspect-[2/3]"
                     >
                       <img
                         src={entry.cover}
@@ -181,7 +181,7 @@ const updatedLabel = data.updatedAt
                           href={entry.url}
                           target="_blank"
                           rel="noreferrer"
-                          class="group relative overflow-hidden rounded-xl shadow-sm ring-1 ring-border/40 transition-shadow transition-transform duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-border/60 aspect-[2/3]"
+                          class="group relative overflow-hidden rounded-xl shadow-sm ring-1 ring-border/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-border/60 active:scale-[0.98] aspect-[2/3]"
                         >
                           <img
                             src={entry.cover}
