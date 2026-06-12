@@ -302,21 +302,24 @@ html.is-restoring-scroll [data-post-memory-scope="list"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(248, 250, 252, 0.18);
+  border: 1px solid rgba(248, 250, 252, 0.15);
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(12px);
   color: #f8fafc;
   line-height: 0;
   transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    transform 160ms ease;
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
 }
 
 .image-lightbox__control:hover,
 .image-lightbox__close:hover {
-  border-color: rgba(248, 250, 252, 0.34);
-  background: rgba(15, 23, 42, 0.78);
+  border-color: rgba(248, 250, 252, 0.35);
+  background: rgba(15, 23, 42, 0.65);
+  box-shadow: 0 4px 16px rgba(2, 6, 23, 0.45);
 }
 
 .image-lightbox__control:active,
