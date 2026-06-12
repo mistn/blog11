@@ -102,13 +102,12 @@
 
     table {
       @apply my-0 border-0 bg-transparent;
-      min-width: max-content;
       width: 100%;
 
       th,
       td {
         @apply border border-border/65 p-2;
-        white-space: nowrap;
+        white-space: normal;
       }
 
       th {
