@@ -13,6 +13,7 @@
 - **文章 OG 图片** — 使用 Satori 自动生成社交分享图
 - **KaTeX 数学公式** — 行内与块级公式渲染
 - **Shiki 代码高亮** — 双主题（github-light / night-owl），文件名提示、diff 与 highlight 注解
+- **GitHub 风格提示块** — 支持 `> [!tip]` / `[!note]` / `[!warning]` 等语法，Obsidian 风格渲染
 - **深浅色模式** — `data-theme` 属性驱动，跟随系统或手动切换
 - **响应式设计** — 移动端全屏覆盖式导航，文章卡片自适应
 - **RSS 订阅 & Sitemap** — 自动生成
